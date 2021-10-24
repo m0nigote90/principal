@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,7 +20,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,6 +64,9 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "Pedidos")
     @OneToMany(mappedBy = "usuario", orphanRemoval = false, cascade = CascadeType.MERGE)
     private List<Pedido> pedidos;
+    @JoinColumn(name = "Cesta")
+    @OneToOne(mappedBy = "usuario", orphanRemoval = false, cascade = CascadeType.MERGE)
+    protected Cesta cesta;
     
     
 
@@ -75,6 +82,7 @@ public class Usuario implements Serializable {
         this.email = email;
         this.password = password;
         this.admin = admin;
+        
         
     }
 
@@ -169,6 +177,10 @@ public class Usuario implements Serializable {
     public LocalDate convertToLocalDateViaSqlDate(Date dateToConvert) {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }   
+
+    public Cesta getCesta() {
+        return cesta;
+    }
     
     
     @Override

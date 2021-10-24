@@ -144,8 +144,8 @@ function inicio() {
             },
             success: function (data) {
 
-                var flag = data.flag;
-                if (flag == "true") {
+                var flag1 = data.flag1;
+                if (flag1 == "true") {
                     console.log("Todo ha ido bien Servlet CargarPortafolio");
                     alert("Ha funcionado la request a filtro");
                     recargaPagina();
@@ -167,8 +167,8 @@ function inicio() {
             },
             success: function (data) {
 
-                var flag = data.flag;
-                if (flag == "true") {
+                var flag2 = data.flag2;
+                if (flag2 == "true") {
                     console.log("Todo ha ido bien Servlet CargarPortafolio");
                     alert("Ha funcionado la request a filtro");
                     recargaPagina();
@@ -191,8 +191,8 @@ function inicio() {
             },
             success: function (data) {
 
-                var flag = data.flag;
-                if (flag == "true") {
+                var flag3 = data.flag3;
+                if (flag3 == "true") {
                     console.log("Todo ha ido bien Servlet CargarPortafolio");
                     alert("Ha funcionado la request a filtro");
                     recargaPagina();
@@ -227,7 +227,7 @@ function inicio() {
     // Select and loop the container element of the elements you want to equalise
     $(".btnComprar").click(function () {
         var ref = $(this).attr('id');
-        alert(ref);
+        
         $.ajax({
             url: "AddArticulo",
             dataType: "json",
@@ -237,11 +237,11 @@ function inicio() {
             },
             success: function (data) {
 
-                var flag = data.flag;
-                if (flag == "true") {
+                var add = data.add;
+                if (add == "true") {
                     console.log("Todo ha ido bien Servlet AddArticulo");
                     alert("Ha funcionado la request a add articulo");
-                    //recargaPagina();
+                    recargaPagina();
                 } else {
                     console.log("ERROR Servlet AddArticulo");
                     alert("ERROR add articulo");

@@ -182,7 +182,11 @@
                                     <i class="fal fa-shopping-bag fa-stack-2x"></i>
                                     <!-- a strong element with the custom content, in this case a number -->
                                     <b class="fa-stack-1x ms-1 btnNumArt">
-                                        <c:out value="${cestaActual.size()}"/>    
+                                        <c:out value="${usuario.cesta}"/>
+                                        <c:if test="${usuario.cesta != null}">
+                                          <c:out value="${usuario.cesta.articulosCesta.size()}"/>  
+                                        </c:if>
+                                            
                                     </b>
                                 </span>
 

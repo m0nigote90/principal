@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,6 +58,8 @@ public abstract class Articulo implements Comparable, Serializable {
     protected Date fechaAlta = new Timestamp(new Date().getTime());
     @ManyToMany(mappedBy = "articulosPedido")
     protected List<Pedido> pedidos;
+    @ManyToMany(mappedBy = "articulosCesta")
+    protected List<Cesta> cestas;
     
     public Articulo () {}
 
