@@ -38,8 +38,8 @@ public class Planta extends Articulo implements Comparable, Serializable {
     
     public Planta () {}
     
-    public Planta (String referencia, String categoria, String tipo, String nombre, String fabricante, String descripcion, Integer tipoIVA, Integer stock, Double precioSinIVA){
-        super(referencia, "planta", fabricante, descripcion, 10, stock);
+    public Planta (String referencia, String categoria, String tipo, String nombre, String fabricante, String descripcion, Integer tipoIVA, Double precioSinIVA){
+        super(referencia, "planta", fabricante, descripcion, tipoIVA);
         this.nombre = nombre;
         this.tipo = tipo;
         this.precioSinIVA = precioSinIVA;

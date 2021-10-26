@@ -45,13 +45,13 @@ public class AltaPlanta extends HttpServlet {
             System.out.println("Error en tipoIVA");
         }
         
-        String stock = request.getParameter("stock");
-        Integer stockaux = null;
-        if(stock != null){
-            stockaux = Integer.valueOf(stock);
-        } else {
-            System.out.println("Error en cast Stock");
-        }
+//        String stock = request.getParameter("stock");
+//        Integer stockaux = null;
+//        if(stock != null){
+//            stockaux = Integer.valueOf(stock);
+//        } else {
+//            System.out.println("Error en cast Stock");
+//        }
         
         String precioSinIVA = request.getParameter("precioSinIVA");
         Double precioSinIVAaux = null;
@@ -63,7 +63,7 @@ public class AltaPlanta extends HttpServlet {
         
         
         
-        Planta planta = new Planta(referencia, "", tipo, nombre, fabricante, descripcion, tipoIVAaux, stockaux, precioSinIVAaux);
+        Planta planta = new Planta(referencia, "", tipo, nombre, fabricante, descripcion, tipoIVAaux, precioSinIVAaux);
         
         Funcionalidad tienda = new Funcionalidad();
         //Usamos tienda
@@ -81,7 +81,7 @@ public class AltaPlanta extends HttpServlet {
             request.setAttribute("fabricante", fabricante);
             request.setAttribute("descripcion", descripcion);
             request.setAttribute("tipoIVA", tipoIVA);
-            request.setAttribute("stock", stock);
+//            request.setAttribute("stock", stock);
             request.setAttribute("precioSinIVA", precioSinIVA);
             getServletContext().getRequestDispatcher("/gestion.jsp").forward(request, response);
         } else {

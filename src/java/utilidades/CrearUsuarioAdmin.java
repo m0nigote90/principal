@@ -69,14 +69,16 @@ public class CrearUsuarioAdmin extends HttpServlet {
             u2.setPassword("1234");
             u2.setAdmin(false);
             
-//                public Planta (String referencia, String categoria ("Planta"), String tipo, 
-//            String nombre, String fabricante, String descripcion, Integer tipoIVA (10), Integer stock, Double precioSinIVA){
+//                public Planta (Integer numSerie, String referencia, String categoria ("Planta"), String tipo, 
+//            String nombre, String fabricante, String descripcion, Integer tipoIVA (10), , Double precioSinIVA){
 
             Planta p1 = new Planta ("pla001", "","tropical", "Calathea Ornata", 
-            "Fabricante de prueba", "Una planta tropical muy bonita, con unas hojas aplanadas preciosas", 10, 99, 4.00);
-            Planta p2 = new Planta ("pla002", "","suculenta", "Fauces de lobo", "Fabricante de prueba", 
+            "Fabricante de prueba", "Una planta tropical muy bonita, con unas hojas aplanadas preciosas", 10, 4.00);
+            Planta p2 = new Planta ("pla001", "","tropical", "Calathea Ornata", 
+            "Fabricante de prueba", "Una planta tropical muy bonita, con unas hojas aplanadas preciosas", 10, 4.00);
+            Planta p3 = new Planta ("pla002", "","suculenta", "Fauces de lobo", "Fabricante de prueba", 
             "Faucaria tigrina, una suculenta cuyas hojas son en forma de rosetas. Faucaria tigrina también conocida como Faucaria, "
-                    + "Fauces de lobo o Boca de tigre.", 10, 99, 3.20); //160 caracteres
+                    + "Fauces de lobo o Boca de tigre.", 10, 3.20); //160 caracteres
             
             
 
@@ -84,22 +86,22 @@ public class CrearUsuarioAdmin extends HttpServlet {
             String mensaje2 = "Se ha creado la Planta";
             String mensaje3 = "Se ha creado el Abono";
             
-            //Abono (String referencia, String categoria, String nombre, String fabricante, 
+            //Abono (Ingeter numSerie, String referencia, String categoria, String nombre, String fabricante, 
             //String descripcion, String tipoPlanta, Double volumen, Integer tipoIVA, Integer stock, Double precioSinIVA)
             Abono a1 = new Abono ("abo001", "", "Fertilizante Cactus", "Compo", 
-            "Fertilizante líquido mineral con potasio para cactus, plantas crasas y suculentas. Muy efectivo.", "quimico", 500.0, 10, 99, 5.40);
+            "Fertilizante líquido mineral con potasio para cactus, plantas crasas y suculentas. Muy efectivo.", "quimico", 500.0, 10, 5.40);
             Abono a2 = new Abono ("abo002", "", "Fertilizante Plantas Verdes", "Compo", 
-            "Fertilizante de plantas verdes para plantas de interior, balcón y terraza, con potasio y hierro,", "quimico", 500.0, 10, 99, 3.50);
+            "Fertilizante de plantas verdes para plantas de interior, balcón y terraza, con potasio y hierro,", "quimico", 500.0, 10, 3.50);
             Abono a3 = new Abono ("abo003", "", "Fertilizante Universal", "Compo", 
-            "Fertilizante de calidad para plantas ornamentales de interior o terraza, con magnesio", "quimico", 500.0, 10, 99, 4.50);
+            "Fertilizante de calidad para plantas ornamentales de interior o terraza, con magnesio", "quimico", 500.0, 10, 4.50);
             Abono a4 = new Abono ("abo004", "", "Fertilizante Natural Guano", "Compo", 
-            "Abono de origen natural que contiene sustancias nutritivas y compuestos orgánicos ideales para plantas de interior y terraza", "natural", 1000.0, 10, 99, 5.50);
+            "Abono de origen natural que contiene sustancias nutritivas y compuestos orgánicos ideales para plantas de interior y terraza", "natural", 1000.0, 10, 5.50);
             Abono a5 = new Abono ("abo005", "", "Fertilizante Orquídeas", "Compo", 
-            "Fertilizante de fórmula suave para plantas sensibles a la salinidad: orquídeas, hortensias, azaleas, etc., Con guano y extractos.", "quimico", 500.0, 10, 99, 4.60);
+            "Fertilizante de fórmula suave para plantas sensibles a la salinidad: orquídeas, hortensias, azaleas, etc., Con guano y extractos.", "quimico", 500.0, 10, 4.60);
             Abono a6 = new Abono ("abo006", "", "Fertilizante Universal", "Flower", 
-            "Crecimiento sano y vigoroso, complejo vitamínico y multinutrientes", "natural", 1000.0, 10, 99, 2.70);
+            "Crecimiento sano y vigoroso, complejo vitamínico y multinutrientes", "natural", 1000.0, 10, 2.70);
             Abono a7 = new Abono ("abo007", "", "Fertilizante Cítricos", "Flower", 
-            "Fertilizante para cítricos que mejora su desarollo con hierro y magnesio.", "quimico", 1000.0, 10, 99, 7.70);
+            "Fertilizante para cítricos que mejora su desarollo con hierro y magnesio.", "quimico", 1000.0, 10, 7.70);
             
             PlantaJpaController pjc = 
                     new PlantaJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));

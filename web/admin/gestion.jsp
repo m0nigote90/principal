@@ -187,7 +187,7 @@
                                                                     
                                                                     <td class="align-middle"><fmt:formatNumber value = "${pla.precioSinIVA}" type = "currency"/></td>
                                                                     <td class="align-middle"><fmt:formatNumber value = "${pla.precio}" type = "currency"/></td>
-                                                                    <td class="align-middle">${pla.stock} uds.</td>
+                                                                    <td class="align-middle">Stock uds.</td>
 
                                                                     <td class="align-middle">
                                                                         <form action="EditarPlanta" method="POST">

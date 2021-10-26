@@ -182,9 +182,9 @@
                                     <i class="fal fa-shopping-bag fa-stack-2x"></i>
                                     <!-- a strong element with the custom content, in this case a number -->
                                     <b class="fa-stack-1x ms-1 btnNumArt">
-                                        <c:out value="${usuario.cesta}"/>
-                                        <c:if test="${usuario.cesta != null}">
-                                          <c:out value="${usuario.cesta.articulosCesta.size()}"/>  
+                                        
+                                        <c:if test="${usuario.articulos != null}">
+                                          <c:out value="${usuario.articulos.size()}"/>  
                                         </c:if>
                                             
                                     </b>
@@ -220,8 +220,9 @@
                                     <input type="password" class="form-control bg-light" name="password" id="inputPassword">
 
                                 </div>
-                                <div class="d-flex justify-content-center">
-                                    <p id="errorLogin"></p>
+                                <div class="">
+                                    <p id="errorLogin" class="text-center mb-0"></p>
+                                    <p id="cuentaAtrasLogin" class="text-center"></p>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -317,7 +318,7 @@
                     <c:if test="${!empty tienda}">
                         <%--BORRAR<a>Activa TIENDA?: <c:out value="${tienda}"/></a>
                         <a>Numero articulos BD: <c:out value="${tienda.articulos.size()}"/> </a>--%>
-                        <c:forEach var="articulo" items="${tienda.articulos}" varStatus="status">
+                        <c:forEach var="articulo" items="${tienda.agruparArticulosRef()}" varStatus="status">
                             <%--Si está activado filtro de categoria, filtramos por el que se haya indicado--%>
                             <c:if test="${isFiltroCategoria and articulo.categoria eq filtroCategoria}">
                                 <div id="<c:out value="${articulo.referencia}"/>" style="user-select: none;"
@@ -330,15 +331,15 @@
                                         <div class="card-body">
                                             <h5 class="card-title"><c:out value="${articulo.nombre}"/></h5>
                                             <p class="card-text"><c:out value="${articulo.descripcion}"/></p>
-                                            <p class="text-muted text-end">Stock: ${articulo.stock}</p>
+                                            <p class="text-muted text-end">Stock: ${tienda.filtrarArticulosReferencia(articulo.referencia).size()}</p>
                                             <div class="d-flex justify-content-between">
                                                 <span class="ms-2" style="font-size: 1.5em;"> 
                                                     <fmt:formatNumber value = "${articulo.precio}" type = "currency"/>
                                                 </span>
-                                                <c:if test="${articulo.stock != 0}">
+                                               <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
                                                 <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
                                                     </c:if>
-                                                    <c:if test="${articulo.stock == 0}">
+                                                    <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
                                                         <span style="color: red; font-weight: 600;">AGOTADO</span>
                                                     </c:if>
                                             </div>
@@ -356,15 +357,15 @@
                                         <div class="card-body">
                                             <h5 class="card-title"><c:out value="${articulo.nombre}"/></h5>
                                             <p class="card-text"><c:out value="${articulo.descripcion}"/></p>
-                                            <p class="text-muted text-end">Stock: ${articulo.stock}</p>
-                                            <div class="d-flex justify-content-between align-self-end">
+                                            <p class="text-muted text-end">Stock: ${tienda.filtrarArticulosReferencia(articulo.referencia).size()}</p>
+                                            <div class="d-flex justify-content-between align-items-end">
                                                 <span class="ms-2" style="font-size: 1.5em;"> 
                                                     <fmt:formatNumber value = "${articulo.precio}" type = "currency"/>
                                                 </span>
-                                                    <c:if test="${articulo.stock != 0}">
+                                                  <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
                                                 <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
                                                     </c:if>
-                                                    <c:if test="${articulo.stock == 0}">
+                                                    <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
                                                         <span style="color: red; font-weight: 600;">AGOTADO</span>
                                                     </c:if>
                                             </div>

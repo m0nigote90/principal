@@ -127,30 +127,30 @@ public class Pedido implements Serializable {
      * @param a Artículo
      * @throws Exception si no queda Stock del artículo a añadir.
      */
-    public void añadirArticulo(Articulo a) throws Exception{
-        if(a.getStock()>0){
-            articulosPedido.add(a);
-            a.stock--;
-        } else {
-            throw new Exception();
-        }
-    }
+//    public void añadirArticulo(Articulo a) throws Exception{
+//        if(a.getStock()>0){
+//            articulosPedido.add(a);
+//            a.stock--;
+//        } else {
+//            throw new Exception();
+//        }
+//    }
     /**
      * Elimina de la factura el artículo pasado como parámetro.
      * @param a Articulo
      * @return Boolean true si se eliminó, false si no pudo.
      */
-    public boolean eliminarArticulo(Articulo a){
-        boolean hecho = false;
-        try{
-            articulosPedido.remove(a);
-            hecho = true;
-            a.stock++;
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return hecho;
-    }
+//    public boolean eliminarArticulo(Articulo a){
+//        boolean hecho = false;
+//        try{
+//            articulosPedido.remove(a);
+//            hecho = true;
+//            a.stock++;
+//        } catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//        return hecho;
+//    }
     /**
      * Devuelve el precio total de todos los artículos.
      * @return Precio total

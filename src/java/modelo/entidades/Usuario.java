@@ -64,12 +64,13 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "Pedidos")
     @OneToMany(mappedBy = "usuario", orphanRemoval = false, cascade = CascadeType.MERGE)
     private List<Pedido> pedidos;
-    @JoinColumn(name = "Cesta")
-    @OneToOne(mappedBy = "usuario", orphanRemoval = false, cascade = CascadeType.MERGE)
-    protected Cesta cesta;
-    
-    
-
+    @JoinTable(
+        name = "rel_usuario_articulos",
+        joinColumns = @JoinColumn(name = "FK_USUARIO", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="FK_ARTICULO", nullable = false)
+    )
+    @ManyToMany(cascade = CascadeType.MERGE)
+    protected List<Articulo> articulos = new ArrayList<>();
 
     public Usuario () { }
 
@@ -82,8 +83,7 @@ public class Usuario implements Serializable {
         this.email = email;
         this.password = password;
         this.admin = admin;
-        
-        
+               
     }
 
       public Long getId() {
@@ -166,6 +166,14 @@ public class Usuario implements Serializable {
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
+
+    public List<Articulo> getArticulos() {
+        return articulos;
+    }
+
+    public void setArticulos(List<Articulo> articulos) {
+        this.articulos = articulos;
+    }
     
     public Integer getEdad(){
         LocalDate ahora = LocalDate.now();
@@ -178,11 +186,7 @@ public class Usuario implements Serializable {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }   
 
-    public Cesta getCesta() {
-        return cesta;
-    }
-    
-    
+   
     @Override
     public int hashCode() {
         int hash = 0;

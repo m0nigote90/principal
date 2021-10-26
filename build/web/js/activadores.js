@@ -124,8 +124,11 @@ function inicio() {
                 var flag = data.flag;
                 if (flag == "true") {
                     $("#errorLogin").prop('style', "color: green; font-weight: 600;");
-                    añadirContenido("#errorLogin", "Correcto. Te has logueado con éxito.")
-                    setTimeout(recargaPagina, 1500);
+                    $("#cuentaAtrasLogin").prop('style', "color: green; font-weight: 600;");
+                    añadirContenido("#errorLogin", "Correcto. Te has logueado con éxito.");
+                    añadirContenido("#cuentaAtrasLogin", "Cerrando en 2");                   
+                    setTimeout(añadirCuentaAtras, 1000);   
+                    setTimeout(recargaPagina, 2000);
                 } else {
                     $("#errorLogin").prop('style', "color: red; font-weight: 600;");
                     añadirContenido("#errorLogin", "Error. Usuario o contraseña erróneos.");
@@ -217,6 +220,10 @@ function inicio() {
         limpiaMensaje(elemento);
         $(elemento).append(mensaje);
     }
+    function añadirCuentaAtras() {
+        limpiaMensaje("#cuentaAtrasLogin");
+        $("#cuentaAtrasLogin").append("Cerrando en 1");
+    }
     function recargaPagina() {
         location.reload();
     }
@@ -226,8 +233,7 @@ function inicio() {
     //ánadir elementos .prop(elemento, propiedad);
     // Select and loop the container element of the elements you want to equalise
     $(".btnComprar").click(function () {
-        var ref = $(this).attr('id');
-        
+        var ref = $(this).attr('id'); 
         $.ajax({
             url: "AddArticulo",
             dataType: "json",
@@ -237,8 +243,8 @@ function inicio() {
             },
             success: function (data) {
 
-                var add = data.add;
-                if (add == "true") {
+                var flag = data.flag;
+                if (flag == "true") {
                     console.log("Todo ha ido bien Servlet AddArticulo");
                     alert("Ha funcionado la request a add articulo");
                     recargaPagina();

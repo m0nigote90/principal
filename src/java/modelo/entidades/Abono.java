@@ -41,8 +41,8 @@ public class Abono extends Articulo implements Comparable, Serializable {
     public Abono () {}
     
     public Abono (String referencia, String categoria, String nombre, String fabricante, 
-            String descripcion, String tipo, Double volumen, Integer tipoIVA, Integer stock, Double precioSinIVA){
-        super(referencia, "abono", fabricante, descripcion, tipoIVA, stock);
+            String descripcion, String tipo, Double volumen, Integer tipoIVA, Double precioSinIVA){
+        super(referencia, "abono", fabricante, descripcion, tipoIVA);
         this.nombre = nombre;
         this.tipo = tipo;
         this.volumen = volumen;
