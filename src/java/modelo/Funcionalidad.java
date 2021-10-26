@@ -114,7 +114,15 @@ public class Funcionalidad implements Serializable {
                 = em.createNativeQuery("SELECT * FROM articulos GROUP BY Referencia;", Articulo.class).getResultList();
         return resultados;
     }
+    //Pasándole el tipo, nos devuelve todos esos articulos agrupados por referencia, para asi mostrar sin repetidos esos articulos de ese tipo
+    //nos sirve para las tablas de articulos
+    public List<Articulo> agruparArticulosPorRefTipo(String tipo) {
 
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY Referencia;", Articulo.class).setParameter(1, tipo).getResultList();
+        return resultados;
+    }
     //Filtramos los articulos por referencia haciendo nativeQuery que es mucho más eficiente siempre y cuando no esten vendidos
     public List<Articulo> filtrarArticulosReferencia(String ref) {
 
@@ -124,7 +132,24 @@ public class Funcionalidad implements Serializable {
                         + "?1", Articulo.class).setParameter(1, ref).getResultList();
         return resultados;
     }
-
+    //Devuelve el stockTotal de un articulo en concreto por su referencia
+    public Integer stockTotalArticulo(String ref){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
+                        + "?1", Articulo.class).setParameter(1, ref).getResultList();
+        return resultados.size();
+    }
+    
+    public Integer stockParcialArticulo(String ref, Boolean vendido){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
+                        + "?1 AND Vendido = ?2", Articulo.class).setParameter(1, ref).setParameter(2, vendido);
+        List<Articulo> resultados = query.getResultList();
+                 
+        return resultados.size();
+    }
+    
     public List<Abono> filtrarAbonosTipoPlanta(String filtro) {
         List<Abono> abonos = getAbonos();
         List<Abono> filtrados = new ArrayList();

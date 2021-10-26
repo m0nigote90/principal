@@ -177,16 +177,17 @@
                                 <c:if test="${!empty usuario and !usuario.esAdmin()}">
 
                                 <!-- BOTON DE CESTA DE COMPRA-->
-                                <span class="fa-stack ms-4 me-3" style="cursor: pointer; color: rgb(2, 77, 2);">
+                                <span class="fa-stack ms-4 me-3" data-bs-toggle="modal"
+                                      data-bs-target="#modalCesta" style="cursor: pointer; color: rgb(2, 77, 2);">
                                     <!-- The icon that will wrap the number -->
                                     <i class="fal fa-shopping-bag fa-stack-2x"></i>
                                     <!-- a strong element with the custom content, in this case a number -->
                                     <b class="fa-stack-1x ms-1 btnNumArt">
-                                        
+
                                         <c:if test="${usuario.articulos != null}">
-                                          <c:out value="${usuario.articulos.size()}"/>  
+                                            <c:out value="${usuario.articulos.size()}"/>  
                                         </c:if>
-                                            
+
                                     </b>
                                 </span>
 
@@ -222,7 +223,7 @@
                                 </div>
                                 <div class="">
                                     <p id="errorLogin" class="text-center mb-0"></p>
-                                    <p id="cuentaAtrasLogin" class="text-center"></p>
+                                    <p id="cuentaAtrasLogin" class="text-center text-muted"></p>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -251,7 +252,49 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Modal Cesta -->
+            <div class="modal fade" id="modalCesta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Cesta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table text-center">
+                                <thead>
+                                <tr>
+                                    <th class="align-middle"></th>
+                                    <th class="align-middle">Producto</th>
+                                    <th class="align-middle">Precio/Unidad</th>
+                                    <th class="align-middle">Unidades</th>
+                                    <th class="align-middle">Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                            <c:forEach var="articulo" items="${usuario.articulos}">
+                                <tr>
+                                    <td class="align-middle"><img class="p-1 m-1" src="img/articulos/${articulo.nombreImagen}" style="width: 50px;"/></td>
+                                    <td class="align-middle">${articulo.nombre}</td>
+                                    <td class="align-middle">${articulo.precio}</td>
+                                    <td class="align-middle">Uds.</td>
+                                    <td class="align-middle">${articulo.precio * 2}</td>
+                                </tr>
+                            </c:forEach>
+                                </tbody>
+                                <tfoot>
+                                    
+                                </tfoot>
+                            </table>
+                            <hr class="bg-danger border-2 border-top border-danger">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Navbar perteneciente al portafolio -->
             <c:if test="${isFiltroCategoria}">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light ps-5 shadow">
@@ -336,12 +379,12 @@
                                                 <span class="ms-2" style="font-size: 1.5em;"> 
                                                     <fmt:formatNumber value = "${articulo.precio}" type = "currency"/>
                                                 </span>
-                                               <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
-                                                    </c:if>
-                                                    <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                        <span style="color: red; font-weight: 600;">AGOTADO</span>
-                                                    </c:if>
+                                                <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
+                                                    <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
+                                                </c:if>
+                                                <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
+                                                    <span style="color: red; font-weight: 600;">AGOTADO</span>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -362,14 +405,14 @@
                                                 <span class="ms-2" style="font-size: 1.5em;"> 
                                                     <fmt:formatNumber value = "${articulo.precio}" type = "currency"/>
                                                 </span>
-                                                  <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
-                                                    </c:if>
-                                                    <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                        <span style="color: red; font-weight: 600;">AGOTADO</span>
-                                                    </c:if>
+                                                <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
+                                                    <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
+                                                </c:if>
+                                                <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
+                                                    <span style="color: red; font-weight: 600;">AGOTADO</span>
+                                                </c:if>
                                             </div>
-                                                
+
                                         </div>
                                     </div>
                                 </div>
