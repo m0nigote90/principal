@@ -6,6 +6,7 @@
 package controladores;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,53 +39,32 @@ public class AltaUsuario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        {
-        String error = null;
-        String DNI = request.getParameter("DNI");
-        String nombre = request.getParameter("nombre");
-        String apellidos = request.getParameter("apellidos");
-        //Aqui hay que hacer algo con la fecha que viene como String
-        String fecha = request.getParameter("fechaNac");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date fechaNac = null;
-            try {
-                fechaNac = sdf.parse(fecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        Boolean admin = false;
-        Usuario nuevo = new Usuario(DNI, nombre, apellidos, fechaNac, email, password, admin);
-        ServletContext aplicacion = getServletContext();
         
-        
-        Funcionalidad funcion = new Funcionalidad();
-        try {
-            funcion.altaUsuario(nuevo);
-        } catch (Exception ex) {
-            //error = "Ya existe un usuario con el email " + email;
-            error = ex.getMessage() + " ERROR";
-        }
-        if (error != null) {
-            request.setAttribute("error", error);
-            request.setAttribute("DNI", DNI);
-            request.setAttribute("nombre", nombre);
-            request.setAttribute("apellidos", apellidos);
-            request.setAttribute("fechaNac", fechaNac);
-            request.setAttribute("email", email);
-            request.setAttribute("password", password);
-            getServletContext().getRequestDispatcher("/registro.jsp").forward(request, response);
-        } else {
-            String mensaje = "Se ha dado de alta al/la usuario/a "+nombre; 
-            //request.setAttribute("registroNuevo", mensaje);
-            aplicacion.setAttribute("registroNuevo", true);
-            //getServletContext().getRequestDispatcher("/principal.jsp").forward(request, response);
-            response.sendRedirect("principal.jsp");
-        }
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            
+
+       
+        } //Termina el out
     }
 
+//    try {
+//                Usuario u2 = new Usuario();
+//                u2.setDNI("77818655H");
+//                u2.setNombre("Pedro");
+//                u2.setApellidos("Morales Romero");
+//                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+//                Date fechaFormateada = null;
+//                
+//                fechaFormateada = formato.parse("12/10/1990");
+//                
+//                u2.setFechaNac(fechaFormateada);
+//                u2.setEmail("pedromoralesromero90@gmail.com");
+//                u2.setPassword("1234");
+//                u2.setAdmin(false);
+//            } catch (ParseException ex) {
+//                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//            }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

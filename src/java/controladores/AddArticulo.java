@@ -40,7 +40,6 @@ public class AddArticulo extends HttpServlet {
         ServletContext aplicacion = getServletContext();
         Usuario usuario = (Usuario)sesion.getAttribute("usuario");
         Funcionalidad tienda = (Funcionalidad)aplicacion.getAttribute("tienda");
-        //ArrayList <Articulo> cesta = (ArrayList)sesion.getAttribute("cestaActual");
         
         ArticuloJpaController ajc = new ArticuloJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
         UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
@@ -51,6 +50,8 @@ public class AddArticulo extends HttpServlet {
                     for (Articulo art : articulos) {
                         if (art.getReferencia().equals(ref) && !art.getVendido() && !encontrado) {
                             usuario.getArticulos().add(art);
+                            Integer numArt = usuario.getArticulos().size();
+                            
                             art.setVendido(true);
                             encontrado = true;
                             try {
@@ -64,6 +65,7 @@ public class AddArticulo extends HttpServlet {
                             System.out.println("Añadido art: "+ref);
                             jsonObject = new JSONObject();
                             jsonObject.put("flag", "true");
+                            jsonObject.put("numArtCesta", numArt);
                             System.out.println(jsonObject);
                             //System.out.println("HEMOS ENCONTRADO EL USUARIO");
                             out.print(jsonObject);

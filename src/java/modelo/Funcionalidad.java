@@ -114,6 +114,7 @@ public class Funcionalidad implements Serializable {
                 = em.createNativeQuery("SELECT * FROM articulos GROUP BY Referencia;", Articulo.class).getResultList();
         return resultados;
     }
+
     //Pasándole el tipo, nos devuelve todos esos articulos agrupados por referencia, para asi mostrar sin repetidos esos articulos de ese tipo
     //nos sirve para las tablas de articulos
     public List<Articulo> agruparArticulosPorRefTipo(String tipo) {
@@ -123,6 +124,7 @@ public class Funcionalidad implements Serializable {
                 = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY Referencia;", Articulo.class).setParameter(1, tipo).getResultList();
         return resultados;
     }
+
     //Filtramos los articulos por referencia haciendo nativeQuery que es mucho más eficiente siempre y cuando no esten vendidos
     public List<Articulo> filtrarArticulosReferencia(String ref) {
 
@@ -132,24 +134,55 @@ public class Funcionalidad implements Serializable {
                         + "?1", Articulo.class).setParameter(1, ref).getResultList();
         return resultados;
     }
+    public List<Articulo> filtrarArticulosReferenciaVendidos(String ref) {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE vendido = true AND Referencia = "
+                        + "?1", Articulo.class).setParameter(1, ref).getResultList();
+        return resultados;
+    }
+
+    public Articulo devolverArtPorRef(String ref){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Articulo resultado
+                = (Articulo)em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 LIMIT 1;", Articulo.class).setParameter(1, ref).getSingleResult();
+        return resultado;
+    }
     //Devuelve el stockTotal de un articulo en concreto por su referencia
-    public Integer stockTotalArticulo(String ref){
+    public Integer stockTotalArticulo(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         List<Articulo> resultados
                 = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
                         + "?1", Articulo.class).setParameter(1, ref).getResultList();
         return resultados.size();
     }
-    
-    public Integer stockParcialArticulo(String ref, Boolean vendido){
+
+    public Integer stockParcialArticulo(String ref, Boolean vendido) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
-                        + "?1 AND Vendido = ?2", Articulo.class).setParameter(1, ref).setParameter(2, vendido);
+                + "?1 AND Vendido = ?2", Articulo.class).setParameter(1, ref).setParameter(2, vendido);
         List<Articulo> resultados = query.getResultList();
-                 
+
         return resultados.size();
     }
-    
+
+    //Aqui manejamos las funciones para la cesta de articulos
+    public List<Articulo> cestaUsuarioSinRepetidos(Integer id) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) GROUP BY Referencia;", Articulo.class).setParameter(1, id);
+        List<Articulo> resultados = query.getResultList();
+        return resultados;
+    }
+
+    //Cuantas unidades compradas de un mismo articulo
+    public Integer unidadesCompradas(Integer id, String ref) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND Referencia = ?2;", Articulo.class).setParameter(1, id).setParameter(2, ref);
+        List<Articulo> resultados = query.getResultList();
+        return resultados.size();
+    }
+
     public List<Abono> filtrarAbonosTipoPlanta(String filtro) {
         List<Abono> abonos = getAbonos();
         List<Abono> filtrados = new ArrayList();
@@ -248,5 +281,20 @@ public class Funcionalidad implements Serializable {
     public void actualizarPedido(Pedido ped) throws Exception {
         PedidoJpaController pjc = new PedidoJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         pjc.edit(ped);
+    }
+
+    //Método que devuelve el total con o sin IVA
+    public Double getPrecioTotal(List<Articulo> lista, Boolean IVA) {
+        Double total = 0.;
+        if (!IVA) {
+            for (Articulo a : lista) {
+                total += a.getPrecioSinIVA();
+            }
+        } else {
+            for (Articulo a : lista) {
+                total += a.getPrecio();
+            }
+        }
+        return total;
     }
 }

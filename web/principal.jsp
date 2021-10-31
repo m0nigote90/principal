@@ -29,9 +29,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-        <!-- Uso el bootstrap normal para cambiar variables a mi antojo -->
-
+        <!--<link 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
+            rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
+            crossorigin="anonymous"
+            >-->
+        <link 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+              crossorigin="anonymous"
+              >
         <link rel="icon" type="image/png" href="img/icono.png">
         <title>Eleplant</title>
         <style>
@@ -39,7 +46,7 @@
             #cabecera {
                 z-index: 1050;
             }
-            #portafolio img:hover{
+            /*#portafolio img:hover{
                 cursor: pointer;
                 transition-duration: 0.8s;
                 transform: scale(1.15);
@@ -52,7 +59,7 @@
             #portafolio img{
                 transition-duration: 0.8s;
                 transform: scale(1);
-            }
+            }*/
             .dropdown-item:hover, .dropdown-item:focus {
 
                 color: white;
@@ -85,119 +92,8 @@
         </c:if>
     </head>
     <body ondragstart="return false">
-        <header class="sticky-top shadow-lg cabecera" id="cabecera">
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light fs-6">
-                <div class="container-fluid ms-4 align-items-end" style="position: relative;">
-                    <a class="navbar-brand" href="index.jsp"><img src="img/logoLtrans.png" alt="logoEmpresa"
-                                                                  width="100"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <!-- <span class="navbar-toggler-icon"></span> -->
-                        <i class="fad fa-home-lg fa-2x" style='color: #005235;'></i>
-                    </button>
-                    <!-- El justify-content-between nos separa el formulario de búsqueda a la derecha de lo demás -->
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
-                        <ul class="nav navbar-nav">
-                            <c:if test="${empty usuario}">
-                                <li>
-                                    <!-- visually-hidden (BootStrap 5.0) es el antiguo sr-only para lectores de pantalla 
-                                    También agregamos el nav-item y nav-link para que se vean bien-->
-                                    <a class="nav-item nav-link" href="#" data-bs-toggle="modal"
-                                       data-bs-target="#modalLogin" style="color: #005235;"><i class="fad fa-sign-in-alt"></i> Acceder<span class="visually-hidden">(Acceder)</span></a>
-                                </li>
-                                <li>
-                                    <a class="nav-item nav-link" href="registro.jsp" style="color: #005235;"><i class="fad fa-clipboard-list-check"></i> Regístrate</a>
-                                </li>
-                            </c:if>
-                            <c:if test="${not empty usuario}">
-                                <c:if test="${usuario.esAdmin()}">
-                                    <li class="dropdown">
-                                        <a href="" class="dropdown-toggle nav-item nav-link fw-bold" data-bs-toggle="dropdown"
-                                           role="button" aria-expanded="false" style="color: #005235;"><i class="fad fa-users-cog"></i> Administrador</a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="admin/gestion.jsp" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> Gestión Tienda
-                                                </a></li>
-                                            <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> Cerrar sesión</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li></li>
-                                    </c:if>
-                                    <c:if test="${!usuario.esAdmin()}">
-                                    <li class="dropdown">
-                                        <a href="" class="dropdown-toggle nav-item nav-link fw-bold" data-bs-toggle="dropdown"
-                                           role="button" aria-expanded="false" style="color: #005235;"><i class="fad fa-user-tie"></i> 
-                                            <c:out value="${usuario.nombre}"></c:out> <c:out value="${usuario.apellidos.charAt(0)}"></c:out>.
-                                            </a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> Configuración
-                                                    </a></li>
-                                                <li><a href="#" class="dropdown-item"><i class="fad fa-user me-2"></i> Editar perfil</a></li>
-                                                <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> Cerrar sesión</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                </c:if>
-                            </c:if>
-                            <!-- Probamos el dropdown-toggle -->
-                            <li class="dropdown">
-                                <a href="#" class="nav item nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                   role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 1.2em; font-weight: 500;color: #005235;"><i class="fad fa-store-alt"></i> Tienda</a>
-                                <ul class="dropdown-menu">
-                                    <!-- Imprescindible agregar dropdown-item para correcta visualización -->
-                                    <li><a class="dropdown-item" href="#" id="btnTodos"><i class="fad fa-globe me-2"></i>  Todos</a></li>
-                                    <li><a class="dropdown-item" href="#" id="btnPlantas"><i class="fad fa-flower-daffodil me-2"></i>  Plantas</a></li>
-                                    <li><a class="dropdown-item" href="#" id="btnAbonos"><i class="fad fa-jug me-2"></i>  Abonos</a></li>
-                                    <li><a class="dropdown-item" href="#" id="btnMacetas"><i class="fad fa-chimney me-2"></i>  Macetas</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fad fa-bug me-2"></i> Insecticidas</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a>Locale: <c:out value="${varLocale}"/></a>
-                                <a>Languaje: <c:out value="${varLocale.language}"/></a>
-                                <a>País: <c:out value="${varLocale.country}"/></a>
-                                <a>Display País: <c:out value="${varLocale.displayCountry}"/></a>
-
-
-
-
-                            </li>
-                        </ul>
-                        <!--Botones derecha cabecera-->
-
-
-                        <div class="d-flex">
-                            <img id="btnES" class="mx-2" src="img/iconoES.png" alt="Icono ES" width="35" height="20" style="cursor: pointer;">
-                            <img id="btnES" class="me-4" src="img/iconoEN.png" alt="Icono EN" width="35" height="20" style="cursor: pointer;">
-
-                            <input class="form-control me-2 fs-ls-5" type="search" placeholder="Buscar" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit"><i class="fad fa-search"></i></button>
-                                <c:if test="${!empty usuario and !usuario.esAdmin()}">
-
-                                <!-- BOTON DE CESTA DE COMPRA-->
-                                <span class="fa-stack ms-4 me-3" data-bs-toggle="modal"
-                                      data-bs-target="#modalCesta" style="cursor: pointer; color: rgb(2, 77, 2);">
-                                    <!-- The icon that will wrap the number -->
-                                    <i class="fal fa-shopping-bag fa-stack-2x"></i>
-                                    <!-- a strong element with the custom content, in this case a number -->
-                                    <b class="fa-stack-1x ms-1 btnNumArt">
-
-                                        <c:if test="${usuario.articulos != null}">
-                                            <c:out value="${usuario.articulos.size()}"/>  
-                                        </c:if>
-
-                                    </b>
-                                </span>
-
-                            </c:if>
-                            </form>
-                        </div>
-                    </div>
-            </nav>
-
-            <!-- Modal Login -->
+        <!-- Con Bootstrap 5.1.3 debemos colocar los modales en lo más alto del body para que funcionen sin interferencias con otros elementos -->
+        <!-- Modal Login -->
             <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 
                 <div class="modal-dialog">
@@ -234,66 +130,178 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal Registro-->
-            <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalRegistro">Registro</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
+        
+        
+        <header class="sticky-top shadow-lg cabecera" id="cabecera">
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Registro</button>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fs-6">
+                <div class="container-fluid ms-4 align-items-end" style="position: relative;">
+                    <a class="navbar-brand" href="principal.jsp"><img src="img/logoLtrans.png" alt="logoEmpresa"
+                                                                      width="100"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <!-- <span class="navbar-toggler-icon"></span> -->
+                        <i class="fad fa-home-lg fa-2x" style='color: #005235;'></i>
+                    </button>
+                    <!-- El justify-content-between nos separa el formulario de búsqueda a la derecha de lo demás -->
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                        <ul class="nav navbar-nav">
+                            <c:if test="${empty usuario}">
+                                <li>
+                                    <!-- visually-hidden (BootStrap 5.0) es el antiguo sr-only para lectores de pantalla 
+                                    También agregamos el nav-item y nav-link para que se vean bien-->
+                                    <a class="nav-item nav-link" href="#" data-bs-toggle="modal"
+                                       data-bs-target="#modalLogin" style="color: #005235;"><i class="fad fa-sign-in-alt"></i> Acceder<span class="visually-hidden">(Acceder)</span></a>
+                                </li>
+                                <li>
+                                    <a class="nav-item nav-link" href="registro.jsp" style="color: #005235;"><i class="fad fa-clipboard-list-check"></i> Regístrate</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${not empty usuario}">
+                                <c:if test="${usuario.esAdmin()}">
+                                    <li class="dropdown">
+                                        <a href="" class="dropdown-toggle nav-item nav-link fw-bold" data-bs-toggle="dropdown"
+                                           role="button" aria-expanded="false" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-users-cog"></i> Administrador</a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="admin/gestion.jsp" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> Gestión Tienda
+                                                </a></li>
+                                            <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> Cerrar sesión</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li></li>
+                                    </c:if>
+                                    <c:if test="${!usuario.esAdmin()}">
+                                    <li class="dropdown">
+                                        <a href="" class="dropdown-toggle nav-item nav-link fw-bold" data-bs-toggle="dropdown"
+                                           role="button" aria-expanded="false" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-user-circle"></i></i> 
+                                            <c:out value="${usuario.nombre}"></c:out> <c:out value="${usuario.apellidos.charAt(0)}"></c:out>.
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> Configuración
+                                                    </a></li>
+                                                <li><a href="#" class="dropdown-item"><i class="fad fa-user me-2"></i> Editar perfil</a></li>
+                                                <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> Cerrar sesión</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                </c:if>
+                            </c:if>
+                            <!-- Probamos el dropdown-toggle -->
+                            <li class="dropdown">
+                                <a href="#" class="nav item nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                                   role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 1.2em; font-weight: 500;color: #005235;"><i style="font-size: 1.5em;" class="fad fa-store-alt"></i> Tienda</a>
+                                <ul class="dropdown-menu">
+                                    <!-- Imprescindible agregar dropdown-item para correcta visualización -->
+                                    <li><a class="dropdown-item" href="#" id="btnTodos"><i class="fad fa-globe me-2"></i>  Todos</a></li>
+                                    <li><a class="dropdown-item" href="#" id="btnPlantas"><i class="fad fa-flower-daffodil me-2"></i>  Plantas</a></li>
+                                    <li><a class="dropdown-item" href="#" id="btnAbonos"><i class="fad fa-jug me-2"></i>  Abonos</a></li>
+                                    <li><a class="dropdown-item" href="#" id="btnMacetas"><i class="fad fa-chimney me-2"></i>  Macetas</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fad fa-bug me-2"></i> Insecticidas</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>Locale: <c:out value="${varLocale}"/></a>
+                                <a>Languaje: <c:out value="${varLocale.language}"/></a>
+                                <a>País: <c:out value="${varLocale.country}"/></a>
+                                <a>Display País: <c:out value="${varLocale.displayCountry}"/></a>
+
+
+
+
+                            </li>
+                        </ul>
+                        <!--Botones derecha cabecera-->
+
+
+                        <div class="d-flex">
+                            <img id="btnES" class="mx-2" src="img/iconoES.png" alt="Icono ES" width="35" height="20" style="cursor: pointer;">
+                            <img id="btnES" class="me-4" src="img/iconoEN.png" alt="Icono EN" width="35" height="20" style="cursor: pointer;">
+
+                            <input class="form-control me-2 fs-ls-5" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit"><i class="fad fa-search"></i></button>
+                                <c:if test="${!empty usuario and !usuario.esAdmin()}">
+
+                                <!-- BOTON DE CESTA DE COMPRA-->
+                                <span class="fa-stack ms-4 me-3" data-bs-target="#offcanvasCesta" data-bs-toggle="offcanvas" 
+                                      aria-controls="offcanvasCesta" style="cursor: pointer; color: rgb(2, 77, 2);">
+
+                                    <!-- The icon that will wrap the number -->
+                                    <i class="fal fa-shopping-bag fa-stack-2x">
+                                        
+                                    </i>
+                                    <!-- a strong element with the custom content, in this case a number -->
+                                    <b id="numArtCesta" class="fa-stack-1x ms-1 btnNumArt">
+
+                                        <c:if test="${usuario.articulos != null}">
+                                            <c:out value="${usuario.articulos.size()}"/>  
+                                        </c:if>
+
+                                    </b>
+                                </span>
+
+                            </c:if>
+                            </form>
                         </div>
                     </div>
+            </nav>
+
+            <!-- Offcanvas derecho para la CESTA-->
+            <div class="offcanvas offcanvas-end" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasCesta" aria-labelledby="offcanvasCestaLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasCestaLabel">Cesta</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-            </div>
-            <!-- Modal Cesta -->
-            <div class="modal fade" id="modalCesta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Cesta</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table text-center">
-                                <thead>
+                <c:if test="${usuario.articulos.size()==0 or usuario ==  null}">
+                    <h5 class="display-5">Cesta vacía</h5>
+                </c:if>
+                <c:if test="${usuario.articulos.size()!=0 && usuario != null && tienda != null}">
+                    <div class="offcanvas-body">
+                        <table class="table text-center table-sm" >
+                            <thead>
                                 <tr>
                                     <th class="align-middle"></th>
-                                    <th class="align-middle">Producto</th>
-                                    <th class="align-middle">Precio/Unidad</th>
-                                    <th class="align-middle">Unidades</th>
+                                    <th class="align-middle" >Producto</th>
+                                    <th class="align-middle">Precio/U.</th>
+                                    <th class="align-middle"></th>
                                     <th class="align-middle">Subtotal</th>
+                                    <th></th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                            <c:forEach var="articulo" items="${usuario.articulos}">
-                                <tr>
-                                    <td class="align-middle"><img class="p-1 m-1" src="img/articulos/${articulo.nombreImagen}" style="width: 50px;"/></td>
-                                    <td class="align-middle">${articulo.nombre}</td>
-                                    <td class="align-middle">${articulo.precio}</td>
-                                    <td class="align-middle">Uds.</td>
-                                    <td class="align-middle">${articulo.precio * 2}</td>
-                                </tr>
-                            </c:forEach>
-                                </tbody>
-                                <tfoot>
-                                    
-                                </tfoot>
-                            </table>
-                            <hr class="bg-danger border-2 border-top border-danger">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Comprar</button>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="articulo" items="${tienda.cestaUsuarioSinRepetidos(usuario.id)}">
+                                    <tr class="" style="font-size: 0.9em;">
+                                        <td class="align-middle"><img src="img/articulos/${articulo.nombreImagen}" style="width: 50px;"/></td>
+                                        <td class="align-middle">${articulo.nombre}</td>
+                                        <td class="align-middle"><fmt:formatNumber value = "${articulo.precio}" type = "currency"/></td></td>
+                                        <td class="align-middle">x${tienda.unidadesCompradas(usuario.id, articulo.referencia)} </td>
+                                        <td class="align-middle"><fmt:formatNumber value = "${articulo.precio * tienda.unidadesCompradas(usuario.id, articulo.referencia)}" type = "currency"/></td>
+                                        <td id="" data="${articulo.referencia}" class="btnEliArtCesta align-middle"><i class="fal fa-times fa-2x" style="color: red; cursor: pointer;"></i></td>
+                                    </tr>
+                                </c:forEach>
+
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                        <hr class="bg-sucess border-2 border-top border-sucess">
+                        <div class="container">
+                            <div class="row justify-content-md-center">
+                                <table class="table table-bordered table-striped">
+                                    <tr><td><b style="color: #C88307;">Subtotal:</b></td><td class="text-center"><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), false)}" type="currency"/></td></tr>
+                                    <tr><td><b style="color: #C88307;">Impuestos:</b></td><td class="text-center"><fmt:formatNumber value = "${(tienda.getPrecioTotal((usuario.articulos), true)) - (tienda.getPrecioTotal((usuario.articulos), false)) }" type="currency"/></td></tr>
+                                    <tr><td><b style="color: #C88307;">Total:</b></td><td class="text-center"><b><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), true)}" type="currency"/></b></td></tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cerrar</button>
+                        <button type="button" class="btn btn-warning">Comprar</button>
+                    </div>
+                </c:if>
             </div>
             <!-- Navbar perteneciente al portafolio -->
             <c:if test="${isFiltroCategoria}">
@@ -637,7 +645,16 @@
 
         <script src="js/jquery-3.5.1.min.js"></script>
         <script src="js/activadores.js"></script>
-        <script src="js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <!--<script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
+            crossorigin="anonymous"
+        ></script>-->
+        <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+                crossorigin="anonymous"
+        ></script>
         <script src="js/font-awesome5.js" type="text/javascript"></script>
 
     </body>

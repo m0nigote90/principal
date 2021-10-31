@@ -15,8 +15,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="img/icono.png">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
+        <!--<link 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
+            rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
+            crossorigin="anonymous"
+            >-->
+        <link 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+              crossorigin="anonymous"
+              >
         <style>
             /* Necesito modificarle el z-index porque el fade-modal quedaba por detrás de la cabecera con .sticky */
             #cabecera {
@@ -32,7 +40,7 @@
         <title>Eleplant</title>
     </head>
     <body>
-        
+
         <header class="sticky-top shadow-sm" id="cabecera">
             <nav class="navbar navbar-expand-lg navbar-light bg-light fs-6">
                 <div class="container-fluid ms-4 align-items-end" id="cabecera">
@@ -111,7 +119,16 @@
 
         <script src="js/jquery-3.5.1.min.js"></script>
         <script src="js/tooltip.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
+       <!-- <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
+            crossorigin="anonymous"
+        ></script>-->
+        <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+                crossorigin="anonymous"
+        ></script>
         <script src="js/font-awesome5.js"></script>
     </body>
 </html>
