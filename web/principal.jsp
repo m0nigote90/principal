@@ -152,10 +152,10 @@
                                     <!-- visually-hidden (BootStrap 5.0) es el antiguo sr-only para lectores de pantalla 
                                     También agregamos el nav-item y nav-link para que se vean bien-->
                                     <a class="nav-item nav-link" href="#" data-bs-toggle="modal"
-                                       data-bs-target="#modalLogin" style="color: #005235;"><i class="fad fa-sign-in-alt"></i> Acceder<span class="visually-hidden">(Acceder)</span></a>
+                                       data-bs-target="#modalLogin" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-sign-in-alt"></i> Acceder<span class="visually-hidden">(Acceder)</span></a>
                                 </li>
                                 <li>
-                                    <a class="nav-item nav-link" href="registro.jsp" style="color: #005235;"><i class="fad fa-clipboard-list-check"></i> Regístrate</a>
+                                    <a class="nav-item nav-link" href="registro.jsp" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-clipboard-list-check"></i> Regístrate</a>
                                 </li>
                             </c:if>
                             <c:if test="${not empty usuario}">

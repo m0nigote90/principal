@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import modelo.dao.AbonoJpaController;
@@ -104,6 +105,36 @@ public class Funcionalidad implements Serializable {
         return filtrados;
     }
 
+    public boolean existeUsuarioDNI(String dni) {
+        boolean existe = false;
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE dni = ?1;", Usuario.class).setParameter(1, dni);
+
+        try {
+            List<Usuario> usuarios = query.getResultList();
+            if (!usuarios.isEmpty()) {
+                existe = true;
+            }
+        } catch (Exception e) {}
+        return existe;
+    }
+    
+    public boolean existeUsuarioEmail(String email) {
+        boolean existe = false;
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE email = ?1;", Usuario.class).setParameter(1, email);
+
+        try {
+            List<Usuario> usuarios = query.getResultList();
+            if (!usuarios.isEmpty()) {
+                existe = true;
+            }
+        } catch (Exception e) {}
+        return existe;
+    }
+
+    
+
     //Método que nos devuelve la lista de articulos pero agrupadas por diferentes
     //He usado el metodo createNativeQuery de JPA para crear un group by y devolverlos como Articulo.class
     public List<Articulo> agruparArticulosRef() {
@@ -134,6 +165,7 @@ public class Funcionalidad implements Serializable {
                         + "?1", Articulo.class).setParameter(1, ref).getResultList();
         return resultados;
     }
+
     public List<Articulo> filtrarArticulosReferenciaVendidos(String ref) {
 
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
@@ -143,12 +175,13 @@ public class Funcionalidad implements Serializable {
         return resultados;
     }
 
-    public Articulo devolverArtPorRef(String ref){
+    public Articulo devolverArtPorRef(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Articulo resultado
-                = (Articulo)em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 LIMIT 1;", Articulo.class).setParameter(1, ref).getSingleResult();
+                = (Articulo) em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 LIMIT 1;", Articulo.class).setParameter(1, ref).getSingleResult();
         return resultado;
     }
+
     //Devuelve el stockTotal de un articulo en concreto por su referencia
     public Integer stockTotalArticulo(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();

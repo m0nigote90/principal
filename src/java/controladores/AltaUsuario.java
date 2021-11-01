@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Funcionalidad;
 import modelo.entidades.Usuario;
+import org.json.JSONObject;
 
 /**
  *
@@ -39,12 +40,72 @@ public class AltaUsuario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            String nombre = request.getParameter("nombre");
+            String apellidos = request.getParameter("apellidos");
+            String fechaNac = request.getParameter("fechaNac");
+            String dni = request.getParameter("dni");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            //Tratamos la fecha
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacDATE = null;
+            try {
+                fechaNacDATE = sdf.parse(fechaNac);
+            } catch (ParseException ex) {
+                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
+            String errorDNI = null;
+            String errorEmail = null;
+            
+            
+            JSONObject jsonObject = new JSONObject();
+            ServletContext aplicacion = getServletContext();
+            Funcionalidad tienda = (Funcionalidad) aplicacion.getAttribute("tienda");
+            
+            
+            if(!tienda.existeUsuarioDNI(dni)){
+                //jsonObject.put("flag", "true");
+                if(!tienda.existeUsuarioEmail(email)){
+                    Usuario u = new Usuario();
+                    u.setNombre(nombre);
+                    u.setApellidos(apellidos);
+                    u.setDNI(dni);
+                    u.setFechaNac(fechaNacDATE);
+                    u.setEmail(email);
+                    u.setPassword(password);
+                    u.setAdmin(false);
+                    try {
+                        tienda.altaUsuario(u);
+                    } catch (Exception ex) {
+                        Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    jsonObject.put("flag", "true");
+                    jsonObject.put("nombre", nombre);
+                    
+                } else {
+                    errorEmail = "Ya existe un usuario registrado con ese Email";
+                    jsonObject.put("errorEmail", errorEmail);
+                    jsonObject.put("flag", "false");
+                }
+            } else {
+                errorDNI = "Ya existe un usuario registrado con ese DNI";
+                jsonObject.put("errorDNI", errorDNI);
+                jsonObject.put("flag", "false");
+                //out.print(jsonObject);
+                
+            }
+            
+            
+            
+            //jsonObject.put("nombre", nombre);
+            
+            out.print(jsonObject);
+            out.close();
 
-       
         } //Termina el out
     }
 

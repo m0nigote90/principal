@@ -44,10 +44,9 @@
     </head>
 
     <body>
-
-        <div class="row p-0" style="border: solid 1px blue;">
-            <div class="col-12 col-sm-10 offset-sm-1 col-md-10 col-lg-8 col-xl-6 offset-xl-3" style="border: solid 1px red;">
-                <div class="container-fluid bg-light py-4 mt-5 rounded-3 shadow" style="border: solid 1px green;">
+        <div class="row p-0">
+            <div class="col-12 col-sm-10 offset-sm-1 col-md-10 col-lg-8 col-xl-6 offset-xl-3">
+                <div class="container-fluid bg-light py-4 mt-2 rounded-3 shadow">
                     <hr class="">
                     <div class="row offset-2">
                         <div class="col-1">
@@ -58,7 +57,7 @@
                         </div>
                     </div>
                     <hr class="">
-                    <form class="needs-validation" novalidate>
+                    <form class="form needs-validation" novalidate>
                         <div class="row">
                             <div class="col-1">
                                 <i class="fad fa-user fa-2x mt-3"></i>
@@ -67,11 +66,11 @@
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="text" class="form-control" id="inputNombre" placeholder="Nombre" required>
                                     <label for="inputNombre" class="text-muted">Nombre</label>
-                                    <div class="valid-feedback">
+                                    <div class="valid-feedback col-10">
                                         Nombre correcto.
                                     </div>
-                                    <div class="invalid-feedback">
-                                        No se permiten caracteres especiales ni números.
+                                    <div class="invalid-feedback col-10">
+                                        El nombre debe comenzar por mayúsculas y no se permiten caracteres especiales ni números.
                                     </div>
                                 </div>
                             </div>
@@ -84,6 +83,12 @@
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="text" class="form-control" id="inputApellidos" placeholder="Apellidos" required>
                                     <label for="inputApellidos" class="text-muted">Apellidos</label>
+                                    <div class="valid-feedback">
+                                        Apellidos correctos.
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Los apellidos deben comenzar por mayúsculas y no se permiten caracteres especiales ni números.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,8 +98,14 @@
                             </div>
                             <div class="col-10">
                                 <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="date" class="form-control text-muted" id="inputFechaNac" placeholder="Fecha Nacimiento" required>
+                                    <input style="height: 50px;" type="date" class="form-control" id="inputFechaNac" placeholder="Fecha Nacimiento" required>
                                     <label for="inputFechaNac" class="text-muted">Fecha Nacimiento</label>
+                                    <div class="valid-feedback">
+                                        Fecha correcta.
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        La fecha mínima es 01/01/1900 y se debe tener al menos 16 años para registrarse.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -106,6 +117,12 @@
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="text" class="form-control" id="inputDNI" placeholder="DNI/NIF" maxlength="9" required>
                                     <label for="inputDNI" class="text-muted">DNI/NIF</label>
+                                    <div class="valid-feedback">
+                                        DNI correcto.
+                                    </div>
+                                    <div id="invalidDNI" class="invalid-feedback">
+                                        Debe introducir un DNI válido en formato 12345678X.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -117,6 +134,12 @@
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
                                     <label for="inputEmail" class="text-muted">Email</label>
+                                    <div class="valid-feedback">
+                                        Email válido.
+                                    </div>
+                                    <div id="invalidEmail" class="invalid-feedback">
+                                        Introduce un email válido, "nombre@ejemplo.com".
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -128,13 +151,37 @@
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
                                     <label for="inputPassword" class="text-muted">Contraseña</label>
+                                    <div class="valid-feedback">
+                                        Contraseña válida.
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <!--Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character-->
+                                        Mínimo 8 caracteres, contener mayúsculas, minúsculas y números y puede tener caracteres especiales.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                                <i class="fad fa-lock-alt fa-2x mt-3"></i>
+                            </div>
+                            <div class="col-10">
+                                <div class="form-floating mb-3">
+                                    <input style="height: 50px;" type="password" class="form-control" id="inputPassword2" placeholder="Password" required>
+                                    <label for="inputPassword2" class="text-muted">Repite contraseña</label>
+                                    <div class="valid-feedback">
+                                        Coinciden.
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Las contraseñas deben coincidir.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row justify-content-center"> 
                             <div class="col-8 offset-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="checkAceptoTerminos" required>
+                                    <input class="form-check-input" type="checkbox" id="checkAcepto" required>
                                     <label class="form-check-label" for="checkAceptoTerminos">Acepto los términos y condiciones</label>
                                 </div>
                             </div>
@@ -142,7 +189,7 @@
                         <hr class="bg-sucess" style="color: green; height: 4px;">
                         <div class="row justify-content-center offset-1">
                             <div class="col">
-                                <button type="" class="btn btn-outline-dark">Volver</button>
+                                <a href="principal.jsp" class="btn btn-outline-dark">Volver</a>
                             </div>
                             <div class="col">
                                 <button type="reset" class="btn btn-outline-success">Reset</button>
@@ -178,6 +225,7 @@
         <script src="js/font-awesome5.js"></script>
         <script src="js/activadores.js"></script>
         <script src="js/validacionRegistro.js"></script>
+        <script src="http://momentjs.com/downloads/moment.min.js"></script>;
     </body>
 </html>
 
