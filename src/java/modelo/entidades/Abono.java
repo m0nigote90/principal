@@ -19,16 +19,16 @@ import javax.persistence.Table;
  * @author Pedro
  */
 @Entity
-@Table(
-        name = "Abonos",
-        indexes = {@Index(name = "indice_id", columnList = "id", unique = true)}
-)
-public class Abono extends Articulo implements Comparable, Serializable {
+//@Table(
+//        name = "Abonos",
+//        indexes = {@Index(name = "indice_id", columnList = "id", unique = true)}
+//)
+public class Abono extends Articulo implements Comparable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//    private static final long serialVersionUID = 1L;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
     @Column(name = "Nombre")
     protected String nombre;
     @Column(name = "Tipo_Planta")
@@ -61,14 +61,6 @@ public class Abono extends Articulo implements Comparable, Serializable {
      * Devuelve el precio sin IVA del Abono.
      * @return Precio sin IVA.
      */
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     @Override
     public Double getPrecioSinIVA(){
         return precioSinIVA;
@@ -88,27 +80,6 @@ public class Abono extends Articulo implements Comparable, Serializable {
 
     public void setVolumen(Double volumen) {
         this.volumen = volumen;
-    }
-
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Abono)) {
-            return false;
-        }
-        Abono other = (Abono) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

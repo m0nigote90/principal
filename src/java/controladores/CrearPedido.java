@@ -20,66 +20,60 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Funcionalidad;
 import modelo.dao.ArticuloJpaController;
+import modelo.dao.PedidoJpaController;
 import modelo.dao.UsuarioJpaController;
 import modelo.entidades.Articulo;
+import modelo.entidades.Pedido;
 import modelo.entidades.Usuario;
 import org.json.JSONObject;
 
 /**
  *
- * @author Pedro
+ * @author Pedro 02/11/2021
  */
-@WebServlet(name = "RemoveArticuloCesta", urlPatterns = {"/RemoveArticuloCesta"})
-public class RemoveArticuloCesta extends HttpServlet {
+@WebServlet(name = "CrearPedido", urlPatterns = {"/CrearPedido"})
+public class CrearPedido extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            JSONObject jsonObject = null;
-            String ref = request.getParameter("refArticulo");
-            HttpSession sesion = request.getSession();
+            JSONObject jsonObject = new JSONObject();
             ServletContext aplicacion = getServletContext();
-            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+            HttpSession sesion = request.getSession();
             Funcionalidad tienda = (Funcionalidad) aplicacion.getAttribute("tienda");
+            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+            List<Articulo> cesta = usuario.getArticulos();
 
-            ArticuloJpaController ajc = new ArticuloJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
-            UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
+            Pedido pedido = new Pedido();
+            pedido.setArticulosPedido(cesta);
+            
+            pedido.setUsuario(usuario);
 
-            //Lista de articulos que se han decidido borrar, aqui tenemos en cuenta que sean varias unidades
-            List<Articulo> artBorrar = tienda.filtrarArticulosReferenciaVendidos(ref);
-            List<Articulo> cestaUsuario = usuario.getArticulos();
-
-            for(Articulo a: artBorrar){
-                cestaUsuario.remove(a);
-                a.setVendido(false);
-                try {
-                    ajc.edit(a);
-                } catch (Exception ex) {
-                    Logger.getLogger(RemoveArticuloCesta.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                       
-            }
+            
+            usuario.getArticulos().clear();
+            usuario.getPedidos().add(pedido);
             try {
-
-                ujc.edit(usuario);
-
+                tienda.actualizarUsuario(usuario);
             } catch (Exception ex) {
-                Logger.getLogger(RemoveArticuloCesta.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            try {
+                
+                tienda.altaPedido(pedido);
+            } catch (Exception ex) {
+                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
             sesion.setAttribute("usuario", usuario);
-            System.out.println("Eliminado de cesta art: " + ref);
-            jsonObject = new JSONObject();
             jsonObject.put("flag", "true");
-            System.out.println(jsonObject);
-            //System.out.println("HEMOS ENCONTRADO EL USUARIO");
             out.print(jsonObject);
 
             out.close();
-        }
 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

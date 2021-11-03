@@ -64,7 +64,6 @@ public class Pedido implements Serializable {
     
     public Pedido (Usuario usuario){
         this.usuario = usuario;
-        articulosPedido = new ArrayList<>();
     }
 
     public Long getId() {
@@ -97,22 +96,18 @@ public class Pedido implements Serializable {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }
     public List<Articulo> getArticulosPedido() {
-        return articulosPedido;
+        return  articulosPedido!=null? new ArrayList<>(articulosPedido) : new ArrayList<>();
     }
-
     public Integer getNumArticulos(){
-        int num = this.articulosPedido.size();
-        return num;
+        return this.articulosPedido.size();   
     }
-    public void setArticulosPedido(ArrayList<Articulo> articulosPedido) {
-        this.articulosPedido = articulosPedido;
-    }
-    /**
-     * Devuelve el número de artículos que contiene la factura.
-     * @return Tamaño de la lista de artículos.
-     */
-    public Integer getTamaño(){
-        return articulosPedido.size();
+    public void setArticulosPedido(List<Articulo> articulosPedido) {
+        if(this.articulosPedido==null){
+            this.articulosPedido = new ArrayList<>(articulosPedido);
+        } else {
+            this.articulosPedido = articulosPedido;
+        }
+        
     }
     /**
      * Devuelve el Artículo correspondiente al índice pasado como parámetro.
@@ -122,35 +117,7 @@ public class Pedido implements Serializable {
     public Articulo getArticulo(int i){
         return articulosPedido.get(i);
     }
-    /**
-     * Añade un artículo a la factura.
-     * @param a Artículo
-     * @throws Exception si no queda Stock del artículo a añadir.
-     */
-//    public void añadirArticulo(Articulo a) throws Exception{
-//        if(a.getStock()>0){
-//            articulosPedido.add(a);
-//            a.stock--;
-//        } else {
-//            throw new Exception();
-//        }
-//    }
-    /**
-     * Elimina de la factura el artículo pasado como parámetro.
-     * @param a Articulo
-     * @return Boolean true si se eliminó, false si no pudo.
-     */
-//    public boolean eliminarArticulo(Articulo a){
-//        boolean hecho = false;
-//        try{
-//            articulosPedido.remove(a);
-//            hecho = true;
-//            a.stock++;
-//        } catch (Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//        return hecho;
-//    }
+
     /**
      * Devuelve el precio total de todos los artículos.
      * @return Precio total

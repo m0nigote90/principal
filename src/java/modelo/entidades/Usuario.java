@@ -160,10 +160,6 @@ public class Usuario implements Serializable {
         return pedidos;
     }
 
-    public Integer getNumPedidos(){
-        int num = this.pedidos.size();
-        return num;
-    }
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }

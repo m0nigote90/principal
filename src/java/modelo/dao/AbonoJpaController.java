@@ -6,13 +6,15 @@
 package modelo.dao;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import modelo.entidades.Pedido;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import modelo.dao.exceptions.NonexistentEntityException;
 import modelo.entidades.Abono;
 
@@ -32,11 +34,24 @@ public class AbonoJpaController implements Serializable {
     }
 
     public void create(Abono abono) {
+        if (abono.getPedidos() == null) {
+            abono.setPedidos(new ArrayList<Pedido>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Pedido> attachedPedidos = new ArrayList<Pedido>();
+            for (Pedido pedidosPedidoToAttach : abono.getPedidos()) {
+                pedidosPedidoToAttach = em.getReference(pedidosPedidoToAttach.getClass(), pedidosPedidoToAttach.getId());
+                attachedPedidos.add(pedidosPedidoToAttach);
+            }
+            abono.setPedidos(attachedPedidos);
             em.persist(abono);
+            for (Pedido pedidosPedido : abono.getPedidos()) {
+                pedidosPedido.getArticulosPedido().add(abono);
+                pedidosPedido = em.merge(pedidosPedido);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +65,29 @@ public class AbonoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Abono persistentAbono = em.find(Abono.class, abono.getId());
+            List<Pedido> pedidosOld = persistentAbono.getPedidos();
+            List<Pedido> pedidosNew = abono.getPedidos();
+            List<Pedido> attachedPedidosNew = new ArrayList<Pedido>();
+            for (Pedido pedidosNewPedidoToAttach : pedidosNew) {
+                pedidosNewPedidoToAttach = em.getReference(pedidosNewPedidoToAttach.getClass(), pedidosNewPedidoToAttach.getId());
+                attachedPedidosNew.add(pedidosNewPedidoToAttach);
+            }
+            pedidosNew = attachedPedidosNew;
+            abono.setPedidos(pedidosNew);
             abono = em.merge(abono);
+            for (Pedido pedidosOldPedido : pedidosOld) {
+                if (!pedidosNew.contains(pedidosOldPedido)) {
+                    pedidosOldPedido.getArticulosPedido().remove(abono);
+                    pedidosOldPedido = em.merge(pedidosOldPedido);
+                }
+            }
+            for (Pedido pedidosNewPedido : pedidosNew) {
+                if (!pedidosOld.contains(pedidosNewPedido)) {
+                    pedidosNewPedido.getArticulosPedido().add(abono);
+                    pedidosNewPedido = em.merge(pedidosNewPedido);
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -79,6 +116,11 @@ public class AbonoJpaController implements Serializable {
                 abono.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The abono with id " + id + " no longer exists.", enfe);
+            }
+            List<Pedido> pedidos = abono.getPedidos();
+            for (Pedido pedidosPedido : pedidos) {
+                pedidosPedido.getArticulosPedido().remove(abono);
+                pedidosPedido = em.merge(pedidosPedido);
             }
             em.remove(abono);
             em.getTransaction().commit();

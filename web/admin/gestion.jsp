@@ -20,10 +20,10 @@
             >-->
         <link 
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-              crossorigin="anonymous"
-              >
-        
+            rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous"
+            >
+
         <link rel="icon" type="image/png" href="../img/icono.png">
         <title>Eleplant - Gestión</title>
         <c:if test="${empty tienda}">
@@ -134,7 +134,18 @@
                                     <button class="nav-link mb-2 btnMenuLateral" data-bs-toggle="pill" id="v-pills-settings-tab" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Macetas</button>
 
                                 </div>
+                                <!--<input type="select">    
+                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
 
+                                <div style="position: absolute; top: 20%;" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                    <div class="offcanvas-header">
+                                        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        ...
+                                    </div>
+                                </div>-->
                                 <div class="tab-content" id="v-pills-tabContent">
                                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 
@@ -535,36 +546,98 @@
                         <div class="tab-pane fade" id="usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
                             <%--Contenido del panel Usuarios--%>
                             <div class="container-fluid my-3"> 
-                                <!-- Default dropend button -->
-                                <div class="btn-group-vertical dropend">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Boton 1
-                                    </button>
-                                    <ul class="dropdown-menu mx-1">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                    </ul>
-                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Boton 2
-                                    </button>
-                                    <ul class="dropdown-menu mx-1">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                    </ul>
+                                <section class="wrap">
+                                    <div class="container mb-5">
+                                        <div class="row">
+                                            <h3>Buscar usuario</h3>
+                                            <div class="col">
+                                                <label class="form-label" for="buscarTarjeta">Nombre: </label>
+                                                <input id="filtroTarjeta" type="text" class="form-control" 
+                                                       size="16" maxlength="16"  placeholder="AN XXXXXXXXXX">
+                                            </div>
+                                            <vr class="featurette-divider mt-4">
+                                                <div class="col">
+                                                    <label class="form-label" for="buscarNombre">DNI: </label>
+                                                    <input type="text" class="form-control" id="filtroNombre" onkeyup="filtrar()">
+                                                </div>
+                                        </div>   
+                                    </div>
+                                    <div class="container-fluid">
+                                        <!--<div class="table-responsive-xl">-->
+                                        <table class="table table-sm table-bordered table-striped table-hover shadow text-center sortable" id="tableArt" width="100%">
+                                            <caption>Lista de usuarios. Total: <b>${tienda.usuarios.size() - 1}</b></caption>
+                                            <thead>
+                                                <tr><th class="align-middle p-2">Nombre</th>
+                                                    <th class="align-middle p-2">Edad</th>
+                                                    <th class="align-middle p-2">DNI</th>
+                                                    <th class="align-middle p-2">Email</th>
+                                                    <th class="align-middle p-2">Fecha alta</th>
+                                                    <th class="align-middle p-2">Pedidos</th>
+                                                    <th class="p-3 sorttable_nosort"></th>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="usu" items="${tienda.usuarios}">
+                                                    <c:if test="${!usu.esAdmin()}">
+                                                        <tr>
 
-                                </div>
+                                                            <td class="align-middle p-2">${usu.apellidos}, ${usu.nombre}</td>
+                                                            <td class="align-middle p-2">${usu.getEdad()}</td>
+                                                            <td class="align-middle p-2">${usu.getDNI()}</td>
+                                                            <td class="align-middle p-2">${usu.email}</td>
 
+                                                            <td class="align-middle p-2">${usu.fechaAlta}</td>
+                                                            <td class="align-middle p-2">${usu.getPedidos().size()}</td>
+
+
+                                                            <td class="align-middle p-0">
+                                                                <div class="container p-0">
+                                                                    <div class="row px-0 mx-0" >
+                                                                        <div class="col-6 mx-0 pe-0" >
+                                                                            <!--Controlamos con javascript la que solo permita 2 digitos-->
+
+                                                                        </div>
+                                                                        <div class="col-6 mx-0 ps-0">
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mx-0 px-0 my-2">
+                                                                        <div class="col-6 mx-0 pe-0">
+                                                                            <button id="" data="${usu.getDNI()}" type="button" class="btn btn-outline-success" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <i class="fad fa-edit"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="col-6 mx-0 ps-0">
+                                                                            <button id="btnRmvArt" data="${usu.getDNI()}" type="button" class="btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <i class="fad fa-trash-alt"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div> 
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <div class="row d-flex justify-content-between">
+                                            <div class="col-auto">
+                                                <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Volver</a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <a href="" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-user-plus fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Nuevo Usuario</a>
+                                            </div>
+
+                                        </div>
+
+                                        <!--</div>-->
+                                    </div>
+                                </section>
 
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pedidos" role="tabpanel" aria-labelledby="pedidos-tab">
-                            <%--Contenido del panel Artículos--%>
+                            <%--Contenido del panel Pedidos--%>
                             Contenido pedidos
                         </div>
                     </div>
@@ -575,16 +648,16 @@
             <script 
                 src="../js/jquery-3.5.1.min.js"
             ></script>
-           <!-- <script 
-                src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
-                crossorigin="anonymous"
-            ></script>-->
+            <!-- <script 
+                 src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+                 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
+                 crossorigin="anonymous"
+             ></script>-->
             <script 
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
                 crossorigin="anonymous"
-        ></script>
+            ></script>
             <script 
                 src="../js/font-awesome5.js"
             ></script>

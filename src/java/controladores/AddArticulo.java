@@ -55,8 +55,10 @@ public class AddArticulo extends HttpServlet {
                             art.setVendido(true);
                             encontrado = true;
                             try {
-                                ajc.edit(art);
-                                ujc.edit(usuario);
+                                tienda.actualizarArticulo(art);
+                                tienda.actualizarUsuario(usuario);
+//                                ajc.edit(art);
+//                                ujc.edit(usuario);
                                 
                             } catch (Exception ex) {
                                 Logger.getLogger(AddArticulo.class.getName()).log(Level.SEVERE, null, ex);

@@ -55,6 +55,9 @@
                         <div class="col-8 text-center">
                             <p class="display-4">Registro</p>
                         </div>
+                        <div class="col-1 ms-5">
+                            <a href="principal.jsp"><i style="text-shadow: 2px 2px 1px grey;" class="fad fa-house-return fa-2x"></i></a>
+                        </div>
                     </div>
                     <hr class="">
                     <form class="form needs-validation" novalidate>
@@ -189,7 +192,7 @@
                         <hr class="bg-sucess" style="color: green; height: 4px;">
                         <div class="row justify-content-center offset-1">
                             <div class="col">
-                                <a href="principal.jsp" class="btn btn-outline-dark">Volver</a>
+                                <a href="principal.jsp" class="btn btn-outline-dark shadow">Volver</a>
                             </div>
                             <div class="col">
                                 <button type="reset" class="btn btn-outline-success">Reset</button>

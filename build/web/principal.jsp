@@ -36,9 +36,9 @@
             >-->
         <link 
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-              crossorigin="anonymous"
-              >
+            rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous"
+            >
         <link rel="icon" type="image/png" href="img/icono.png">
         <title>Eleplant</title>
         <style>
@@ -94,44 +94,44 @@
     <body ondragstart="return false">
         <!-- Con Bootstrap 5.1.3 debemos colocar los modales en lo más alto del body para que funcionen sin interferencias con otros elementos -->
         <!-- Modal Login -->
-            <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 
-                <div class="modal-dialog">
-                    <div class="modal-content border border-success rounded-3">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog">
+                <div class="modal-content border border-success rounded-3">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div>
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <i class="fad fa-at me-2"></i>
+                                <label for="inputEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control bg-light" id="inputEmail"
+                                       name="email" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <i class="fad fa-unlock-alt me-2"></i>
+                                <label for="inputPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control bg-light" name="password" id="inputPassword">
+
+                            </div>
+                            <div class="">
+                                <p id="errorLogin" class="text-center mb-0"></p>
+                                <p id="cuentaAtrasLogin" class="text-center text-muted"></p>
+                            </div>
                         </div>
-                        <div>
-                            <div class="modal-body">
-
-                                <div class="mb-3">
-                                    <i class="fad fa-at me-2"></i>
-                                    <label for="inputEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control bg-light" id="inputEmail"
-                                           name="email" aria-describedby="emailHelp">
-                                </div>
-                                <div class="mb-3">
-                                    <i class="fad fa-unlock-alt me-2"></i>
-                                    <label for="inputPassword" class="form-label">Password</label>
-                                    <input type="password" class="form-control bg-light" name="password" id="inputPassword">
-
-                                </div>
-                                <div class="">
-                                    <p id="errorLogin" class="text-center mb-0"></p>
-                                    <p id="cuentaAtrasLogin" class="text-center text-muted"></p>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" name="btnCerrarLogin" id="btnCerrarLogin" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
-                                <button name="btnLogin" id="btnLogin" class="btn btn-success">Acceder</button>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" name="btnCerrarLogin" id="btnCerrarLogin" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
+                            <button name="btnLogin" id="btnLogin" class="btn btn-success">Acceder</button>
                         </div>
                     </div>
                 </div>
             </div>
-        
-        
+        </div>
+
+
         <header class="sticky-top shadow-lg cabecera" id="cabecera">
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light fs-6">
@@ -206,10 +206,7 @@
                                 <a>Languaje: <c:out value="${varLocale.language}"/></a>
                                 <a>País: <c:out value="${varLocale.country}"/></a>
                                 <a>Display País: <c:out value="${varLocale.displayCountry}"/></a>
-
-
-
-
+                                <a>Num. Pedidos del usuario: <c:out value="${usuario.nombre}"/>: <c:out value="${usuario.pedidos.size()}"/></a>
                             </li>
                         </ul>
                         <!--Botones derecha cabecera-->
@@ -229,7 +226,7 @@
 
                                     <!-- The icon that will wrap the number -->
                                     <i class="fal fa-shopping-bag fa-stack-2x">
-                                        
+
                                     </i>
                                     <!-- a strong element with the custom content, in this case a number -->
                                     <b id="numArtCesta" class="fa-stack-1x ms-1 btnNumArt">
@@ -257,19 +254,19 @@
                     <h5 class="display-5">Cesta vacía</h5>
                 </c:if>
                 <c:if test="${usuario.articulos.size()!=0 && usuario != null && tienda != null}">
-                    <div class="offcanvas-body">
-                        <table class="table text-center table-sm" >
-                            <thead>
-                                <tr>
-                                    <th class="align-middle"></th>
-                                    <th class="align-middle" >Producto</th>
-                                    <th class="align-middle">Precio/U.</th>
-                                    <th class="align-middle"></th>
-                                    <th class="align-middle">Subtotal</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                <div class="offcanvas-body">
+                    <table class="table text-center table-sm" >
+                        <thead>
+                            <tr>
+                                <th class="align-middle"></th>
+                                <th class="align-middle" >Producto</th>
+                                <th class="align-middle">Precio/U.</th>
+                                <th class="align-middle"></th>
+                                <th class="align-middle">Subtotal</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
                                 <c:forEach var="articulo" items="${tienda.cestaUsuarioSinRepetidos(usuario.id)}">
                                     <tr class="" style="font-size: 0.9em;">
                                         <td class="align-middle"><img src="img/articulos/${articulo.nombreImagen}" style="width: 50px;"/></td>
@@ -299,7 +296,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cerrar</button>
-                        <button type="button" class="btn btn-warning">Comprar</button>
+                        <button id="btnComprarCesta" type="button" class="btn btn-warning">Comprar</button>
                     </div>
                 </c:if>
             </div>
@@ -652,8 +649,8 @@
         ></script>-->
         <script 
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
-                crossorigin="anonymous"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"
         ></script>
         <script src="js/font-awesome5.js" type="text/javascript"></script>
 

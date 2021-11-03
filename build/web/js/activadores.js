@@ -328,7 +328,33 @@ function inicio() {
             $(idnumber).val(1);
         }
     });
+    
+        $("#btnComprarCesta").click(function () {
+        alert("Boton pedido");
+        //var ref = $(this).attr('data');
+        //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
+        $.ajax({
+            url: "CrearPedido",
+            dataType: "json",
+            type: "post",
+            data: {
+                //"refArticulo": ref,
+            },
+            success: function (data) {
 
+                var flag = data.flag;
+
+                if (flag == "true") {
+                    alert("Pedido hecho");
+                    
+                    recargaPagina();
+                } else {
+                    console.log("ERROR Servlet CrearPedido");
+                    alert("ERROR Crear Pedido");
+                }
+            }
+        });
+    });
     
 }
 
