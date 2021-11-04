@@ -64,20 +64,6 @@
             .nav-item::selection{
                 background-color: red;
             }
-            /*.nav-link{
-                color: darkslategrey;
-            }
-            .nav-link:active{
-                background-color: #00C880;
-                color: white;
-            }
-            .nav-link:target{
-                
-            }
-            .tab-activo{
-                background-color: green;
-                color: whitesmoke;
-            }*/
             input[type="number"] {
                 width:40px;
                 height: 37px;
@@ -126,34 +112,42 @@
                     <div class="tab-content ms-4 me-4" id="myTabContent">
                         <div class="tab-pane fade show active" id="articulos" role="tabpanel" aria-labelledby="articulos-tab">
                             <%--Contenido del panel Artículos--%>
+                            
                             <div class="d-flex align-items-start my-3">
                                 <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     <button class="nav-link active mb-2 btnMenuLateral" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Todos</button>
                                     <button class="nav-link mb-2 btnMenuLateral" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Plantas</button>
                                     <button class="nav-link mb-2 btnMenuLateral" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Abonos</button>
                                     <button class="nav-link mb-2 btnMenuLateral" data-bs-toggle="pill" id="v-pills-settings-tab" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Macetas</button>
-
                                 </div>
-                                <!--<input type="select">    
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
-
-                                <div style="position: absolute; top: 20%;" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                                    <div class="offcanvas-header">
-                                        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body">
-                                        ...
-                                    </div>
-                                </div>-->
+                                
+                                
                                 <div class="tab-content" id="v-pills-tabContent">
-                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 
+                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                        <div class="row m-4">
+                                    <div class="col-6  border rounded-3 p-3 shadow-sm">
+                                        <label class="form-label fw-bolder" for="selectAgregar">Agregar artículo nuevo</label>
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <select class="form-select" aria-label="Agregar nuevo artículo" id="selectAgregar">
+                                                    <option value="0" selected>Seleccione tipo</option>
+                                                    <option value="1">Planta</option>
+                                                    <option value="2">Abono</option>
+                                                    <option value="3">Maceta</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-3">
+                                                <button id="btnAgregarArt" class="btn btn-outline-seconday w-100" disabled>Agregar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                         <%--Contenido articulos/todos--%>
                                         <section class="wrap">
-                                            <div class="container-fluid">
+                                            <div class="container-fluid ms-3">
                                                 <!--<div class="table-responsive-xl">-->
-                                                <table class="table table-sm table-bordered table-striped table-hover shadow text-center sortable" id="tableArt" width="100%">
+                                                <table class="table table-sm table-bordered table-striped table-hover shadow-sm text-center sortable" id="tableArt" width="100%">
                                                     <caption>Lista de artículos. Total: <b>${tienda.articulos.size()}</b></caption>
                                                     <thead>
                                                         <tr><th class="align-middle p-2 sorttable_nosort">Imagen</th>
@@ -645,26 +639,14 @@
             </section>
 
 
-            <script 
-                src="../js/jquery-3.5.1.min.js"
-            ></script>
-            <!-- <script 
-                 src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-                 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
-                 crossorigin="anonymous"
-             ></script>-->
+            <script src="../js/jquery-3.5.1.min.js" ></script>
             <script 
                 src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
                 crossorigin="anonymous"
             ></script>
-            <script 
-                src="../js/font-awesome5.js"
-            ></script>
-            <script 
-                src="../js/activadores.js"
-            ></script>
-
+            <script src="../js/font-awesome5.js" ></script>
+            <script src="../js/activadores.js" ></script>          
     </body>
 
 </html>

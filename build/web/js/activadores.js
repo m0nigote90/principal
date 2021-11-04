@@ -309,9 +309,9 @@ function inicio() {
                     var nombre = data.nombre;
                     if (flag == "true") {
                         if (num == 1) {
-                            alert("Agregado 1 unidad de "+nombre);
+                            alert("Agregado 1 unidad de " + nombre);
                         } else {
-                            alert("Agregado " + num + " unidades de "+nombre);
+                            alert("Agregado " + num + " unidades de " + nombre);
                         }
 
                         //alert(num+" unidades añadidas.");
@@ -328,8 +328,8 @@ function inicio() {
             $(idnumber).val(1);
         }
     });
-    
-        $("#btnComprarCesta").click(function () {
+
+    $("#btnComprarCesta").click(function () {
         alert("Boton pedido");
         //var ref = $(this).attr('data');
         //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
@@ -346,7 +346,7 @@ function inicio() {
 
                 if (flag == "true") {
                     alert("Pedido hecho");
-                    
+
                     recargaPagina();
                 } else {
                     console.log("ERROR Servlet CrearPedido");
@@ -355,7 +355,38 @@ function inicio() {
             }
         });
     });
-    
+
+    //activadores del select de agregar articulo nuevo
+    $('#selectAgregar').on('change', function () {
+        var valor = $(this).val();
+        if (valor == '0'){
+            $('#btnAgregarArt').prop('disabled', true);
+            $('#btnAgregarArt').removeClass('btn-outline-success');
+            $('#btnAgregarArt').addClass('btn-outline-secondary');
+        } else {
+            $('#btnAgregarArt').prop('disabled', false);
+            $('#btnAgregarArt').removeClass('btn-outline-secondary');
+            $('#btnAgregarArt').addClass('btn-outline-success');
+        }
+    });
+
+
+    $('#btnAgregarArt').click(function () {
+        var opc = $('#selectAgregar').val();
+        switch (opc) {
+            case '1':
+                window.location.assign("agregarPlanta.jsp");
+                break;
+            case '2':
+                window.location.assign("agregarAbono.jsp");
+                break;
+            case '3':
+                alert("Macetas aún no disponibles.\nPróximamente");
+                break;
+        }
+
+    });
+
 }
 
 //function añadirArticulo(id){
