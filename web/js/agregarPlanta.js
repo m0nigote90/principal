@@ -60,7 +60,31 @@ function inicio() {
         }
 
     });
+    //Modificaciones del modal EDIT
+    $('#modEditIVA').on('change', function () {
+        var valor = $(this).val();
+        var precio = new Number($('#modEditPrecioSinIVA').val());
+        if (valor == '0') {
+            $('#modEditPrecioSinIVA').prop('disabled', true);
+        } else {
+            $('#modEditPrecioSinIVA').prop('disabled', false);
+            $('#modEditPVP').val(((precio) + ((precio) * (valor / 100))).toFixed(2));
+            $('#modEditPrecioSinIVA').focus();
+        }
+    });
+    $('#modEditPrecioSinIVA').on('keyup keydown change', function ()
+    {
+        var precio = new Number($(this).val());
+        var iva = new Number($('#modEditIVA').val());
+        var pvp = precio + ((precio) * (iva / 100));
 
+        if (iva == '0') {
+            $('#modEditPVP').val("0");
+        } else {
+            $('#modEditPVP').val(((precio) + ((precio) * (iva / 100))).toFixed(2));
+        }
+
+    });
 
     //Tratamos el textarea
     var max_chars = 120;

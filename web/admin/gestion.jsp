@@ -72,9 +72,9 @@
             #campoCategoria:first-letter {
                 text-transform: uppercase;
             }
-            button{
+            /*button{
                 box-shadow: 1px 1px 3px graytext;
-            }
+            }*/
             th{
                 background-color: greenyellow;
             }
@@ -109,10 +109,122 @@
                         </li>
                     </ul>
                     </header>
+                <!-- Modal Editar Art -->
+        <div class="modal fade" id="modalEditarArticulo" tabindex="-1" aria-labelledby="modalEditarArticulo" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border border-success rounded-3">
+                    <div class="modal-header">
+                        <h5 id="modEditTit" class="modal-title" id="exampleModalLabel"></h5><!--Titulo-->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div>
+                        <div class="modal-body">
+                <form class="form needs-validation" novalidate style="font-size: 0.9em;">
+                    <input id="modEditCat" type="hidden">
+                <div class="row">
+                    <div class="col p-2 m-2 shadow-sm rounded-3"> <!-- primera columna-->
+                        <div class="form-floating mb-2">
+                            <input id="modEditRef" style="height: 45px;" type="text" class="form-control" placeholder="Referencia" required>
+                            <label for="inputReferencia" class="text-muted">Referencia</label>
+
+                            <div id="invalidRef" class="invalid-feedback col-10">
+                                El campo no puede estar vacío.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input id="modEditNombre" style="height: 45px;" type="text" class="form-control" placeholder="Nombre">
+                            <label for="inputNombre" class="text-muted">Nombre</label>
+
+                            <div id="feedbackNombre" class="invalid-feedback col-10">
+                                El campo no puede estar vacío.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input id="modEditTipo" style="height: 45px;" type="text" class="form-control"  placeholder="Tipo" required>
+                            <label for="modEditTipo" class="text-muted">Tipo</label>
+
+                            <div id="invalidTipo" class="invalid-feedback col-10">
+                                El campo no puede estar vacío.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input id="modEditVol" style="height: 45px;" type="text" class="form-control"  placeholder="VolumenA" required>
+                            <label for="modEditVol" class="text-muted">Vol. (ml)</label>
+
+                            <div id="invalidTipo" class="invalid-feedback col-10">
+                                El campo no puede estar vacío.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="form-floating mb-2">
+                            <input id="modEditFab" style="height: 45px;" type="text" class="form-control"  placeholder="Distribuidor" required>
+                            <label for="modEditFab" class="text-muted">Distribuidor</label>
+
+                            <div id="invalidTipo" class="invalid-feedback col-10">
+                                El campo no puede estar vacío.
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-floating mb-3 mt-3">
+                            <textarea style="height: 140px;" class="form-control" placeholder="Descripción" id="modEditDes" maxlength="120"></textarea>
+                            <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">120</i>)</label>
+                            <div class="invalid-feedback col-10">
+                                Escriba alguna descripción.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col p-2 m-2 shadow-sm border-light rounded-3"> <!-- columna del centro-->
+                        <div class="mb-2">
+                            <select style="height: 45px;font-size: 0.9em;" class="form-select" aria-label="Seleccione IVA" id="modEditIVA">
+                                <option value="0" selected>Seleccione IVA</option>
+                                <option value="4">Super reducido (4%)</option>
+                                <option value="10">Reducido (10%)</option>
+                                <option value="21">Normal (21%)</option>
+                            </select>
+                            <div class="invalid-feedback col-10">
+                                Seleccione una opción.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input style="height: 45px;font-size: 0.9em;width: 220px;" type="number" class="form-control" id="modEditPrecioSinIVA" placeholder="PrecioSinIVA" required
+                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                   step="0.01" min="1" maxlength="9">
+                            <label for="inputPrecioSinIVA" class="text-muted">Precio sin IVA  <i class="fad fa-euro-sign"></i></label>
+                            <div class="invalid-feedback col-10">
+                                El precio no puede ser 0.
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input style="height: 45px;font-size: 0.9em;width: 220px;" type="number" class="form-control" id="modEditPVP" placeholder="PVP" required
+                                   value="0.00" disabled>
+                            <label for="modEditPVP" class="text-muted">PVP  <i class="fad fa-euro-sign"></i></label>
+                        </div>
+                        
+                        <hr class="bg-sucess my-2" style="color: green; height: 4px;">
+
+                        <div class="row align-items-center">
+                            <img id="modEditImg" class="" src="" style="width: 250px;"/>
+                        </div>
+                    </div> 
+                </div>
+            </form>
+                                 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" name="btnCerrarModalEdit" id="btnCerrarModalEdit" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
+                            <button name="btnEditarArt" id="btnEditarArt" class="btn btn-success">Editar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
                     <div class="tab-content ms-4 me-4" id="myTabContent">
                         <div class="tab-pane fade show active" id="articulos" role="tabpanel" aria-labelledby="articulos-tab">
                             <%--Contenido del panel Artículos--%>
-                            
+
                             <div class="d-flex align-items-start my-3">
                                 <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     <button class="nav-link active mb-2 btnMenuLateral" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Todos</button>
@@ -120,29 +232,29 @@
                                     <button class="nav-link mb-2 btnMenuLateral" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Abonos</button>
                                     <button class="nav-link mb-2 btnMenuLateral" data-bs-toggle="pill" id="v-pills-settings-tab" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Macetas</button>
                                 </div>
-                                
-                                
+
+
                                 <div class="tab-content" id="v-pills-tabContent">
 
                                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                         <div class="row m-4">
-                                    <div class="col-6  border rounded-3 p-3 shadow-sm">
-                                        <label class="form-label fw-bolder" for="selectAgregar">Agregar artículo nuevo</label>
-                                        <div class="row">
-                                            <div class="col-9">
-                                                <select class="form-select" aria-label="Agregar nuevo artículo" id="selectAgregar">
-                                                    <option value="0" selected>Seleccione tipo</option>
-                                                    <option value="1">Planta</option>
-                                                    <option value="2">Abono</option>
-                                                    <option value="3">Maceta</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-3">
-                                                <button id="btnAgregarArt" class="btn btn-outline-seconday w-100" disabled>Agregar</button>
+                                            <div class="col-6  border rounded-3 p-3 shadow-sm">
+                                                <label class="form-label fw-bolder" for="selectAgregar">Agregar artículo nuevo</label>
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <select class="form-select" aria-label="Agregar nuevo artículo" id="selectAgregar">
+                                                            <option value="0" selected>Seleccione tipo</option>
+                                                            <option value="1">Planta</option>
+                                                            <option value="2">Abono</option>
+                                                            <option value="3">Maceta</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <button id="btnAgregarArt" class="btn btn-outline-seconday w-100" disabled>Agregar</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                                         <%--Contenido articulos/todos--%>
                                         <section class="wrap">
                                             <div class="container-fluid ms-3">
@@ -196,7 +308,7 @@
                                                                         </div>
                                                                         <div class="row mt-1 mx-0 px-0 mt-2">
                                                                             <div class="col-6 mx-0 pe-0">
-                                                                                <button id="" data="${ar.referencia}" type="button" class="btn btn-outline-success pe-2 me-2" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <button id="" data="${ar.referencia}" type="button" class="btnEditArt btn btn-outline-success pe-2 me-2" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                     <i class="fad fa-edit"></i>
                                                                                 </button>
                                                                             </div>
@@ -646,7 +758,8 @@
                 crossorigin="anonymous"
             ></script>
             <script src="../js/font-awesome5.js" ></script>
-            <script src="../js/activadores.js" ></script>          
+            <script src="../js/activadores.js" ></script>  
+            <script src="../js/agregarPlanta.js"></script>
     </body>
 
 </html>

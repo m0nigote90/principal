@@ -87,7 +87,7 @@ public class CrearUsuarioAdmin extends HttpServlet {
             String mensaje3 = "Se ha creado el Abono";
             
             //Abono (Ingeter numSerie, String referencia, String categoria, String nombre, String fabricante, 
-            //String descripcion, String tipoPlanta, Double volumen, Integer tipoIVA, Integer stock, Double precioSinIVA)
+            //String descripcion, String tipoPlanta, Double volumen, Integer tipoIVA, Double precioSinIVA)
             Abono a1 = new Abono ("abo001", "", "Fertilizante Cactus", "Compo", 
             "Fertilizante líquido mineral con potasio para cactus, plantas crasas y suculentas. Muy efectivo.", "quimico", 500.0, 10, 5.40);
             Abono a2 = new Abono ("abo002", "", "Fertilizante Plantas Verdes", "Compo", 

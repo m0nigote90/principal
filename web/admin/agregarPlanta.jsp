@@ -45,8 +45,6 @@
         </header>
         <section class="m-5 border-light shadow-sm rounded-3">
             <form class="form needs-validation" novalidate>
-                <!--Planta p1 = new Planta ("pla001", "","tropical", "Calathea Ornata", 
-            "Fabricante de prueba", "Una planta tropical muy bonita, con unas hojas aplanadas preciosas", 10, 4.00);-->
                 <div class="row">
                     <div class="col p-2 m-2 shadow-sm border-light rounded-3"> <!-- primera columna-->
                         <div class="form-floating mb-3">

@@ -359,7 +359,7 @@ function inicio() {
     //activadores del select de agregar articulo nuevo
     $('#selectAgregar').on('change', function () {
         var valor = $(this).val();
-        if (valor == '0'){
+        if (valor == '0') {
             $('#btnAgregarArt').prop('disabled', true);
             $('#btnAgregarArt').removeClass('btn-outline-success');
             $('#btnAgregarArt').addClass('btn-outline-secondary');
@@ -387,6 +387,185 @@ function inicio() {
 
     });
 
+    //Al pulsar el boton editar de la página de gestión
+    $('.btnEditArt').click(function () {
+        var ref = $(this).attr('data');
+        alert(ref);
+        //Limpiamos todos los invalid anteriores
+        $(":input").each(function () {
+            $(this).removeClass('is-invalid');
+            $(this).removeClass('is-valid');
+        });
+        $.ajax({
+            url: "EditArticulo",
+            dataType: "json",
+            type: "post",
+            data: {
+                "ref": ref,
+                "opc": "modal"
+            },
+            success: function (data) {
+
+                var flag = data.flag;
+                var categoria = data.categoria;
+                var fab = data.fab;
+                var nombre = data.nombre;
+                var tipo = data.tipo;
+                var des = data.des;
+                var iva = data.iva;
+                var precioSin = data.precioSin;
+                var pvp = data.pvp;
+                var vol = data.volumen;
+                //todas los datos del artículo
+                if (flag == "true") {
+                    if (categoria == 'planta') {
+                        $('#modEditVol').hide();
+                    } else {
+                        $('#modEditVol').show();
+                    }
+                    //alert(categoria);
+                    $('#modEditTit').text("Editar " + capitalize(categoria));
+                    $('#modEditCat').val(categoria);
+                    $('#modEditRef').val(ref);
+                    $('#modEditNombre').val(nombre);
+                    $('#modEditTipo').val(tipo);
+                    $('#modEditTipoA').val(tipo);
+                    $('#modEditFab').val(fab);
+                    $('#modEditDes').val(des);
+                    $("#modEditIVA option[value=" + iva + "]").attr("selected", true);
+                    $('#modEditPrecioSinIVA').val(precioSin);
+                    $('#modEditPVP').val(pvp);
+                    $('#modEditVol').val(vol);
+                    $('#modEditImg').attr("src", "../img/articulos/" + ref + ".jpg");
+                    $('#modalEditarArticulo').modal('show'); // abrir
+
+                    //$('#modalEditarArticulo').modal('hide');
+
+
+                    //recargaPagina();
+                } else {
+
+                }
+            }
+        });
+    });
+    //Función para el boton confirmar la edición del artículo
+    $('#btnEditarArt').click(function () {
+        var numVal = 0;
+        var ref = $('#modEditRef').val();
+        var categoria = $('#modEditCat').val();
+        var nombre = $('#modEditNombre').val();
+        var tipo = $('#modEditTipo').val();
+        var fab = $('#modEditFab').val();
+        var des = $('#modEditDes').val();
+        var iva = $('#modEditIVA').val();
+        var precioSin = $('#modEditPrecioSinIVA').val();
+        var vol = $('#modEditVol').val();
+
+        alert(ref + " " + categoria + " " + nombre + " " + tipo + " " + fab + " " + des + " " + iva + " " + precioSin + " " + vol);
+        //hacemos comprobaciones
+        if (ref != '') {
+            $('#modEditRef').removeClass('is-invalid');
+            $('#modEditRef').addClass('is-valid');
+            numVal += 1;
+        } else {
+            $('#modEditRef').removeClass('is-valid');
+            $('#modEditRef').addClass('is-invalid');
+        }
+        if (nombre != '') {
+            $('#modEditNombre').removeClass('is-invalid');
+            $('#modEditNombre').addClass('is-valid');
+            numVal += 1;
+        } else {
+            $('#modEditNombre').removeClass('is-valid');
+            $('#modEditNombre').addClass('is-invalid');
+        }
+
+        $('#modEditFab').addClass('is-valid');
+        $('#modEditDes').addClass('is-valid');
+        $('#modEditVol').addClass('is-valid');
+        if (tipo != '') {
+            $('#modEditTipo').removeClass('is-invalid');
+            $('#modEditTipo').addClass('is-valid');
+            numVal += 1;
+        } else {
+            $('#modEditTipo').removeClass('is-valid');
+            $('#modEditTipo').addClass('is-invalid');
+        }
+        //Validacion tipo IVA
+        if (iva != '0') {
+            $('#modEditIVA').removeClass('is-invalid');
+            $('#modEditIVA').addClass('is-valid');
+            numVal += 1;
+        } else {
+            $('#modEditIVA').removeClass('is-valid');
+            $('#modEditIVA').addClass('is-invalid');
+        }
+        if (precioSin != 0) {
+            $('#modEditPrecioSinIVA').removeClass('is-invalid');
+            $('#modEditPrecioSinIVA').addClass('is-valid');
+            numVal += 1;
+        } else {
+            $('#modEditPrecioSinIVA').removeClass('is-valid');
+            $('#modEditPrecioSinIVA').addClass('is-invalid');
+        }
+
+        if (numVal == 5) {
+            alert("Hacemos llamada de edit");
+            $.ajax({
+            url: "EditArticulo",
+            dataType: "json",
+            type: "post",
+            data: {
+                "opc": "edit",
+                "categoria": categoria,
+                "ref": ref,
+                "nombre": nombre,
+                "tipo": tipo,
+                "fab": fab,
+                "des": des,
+                "iva": iva,
+                "precioSin": precioSin,
+                "vol": vol      
+            },
+            success: function (data) {
+                var flag = data.flag;
+                var cat = data.categoria;
+                var n = data.n;
+//                var categoria = data.categoria;
+//                var fab = data.fab;
+//                var nombre = data.nombre;
+//                var tipo = data.tipo;
+//                var des = data.des;
+//                var iva = data.iva;
+//                var precioSin = data.precioSin;
+//                var pvp = data.pvp;
+//                var vol = data.volumen;
+                //todas los datos del artículo
+                if (flag == "true") {
+                    alert("se ha editado bien "+cat+", \nSe han hecho "+n+" modificaciones");
+                    //location.reload();
+                } else {
+
+                }
+            }
+        });
+        }
+
+    });
+
+    $(':input').on('keyup keydown change', function ()
+    {
+        $(this).removeClass('is-invalid');
+        $(this).removeClass('is-valid');
+
+    });
+
+
+
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 }
 
 //function añadirArticulo(id){

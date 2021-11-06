@@ -101,7 +101,7 @@ function inicio() {
 
             numVal += 1;
         } else {
-            $('#checkAcepto').css("border", "solid 1px red");
+            $('#checkAcepto').css("border", "solid 2px red");
         }
 
         //Si se hacen todas las validaciones correctamente y suman 8, hacemos la peticion Ajax
@@ -246,9 +246,3 @@ function inicio() {
 
 
 }
-
-//$(this).hasClass("d-none")) {
-//                $(this).removeClass("d-none");
-//                $(this).toggle(1500, function () {
-//                    $(this).addClass("d-block");
-//                });

@@ -115,10 +115,11 @@ public class Funcionalidad implements Serializable {
             if (!usuarios.isEmpty()) {
                 existe = true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return existe;
     }
-    
+
     public boolean existeUsuarioEmail(String email) {
         boolean existe = false;
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
@@ -129,10 +130,11 @@ public class Funcionalidad implements Serializable {
             if (!usuarios.isEmpty()) {
                 existe = true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return existe;
     }
-    
+
     public boolean existePlantaRef(String ref) {
         boolean existe = false;
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
@@ -143,10 +145,10 @@ public class Funcionalidad implements Serializable {
             if (!articulos.isEmpty()) {
                 existe = true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return existe;
     }
-    
 
     //Método que nos devuelve la lista de articulos pero agrupadas por diferentes
     //He usado el metodo createNativeQuery de JPA para crear un group by y devolverlos como Articulo.class
@@ -244,6 +246,18 @@ public class Funcionalidad implements Serializable {
         return filtrados;
     }
 
+    //Editamos los articulos que sean de la misma referencia
+    public int editarPlantaRef(String ref, String nombre, String tipo, String fab, String des, Integer iva, Double precioSin) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        Query query = em.createNativeQuery("UPDATE articulos SET referencia = ?1, nombre = ?2, tipo = ?3, fabricante = ?4, descripcion = ?5, precioSinIVA = ?6, Tipo_IVA = ?7 WHERE referencia = ?1;")
+                .setParameter(1, ref).setParameter(2, nombre).setParameter(3, tipo).setParameter(4, fab).setParameter(5, des).setParameter(6, precioSin).setParameter(7, iva);
+        System.out.println(query);
+        return query.executeUpdate();
+
+    }
+
+    ;
     //Podemos usar compareToIgnoreCase() para obviar coincidencia de mayúsculas
     public List<Usuario> getUsuariosAlfabeticamente() {
         List<Usuario> usuarios = getUsuarios();
