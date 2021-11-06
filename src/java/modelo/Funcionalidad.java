@@ -132,7 +132,20 @@ public class Funcionalidad implements Serializable {
         } catch (Exception e) {}
         return existe;
     }
+    
+    public boolean existePlantaRef(String ref) {
+        boolean existe = false;
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1;", Articulo.class).setParameter(1, ref);
 
+        try {
+            List<Articulo> articulos = query.getResultList();
+            if (!articulos.isEmpty()) {
+                existe = true;
+            }
+        } catch (Exception e) {}
+        return existe;
+    }
     
 
     //Método que nos devuelve la lista de articulos pero agrupadas por diferentes

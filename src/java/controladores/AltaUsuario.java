@@ -99,33 +99,12 @@ public class AltaUsuario extends HttpServlet {
                 
             }
             
-            
-            
-            //jsonObject.put("nombre", nombre);
-            
             out.print(jsonObject);
             out.close();
 
         } //Termina el out
     }
 
-//    try {
-//                Usuario u2 = new Usuario();
-//                u2.setDNI("77818655H");
-//                u2.setNombre("Pedro");
-//                u2.setApellidos("Morales Romero");
-//                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-//                Date fechaFormateada = null;
-//                
-//                fechaFormateada = formato.parse("12/10/1990");
-//                
-//                u2.setFechaNac(fechaFormateada);
-//                u2.setEmail("pedromoralesromero90@gmail.com");
-//                u2.setPassword("1234");
-//                u2.setAdmin(false);
-//            } catch (ParseException ex) {
-//                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
-//            }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

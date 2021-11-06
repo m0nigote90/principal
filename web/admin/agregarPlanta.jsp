@@ -52,19 +52,15 @@
                         <div class="form-floating mb-3">
                             <input style="height: 50px;" type="text" class="form-control" id="inputReferencia" placeholder="Referencia" required>
                             <label for="inputReferencia" class="text-muted">Referencia (Debe ser única)</label>
-                            <div class="valid-feedback col-10">
-                                Correcto.
-                            </div>
-                            <div class="invalid-feedback col-10">
+
+                            <div id="invalidRef" class="invalid-feedback col-10">
                                 El campo no puede estar vacío.
                             </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input style="height: 50px;" type="text" class="form-control" id="inputNombre" placeholder="Nombre">
                             <label for="inputNombre" class="text-muted">Nombre</label>
-                            <div  class="valid-feedback col-10">
-                                Correcto.
-                            </div>
+
                             <div id="feedbackNombre" class="invalid-feedback col-10">
                                 El campo no puede estar vacío.
                             </div>
@@ -75,34 +71,46 @@
                                 <c:forEach var="pla" items="${tienda.agruparArticulosPorRefTipo('Planta')}">
                                     <option value="${pla.tipo}"><c:out value="${StringUtils.capitalize(pla.tipo)}"/></option>                                    
                                 </c:forEach>
-                                <option value="nuevo">+ Añadir nuevo</option>
+                                <option value="nuevo">+ Añadir tipo nuevo</option>
                             </select>
                             <div class="invalid-feedback col-10">
-                                Error. Debes seleccionar un tipo.
+                                Debes seleccionar un tipo.
                             </div>
-                           
+
                         </div>
-                         <div id="inputTipoNuevo" class="form-floating mb-3 mt-3" style="display: none;">
-                                <input style="height: 50px;" type="text" class="form-control" id="inputTipoPlantaNuevo" placeholder="Tipo nuevo" required>
-                                <label for="inputTipoPlantaNuevo" class="text-muted">Tipo nuevo</label>
-                                <div class="invalid-feedback col-10">
-                                    Error. No puede estar el campo vacío.
-                                </div>
+                        <div id="inputTipoNuevo" class="form-floating mb-3 mt-3" style="display: none;">
+                            <input style="height: 50px;" type="text" class="form-control" id="inputTipoPlantaNuevo" placeholder="Tipo nuevo" required>
+                            <label for="inputTipoPlantaNuevo" class="text-muted">Tipo nuevo</label>
+                            <div class="invalid-feedback col-10">
+                                No puede estar el campo vacío.
                             </div>
+                        </div>
                         <div class="mb-3">
-                            <select style="height: 50px;" class="form-select" aria-label="Seleccione fabricante" id="selectFabricantePlanta">
-                                <option value="0" selected>Seleccione fabricante</option>
+                            <select style="height: 50px;" class="form-select" aria-label="Seleccione distribuidor" id="selectFabricantePlanta">
+                                <option value="0" selected>Seleccione distribuidor</option>
                                 <c:forEach var="pla" items="${tienda.agruparArticulosPorRefTipo('Planta')}">
                                     <option value="${pla.fabricante}"><c:out value="${StringUtils.capitalize(pla.fabricante)}"/></option>                                    
                                 </c:forEach>
-                                <option value="nuevo">+ Añadir nuevo</option>
+                                <option value="nuevo">+ Añadir distribuidor nuevo</option>
                             </select>
-                            <div id="inputFabricanteNuevo" class="form-floating mb-3 mt-3" style="display: none;">
-                                <input style="height: 50px;" type="text" class="form-control" id="inputTipoFabricanteNuevo" placeholder="Fabricante nuevo" required>
-                                <label for="inputTipoFabricanteNuevo" class="text-muted">Fabricante nuevo</label>
+                            <div class="invalid-feedback col-10">
+                                Debes seleccionar uno.
+                            </div>
+                            <div id="inputFabNuevo" class="form-floating mb-3 mt-3" style="display: none;">
+                                <input style="height: 50px;" type="text" class="form-control" id="inputFabricanteNuevo" placeholder="Fabricante nuevo" required>
+                                <label for="inputFabricanteNuevo" class="text-muted">Distribuidor nuevo</label>
+                                <div class="invalid-feedback col-10">
+                                    No puede estar el campo vacío.
+                                </div>
                             </div>
                         </div>
-                        
+                        <div class="form-floating mb-3 mt-3">
+                            <textarea style="height: 100px;" class="form-control" placeholder="Descripción" id="inputDescripcion" maxlength="120"></textarea>
+                            <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">120</i>)</label>
+                            <div class="invalid-feedback col-10">
+                                Escriba alguna descripción.
+                            </div>
+                        </div>
                     </div>
                     <div class="col-1"></div>
                     <div class="col p-2 m-2 shadow-sm border-light rounded-3"> <!-- columna del centro-->
@@ -113,12 +121,18 @@
                                 <option value="10">Reducido (10%)</option>
                                 <option value="21">Normal (21%)</option>
                             </select>
+                            <div class="invalid-feedback col-10">
+                                Seleccione una opción.
+                            </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input style="height: 50px;" type="number" class="form-control" id="inputPrecioSinIVA" placeholder="PrecioSinIVA" required
                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                    step="0.01" min="1" maxlength="9" disabled>
-                            <label for="inputReferencia" class="text-muted">Precio sin IVA  <i class="fad fa-euro-sign"></i></label>
+                            <label for="inputPrecioSinIVA" class="text-muted">Precio sin IVA  <i class="fad fa-euro-sign"></i></label>
+                            <div class="invalid-feedback col-10">
+                                El precio no puede ser 0.
+                            </div>
                         </div>
 
                         <div class="form-floating mb-3">
@@ -126,12 +140,18 @@
                                    value="0.00" disabled>
                             <label for="inputPVP" class="text-muted">PVP  <i class="fad fa-euro-sign"></i></label>
                         </div>
-                        <div class="form-floating mb-3 mt-3">
-                            <textarea style="height: 120px;" class="form-control" placeholder="Descripción" id="inputDescripcion" maxlength="160"></textarea>
-                            <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">160</i>)</label>
+                        <div class="form-floating mb-5">
+                            <!--Controlamos con javascript la que solo permita 3 digitos-->
+                            <input type="number" id="inputUni" class="form-control" 
+                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                   step="1" value="1" min="1" max="99" maxlength="3" />
+                            <label for="inputUni" class="text-muted">Número de unidades</label>
+                            <div class="invalid-feedback col-10">
+                                Las unidades no pueden ser menor que 1.
+                            </div>
                         </div>
-                        <hr class="bg-sucess" style="color: green; height: 4px;">
-                        <div class="row justify-content-center mt-2">
+                        <hr class="bg-sucess my-2" style="color: green; height: 4px;">
+                        <div class="row justify-content-center mt-5">
                             <div class="col">
                                 <a href="gestion.jsp" class="btn btn-outline-dark shadow">Volver</a>
                             </div>
@@ -139,7 +159,7 @@
                                 <button type="reset" class="btn btn-outline-success shadow">Reset</button>
                             </div>
                             <div class="col">
-                                <button id="btnAgregarPlanta" type="submit" class="btn btn-success shadow">Agregar</button>
+                                <button id="btnAgregarPlanta" type="submit" class="btn btn-success shadow w-100">Agregar</button>
                             </div>
                         </div>
                     </div> 

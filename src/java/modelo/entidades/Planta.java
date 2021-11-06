@@ -57,10 +57,20 @@ public class Planta extends Articulo implements Comparable {
         return tipo;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+    public void setPrecioSinIVA(Double precioSin){
+        this.precioSinIVA = precioSin;
+    }
     /**
      * Devuelve el precio sin IVA de la Planta.
      * @return Precio sin IVA.
