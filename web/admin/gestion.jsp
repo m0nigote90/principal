@@ -109,118 +109,118 @@
                         </li>
                     </ul>
                     </header>
-                <!-- Modal Editar Art -->
-        <div class="modal fade" id="modalEditarArticulo" tabindex="-1" aria-labelledby="modalEditarArticulo" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                    <!-- Modal Editar Art -->
+                    <div class="modal fade" id="modalEditarArticulo" tabindex="-1" aria-labelledby="modalEditarArticulo" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border border-success rounded-3">
-                    <div class="modal-header">
-                        <h5 id="modEditTit" class="modal-title" id="exampleModalLabel"></h5><!--Titulo-->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border border-success rounded-3">
+                                <div class="modal-header">
+                                    <h5 id="modEditTit" class="modal-title" id="exampleModalLabel"></h5><!--Titulo-->
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div>
+                                    <div class="modal-body">
+                                        <form class="form needs-validation" novalidate style="font-size: 0.9em;">
+                                            <input id="modEditCat" type="hidden">
+                                            <div class="row">
+                                                <div class="col p-2 m-2 shadow-sm rounded-3"> <!-- primera columna-->
+                                                    <div class="form-floating mb-2">
+                                                        <input id="modEditRef" style="height: 45px;" type="text" class="form-control" placeholder="Referencia" required>
+                                                        <label for="inputReferencia" class="text-muted">Referencia</label>
+
+                                                        <div id="invalidRef" class="invalid-feedback col-10">
+                                                            El campo no puede estar vacío.
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-floating mb-2">
+                                                        <input id="modEditNombre" style="height: 45px;" type="text" class="form-control" placeholder="Nombre">
+                                                        <label for="inputNombre" class="text-muted">Nombre</label>
+
+                                                        <div id="feedbackNombre" class="invalid-feedback col-10">
+                                                            El campo no puede estar vacío.
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-floating mb-2">
+                                                        <input id="modEditTipo" style="height: 45px;" type="text" class="form-control"  placeholder="Tipo" required>
+                                                        <label for="modEditTipo" class="text-muted">Tipo</label>
+
+                                                        <div id="invalidTipo" class="invalid-feedback col-10">
+                                                            El campo no puede estar vacío.
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-floating mb-2">
+                                                        <input id="modEditVol" style="height: 45px;" type="text" class="form-control"  placeholder="VolumenA" required>
+                                                        <label for="modEditVol" class="text-muted">Vol. (ml)</label>
+
+                                                        <div id="invalidTipo" class="invalid-feedback col-10">
+                                                            El campo no puede estar vacío.
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="form-floating mb-2">
+                                                            <input id="modEditFab" style="height: 45px;" type="text" class="form-control"  placeholder="Distribuidor" required>
+                                                            <label for="modEditFab" class="text-muted">Distribuidor</label>
+
+                                                            <div id="invalidTipo" class="invalid-feedback col-10">
+                                                                El campo no puede estar vacío.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-floating mb-3 mt-3">
+                                                        <textarea style="height: 140px;" class="form-control" placeholder="Descripción" id="modEditDes" maxlength="120"></textarea>
+                                                        <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">120</i>)</label>
+                                                        <div class="invalid-feedback col-10">
+                                                            Escriba alguna descripción.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col p-2 m-2 shadow-sm border-light rounded-3"> <!-- columna del centro-->
+                                                    <div class="mb-2">
+                                                        <select style="height: 45px;font-size: 0.9em;" class="form-select" aria-label="Seleccione IVA" id="modEditIVA">
+                                                            <option value="0" selected>Seleccione IVA</option>
+                                                            <option value="4">Super reducido (4%)</option>
+                                                            <option value="10">Reducido (10%)</option>
+                                                            <option value="21">Normal (21%)</option>
+                                                        </select>
+                                                        <div class="invalid-feedback col-10">
+                                                            Seleccione una opción.
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-floating mb-2">
+                                                        <input style="height: 45px;font-size: 0.9em;width: 220px;" type="number" class="form-control" id="modEditPrecioSinIVA" placeholder="PrecioSinIVA" required
+                                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                               step="0.01" min="1" maxlength="9">
+                                                        <label for="inputPrecioSinIVA" class="text-muted">Precio sin IVA  <i class="fad fa-euro-sign"></i></label>
+                                                        <div class="invalid-feedback col-10">
+                                                            El precio no puede ser 0.
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-floating mb-2">
+                                                        <input style="height: 45px;font-size: 0.9em;width: 220px;" type="number" class="form-control" id="modEditPVP" placeholder="PVP" required
+                                                               value="0.00" disabled>
+                                                        <label for="modEditPVP" class="text-muted">PVP  <i class="fad fa-euro-sign"></i></label>
+                                                    </div>
+
+                                                    <hr class="bg-sucess my-2" style="color: green; height: 4px;">
+
+                                                    <div class="row align-items-center">
+                                                        <img id="modEditImg" class="" src="" style="width: 250px;"/>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" name="btnCerrarModalEdit" id="btnCerrarModalEdit" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
+                                        <button name="btnEditarArt" id="btnEditarArt" class="btn btn-success">Editar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="modal-body">
-                <form class="form needs-validation" novalidate style="font-size: 0.9em;">
-                    <input id="modEditCat" type="hidden">
-                <div class="row">
-                    <div class="col p-2 m-2 shadow-sm rounded-3"> <!-- primera columna-->
-                        <div class="form-floating mb-2">
-                            <input id="modEditRef" style="height: 45px;" type="text" class="form-control" placeholder="Referencia" required>
-                            <label for="inputReferencia" class="text-muted">Referencia</label>
-
-                            <div id="invalidRef" class="invalid-feedback col-10">
-                                El campo no puede estar vacío.
-                            </div>
-                        </div>
-                        <div class="form-floating mb-2">
-                            <input id="modEditNombre" style="height: 45px;" type="text" class="form-control" placeholder="Nombre">
-                            <label for="inputNombre" class="text-muted">Nombre</label>
-
-                            <div id="feedbackNombre" class="invalid-feedback col-10">
-                                El campo no puede estar vacío.
-                            </div>
-                        </div>
-                        <div class="form-floating mb-2">
-                            <input id="modEditTipo" style="height: 45px;" type="text" class="form-control"  placeholder="Tipo" required>
-                            <label for="modEditTipo" class="text-muted">Tipo</label>
-
-                            <div id="invalidTipo" class="invalid-feedback col-10">
-                                El campo no puede estar vacío.
-                            </div>
-                        </div>
-                        <div class="form-floating mb-2">
-                            <input id="modEditVol" style="height: 45px;" type="text" class="form-control"  placeholder="VolumenA" required>
-                            <label for="modEditVol" class="text-muted">Vol. (ml)</label>
-
-                            <div id="invalidTipo" class="invalid-feedback col-10">
-                                El campo no puede estar vacío.
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <div class="form-floating mb-2">
-                            <input id="modEditFab" style="height: 45px;" type="text" class="form-control"  placeholder="Distribuidor" required>
-                            <label for="modEditFab" class="text-muted">Distribuidor</label>
-
-                            <div id="invalidTipo" class="invalid-feedback col-10">
-                                El campo no puede estar vacío.
-                            </div>
-                        </div>
-                        </div>
-                        <div class="form-floating mb-3 mt-3">
-                            <textarea style="height: 140px;" class="form-control" placeholder="Descripción" id="modEditDes" maxlength="120"></textarea>
-                            <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">120</i>)</label>
-                            <div class="invalid-feedback col-10">
-                                Escriba alguna descripción.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col p-2 m-2 shadow-sm border-light rounded-3"> <!-- columna del centro-->
-                        <div class="mb-2">
-                            <select style="height: 45px;font-size: 0.9em;" class="form-select" aria-label="Seleccione IVA" id="modEditIVA">
-                                <option value="0" selected>Seleccione IVA</option>
-                                <option value="4">Super reducido (4%)</option>
-                                <option value="10">Reducido (10%)</option>
-                                <option value="21">Normal (21%)</option>
-                            </select>
-                            <div class="invalid-feedback col-10">
-                                Seleccione una opción.
-                            </div>
-                        </div>
-                        <div class="form-floating mb-2">
-                            <input style="height: 45px;font-size: 0.9em;width: 220px;" type="number" class="form-control" id="modEditPrecioSinIVA" placeholder="PrecioSinIVA" required
-                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                   step="0.01" min="1" maxlength="9">
-                            <label for="inputPrecioSinIVA" class="text-muted">Precio sin IVA  <i class="fad fa-euro-sign"></i></label>
-                            <div class="invalid-feedback col-10">
-                                El precio no puede ser 0.
-                            </div>
-                        </div>
-
-                        <div class="form-floating mb-2">
-                            <input style="height: 45px;font-size: 0.9em;width: 220px;" type="number" class="form-control" id="modEditPVP" placeholder="PVP" required
-                                   value="0.00" disabled>
-                            <label for="modEditPVP" class="text-muted">PVP  <i class="fad fa-euro-sign"></i></label>
-                        </div>
-                        
-                        <hr class="bg-sucess my-2" style="color: green; height: 4px;">
-
-                        <div class="row align-items-center">
-                            <img id="modEditImg" class="" src="" style="width: 250px;"/>
-                        </div>
-                    </div> 
-                </div>
-            </form>
-                                 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" name="btnCerrarModalEdit" id="btnCerrarModalEdit" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
-                            <button name="btnEditarArt" id="btnEditarArt" class="btn btn-success">Editar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
                     <div class="tab-content ms-4 me-4" id="myTabContent">
                         <div class="tab-pane fade show active" id="articulos" role="tabpanel" aria-labelledby="articulos-tab">
                             <%--Contenido del panel Artículos--%>
@@ -280,7 +280,7 @@
                                                                 <td class="align-middle m-0 p-0"><img class="m-0 p-0" src="../img/articulos/${ar.nombreImagen}" style="width: 100px;"/></td>
                                                                 <td class="align-middle p-2">${ar.referencia}</td>
                                                                 <td id="campoCategoria" class="align-middle p-2">${ar.categoria}</td>
-                                                                <td class="align-middle p-2">${ar.nombre}</td>
+                                                                <td class="align-middle p-2">${ar.getNombre()}</td>
                                                                 <td class="align-middle p-2">${ar.fabricante}</td>
                                                                 <td class="align-middle p-2"><fmt:formatNumber value = "${ar.precioSinIVA}" type = "currency"/></td>
                                                                 <td class="align-middle p-2"><fmt:formatNumber value = "${ar.precio}" type = "currency"/></td>

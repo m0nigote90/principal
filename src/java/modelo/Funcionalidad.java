@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
@@ -196,7 +197,14 @@ public class Funcionalidad implements Serializable {
                 = (Articulo) em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 LIMIT 1;", Articulo.class).setParameter(1, ref).getSingleResult();
         return resultado;
     }
-
+    public List<Articulo> articulosRef(String ref) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
+                        + "?1", Articulo.class).setParameter(1, ref).getResultList();
+        return resultados;
+    }
+    
     //Devuelve el stockTotal de un articulo en concreto por su referencia
     public Integer stockTotalArticulo(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
@@ -247,17 +255,19 @@ public class Funcionalidad implements Serializable {
     }
 
     //Editamos los articulos que sean de la misma referencia
+    //Un bug de JPA me ha hecho reconstruir el método
     public int editarPlantaRef(String ref, String nombre, String tipo, String fab, String des, Integer iva, Double precioSin) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        String q = "UPDATE articulos SET referencia = '" + ref + "', nombre = '" + nombre + "', tipo = '" + tipo + "', fabricante = '" + fab + "', descripcion = '" + des + "', precioSinIVA = " + precioSin + ", Tipo_IVA = " + iva + " WHERE referencia = '" + ref + "';";
 
-        Query query = em.createNativeQuery("UPDATE articulos SET referencia = ?1, nombre = ?2, tipo = ?3, fabricante = ?4, descripcion = ?5, precioSinIVA = ?6, Tipo_IVA = ?7 WHERE referencia = ?1;")
-                .setParameter(1, ref).setParameter(2, nombre).setParameter(3, tipo).setParameter(4, fab).setParameter(5, des).setParameter(6, precioSin).setParameter(7, iva);
-        System.out.println(query);
-        return query.executeUpdate();
+        EntityTransaction trans = em.getTransaction();
+        trans.begin();
+        int n = em.createNativeQuery(q).executeUpdate();
+   
+        trans.commit();
 
-    }
-
-    ;
+        return n;
+    };
     //Podemos usar compareToIgnoreCase() para obviar coincidencia de mayúsculas
     public List<Usuario> getUsuariosAlfabeticamente() {
         List<Usuario> usuarios = getUsuarios();

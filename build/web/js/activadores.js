@@ -390,7 +390,7 @@ function inicio() {
     //Al pulsar el boton editar de la página de gestión
     $('.btnEditArt').click(function () {
         var ref = $(this).attr('data');
-        alert(ref);
+        //alert(ref);
         //Limpiamos todos los invalid anteriores
         $(":input").each(function () {
             $(this).removeClass('is-invalid');
@@ -462,7 +462,7 @@ function inicio() {
         var precioSin = $('#modEditPrecioSinIVA').val();
         var vol = $('#modEditVol').val();
 
-        alert(ref + " " + categoria + " " + nombre + " " + tipo + " " + fab + " " + des + " " + iva + " " + precioSin + " " + vol);
+        //alert(ref + " " + categoria + " " + nombre + " " + tipo + " " + fab + " " + des + " " + iva + " " + precioSin + " " + vol);
         //hacemos comprobaciones
         if (ref != '') {
             $('#modEditRef').removeClass('is-invalid');
@@ -511,7 +511,7 @@ function inicio() {
         }
 
         if (numVal == 5) {
-            alert("Hacemos llamada de edit");
+            //alert("Hacemos llamada de edit");
             $.ajax({
             url: "EditArticulo",
             dataType: "json",
@@ -543,8 +543,8 @@ function inicio() {
 //                var vol = data.volumen;
                 //todas los datos del artículo
                 if (flag == "true") {
-                    alert("se ha editado bien "+cat+", \nSe han hecho "+n+" modificaciones");
-                    //location.reload();
+                    //alert("se ha editado bien "+cat+".");
+                    location.reload();
                 } else {
 
                 }

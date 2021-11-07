@@ -7,6 +7,9 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -76,10 +79,28 @@ public class EditArticulo extends HttpServlet {
                         Integer ivaR = Integer.valueOf(request.getParameter("iva"));
                         Double precioSinR = Double.valueOf(request.getParameter("precioSin"));
                         //Double volR = Double.valueOf("vol");
-                        int n = tienda.editarPlantaRef(ref, nombreR, tipoR, fabR, desR, ivaR, precioSinR);
+                        //int n = tienda.editarPlantaRef(ref, nombreR, tipoR, fabR, desR, ivaR, precioSinR);
+                        List<Articulo> articulos = tienda.articulosRef(ref);
+                        
+                        for(Articulo a : articulos){
+                            Planta pla = (Planta)a;
+                            pla.setReferencia(ref);
+                            pla.setNombre(nombreR);
+                            pla.setTipo(tipoR);
+                            pla.setFabricante(fabR);
+                            pla.setDescripcion(desR);
+                            pla.setTipoIVA(ivaR);
+                            pla.setPrecioSinIVA(precioSinR);
+                            try {
+                                tienda.actualizarArticulo(pla);
+                            } catch (Exception ex) {
+                                Logger.getLogger(EditArticulo.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                        }
                         jsonObject.put("flag", "true");
                         jsonObject.put("nombre", nombreP);
-                        jsonObject.put("n", n);
+                        //jsonObject.put("n", n);
                     }
                     break;
                 case "abono":
