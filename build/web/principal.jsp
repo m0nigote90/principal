@@ -102,29 +102,31 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div>
-                        <div class="modal-body">
+                        <form>
+                            <div class="modal-body">
 
-                            <div class="mb-3">
-                                <i class="fad fa-at me-2"></i>
-                                <label for="inputEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control bg-light" id="inputEmail"
-                                       name="email" aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <i class="fad fa-unlock-alt me-2"></i>
-                                <label for="inputPassword" class="form-label">Password</label>
-                                <input type="password" class="form-control bg-light" name="password" id="inputPassword">
+                                <div class="mb-3">
+                                    <i class="fad fa-at me-2"></i>
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control bg-light" id="inputEmail"
+                                           name="email" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <i class="fad fa-unlock-alt me-2"></i>
+                                    <label for="inputPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control bg-light" name="password" id="inputPassword">
 
+                                </div>
+                                <div class="">
+                                    <p id="errorLogin" class="text-center mb-0"></p>
+                                    <p id="cuentaAtrasLogin" class="text-center text-muted"></p>
+                                </div>
                             </div>
-                            <div class="">
-                                <p id="errorLogin" class="text-center mb-0"></p>
-                                <p id="cuentaAtrasLogin" class="text-center text-muted"></p>
+                            <div class="modal-footer">
+                                <button type="button" name="btnCerrarLogin" id="btnCerrarLogin" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" name="btnLogin" id="btnLogin" class="btn btn-success">Acceder</button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" name="btnCerrarLogin" id="btnCerrarLogin" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
-                            <button name="btnLogin" id="btnLogin" class="btn btn-success">Acceder</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -253,19 +255,19 @@
                     <h5 class="display-5">Cesta vacía</h5>
                 </c:if>
                 <c:if test="${usuario.articulos.size()!=0 && usuario != null && tienda != null}">
-                <div class="offcanvas-body">
-                    <table class="table text-center table-sm" >
-                        <thead>
-                            <tr>
-                                <th class="align-middle"></th>
-                                <th class="align-middle" >Producto</th>
-                                <th class="align-middle">Precio/U.</th>
-                                <th class="align-middle"></th>
-                                <th class="align-middle">Subtotal</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="offcanvas-body">
+                        <table class="table text-center table-sm" >
+                            <thead>
+                                <tr>
+                                    <th class="align-middle"></th>
+                                    <th class="align-middle" >Producto</th>
+                                    <th class="align-middle">Precio/U.</th>
+                                    <th class="align-middle"></th>
+                                    <th class="align-middle">Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <c:forEach var="articulo" items="${tienda.cestaUsuarioSinRepetidos(usuario.id)}">
                                     <tr class="" style="font-size: 0.9em;">
                                         <td class="align-middle"><img src="img/articulos/${articulo.nombreImagen}" style="width: 50px;"/></td>

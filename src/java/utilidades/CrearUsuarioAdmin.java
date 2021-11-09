@@ -70,15 +70,17 @@ public class CrearUsuarioAdmin extends HttpServlet {
             u2.setAdmin(false);
             
 //                public Planta (Integer numSerie, String referencia, String categoria ("Planta"), String tipo, 
-//            String nombre, String fabricante, String descripcion, Integer tipoIVA (10), , Double precioSinIVA){
-
-            Planta p1 = new Planta ("pla001", "","tropical", "Calathea Ornata", 
-            "Fabricante de prueba", "Una planta tropical muy bonita, con unas hojas aplanadas preciosas", 10, 4.00);
-            Planta p2 = new Planta ("pla001", "","tropical", "Calathea Ornata", 
-            "Fabricante de prueba", "Una planta tropical muy bonita, con unas hojas aplanadas preciosas", 10, 4.00);
-            Planta p3 = new Planta ("pla002", "","suculenta", "Fauces de lobo", "Fabricante de prueba", 
-            "Faucaria tigrina, una suculenta cuyas hojas son en forma de rosetas. Faucaria tigrina también conocida como Faucaria, "
-                    + "Fauces de lobo o Boca de tigre.", 10, 3.20); //160 caracteres
+//            String nombre, String fabricante, String descripcion, Integer tipoIVA (10), , Double precioSinIVA){nta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.:10
+            Planta p1 = new Planta ("pla001", "","tropical", "Calathea Ornata", "Distribuidor 1", 
+            "Planta tropical de hojas muy ornamentales de color verde oscuro con nervios laterales blancos rosado en el haz y purpúreas en el envés.", 10, 4.00);
+            Planta p2 = new Planta ("pla002", "","suculenta", "Senecio Rowleyanus", "Distribuidor 2", 
+            "También conocida como planta rosario, sus hojas son unas pequeñas bolitas carnosas que almacenan gran cantidad de agua.", 10, 3.63);
+            Planta p3 = new Planta ("pla003", "","tropical", "Monstera Deliciosa", "Hojasverdes", 
+            "La costilla de Adán es una planta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.", 10, 5.67); //160 caracteres
+            Planta p4 = new Planta("pla004", "", "suculenta", "Sansevieria", "Hojasverdes", 
+            "También conocida como lengua de suegra, fácil de cultivar y una superviviente nata. Purifica el aire de nuestro hogar.", 10, 5.9);
+            Planta p5 = new Planta("pla005", "", "tropical", "Alocasia Amazonica", "Hojasverdes",
+            "La oreja de elefante, con hojas espectaculares, de un verde oscuro intenso con nervios blancos bien marcados y forma triangular.", 10, 8.60);
             
             
 

@@ -87,12 +87,12 @@ function inicio() {
     });
 
     //Tratamos el textarea
-    var max_chars = 120;
-
-    $('#max').html(max_chars);
+    var max = 140;
+    
+    $('#max').html(max);
     $('#inputDescripcion').keyup(function () {
         var chars = $(this).val().length;
-        var diff = max_chars - chars;
+        var diff = max - chars;
         $('#contador').html(diff);
     });
 

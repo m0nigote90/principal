@@ -109,7 +109,8 @@ function inicio() {
 
 
     //Petición Ajax de login
-    $("#btnLogin").click(function () {
+    $("#btnLogin").click(function (e) {
+        e.preventDefault();
         $.ajax({
             url: "LoginAjax",
             dataType: "json",
@@ -513,43 +514,35 @@ function inicio() {
         if (numVal == 5) {
             //alert("Hacemos llamada de edit");
             $.ajax({
-            url: "EditArticulo",
-            dataType: "json",
-            type: "post",
-            data: {
-                "opc": "edit",
-                "categoria": categoria,
-                "ref": ref,
-                "nombre": nombre,
-                "tipo": tipo,
-                "fab": fab,
-                "des": des,
-                "iva": iva,
-                "precioSin": precioSin,
-                "vol": vol      
-            },
-            success: function (data) {
-                var flag = data.flag;
-                var cat = data.categoria;
-                var n = data.n;
-//                var categoria = data.categoria;
-//                var fab = data.fab;
-//                var nombre = data.nombre;
-//                var tipo = data.tipo;
-//                var des = data.des;
-//                var iva = data.iva;
-//                var precioSin = data.precioSin;
-//                var pvp = data.pvp;
-//                var vol = data.volumen;
-                //todas los datos del artículo
-                if (flag == "true") {
-                    //alert("se ha editado bien "+cat+".");
-                    location.reload();
-                } else {
+                url: "EditArticulo",
+                dataType: "json",
+                type: "post",
+                data: {
+                    "opc": "edit",
+                    "categoria": categoria,
+                    "ref": ref,
+                    "nombre": nombre,
+                    "tipo": tipo,
+                    "fab": fab,
+                    "des": des,
+                    "iva": iva,
+                    "precioSin": precioSin,
+                    "vol": vol
+                },
+                success: function (data) {
+                    var flag = data.flag;
+                    var cat = data.categoria;
+                    var n = data.n;
 
+                    //todas los datos del artículo
+                    if (flag == "true") {
+                        //alert("se ha editado bien "+cat+".");
+                        location.reload();
+                    } else {
+
+                    }
                 }
-            }
-        });
+            });
         }
 
     });
@@ -562,13 +555,50 @@ function inicio() {
     });
 
 
+    $('.btnRmvArt').click(function () {
+        
+        var ref = $(this).attr('data1');
+        var num = $(this).attr('data2');
+        var resultado;
+        if(num == 0){
+            alert('No quedan unidades en stock por eliminar.')
+            return;
+        } else if( num == 1) {
+            resultado = window.confirm('¿Está seguro que desea eliminar la última unidad en stock?');
+        } else {
+            resultado = window.confirm('¿Está seguro que desea eliminar las '+num+' unidades restantes en stock?');
+        }
+        if (resultado === true) {
+            $.ajax({
+                url: "RmvArticulo",
+                dataType: "json",
+                type: "post",
+                data: {
+                    "ref": ref,
+                    "num": num            
+                },
+                success: function (data) {
+                    var flag = data.flag;
+                    var nombre = data.nombre;
+
+                    //todas los datos del artículo
+                    if (flag == "true") {
+                        location.reload();
+                        alert("se ha eliminado bien "+ref+".");
+                        
+                    } else {
+
+                    }
+                }
+            });
+        } else {
+            
+        }
+    });
 
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 }
 
-//function añadirArticulo(id){
-//alert(id);
-// }
 

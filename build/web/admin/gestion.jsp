@@ -280,7 +280,7 @@
                                                                 <td class="align-middle m-0 p-0"><img class="m-0 p-0" src="../img/articulos/${ar.nombreImagen}" style="width: 100px;"/></td>
                                                                 <td class="align-middle p-2">${ar.referencia}</td>
                                                                 <td id="campoCategoria" class="align-middle p-2">${ar.categoria}</td>
-                                                                <td class="align-middle p-2">${ar.getNombre()}</td>
+                                                                <td class="align-middle p-2">${ar.nombre}</td>
                                                                 <td class="align-middle p-2">${ar.fabricante}</td>
                                                                 <td class="align-middle p-2"><fmt:formatNumber value = "${ar.precioSinIVA}" type = "currency"/></td>
                                                                 <td class="align-middle p-2"><fmt:formatNumber value = "${ar.precio}" type = "currency"/></td>
@@ -313,7 +313,7 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="col-6 mx-0 ps-0">
-                                                                                <button id="btnRmvArt" data="${ar.referencia}" type="button" class="btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <button id="" data1="${ar.referencia}" data2="${tienda.stockParcialArticulo(ar.referencia, false)}" type="button" class="btnRmvArt btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                     <i class="fad fa-trash-alt"></i>
                                                                                 </button>
                                                                             </div>
@@ -326,12 +326,8 @@
                                                 </table>
                                                 <div class="row d-flex justify-content-between">
                                                     <div class="col-auto">
-                                                        <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Volver</a>
+                                                        <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x"></i> Volver</a>
                                                     </div>
-                                                    <div class="col-auto">
-                                                        <a href="" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-user-plus fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Nuevo Artículo</a>
-                                                    </div>
-
                                                 </div>
 
                                                 <!--</div>-->
@@ -351,7 +347,7 @@
                                                             <tr><th class="align-middle p-2 sorttable_nosort">Imagen</th>
                                                                 <th class="align-middle p-2">Referencia</th>
                                                                 <th class="align-middle p-2">Nombre</th>
-                                                                <th class="align-middle p-2">Fabricante</th>
+                                                                <th class="align-middle p-2">Distribuidor</th>
                                                                 <th class="align-middle p-2">Precio</th>
                                                                 <th class="align-middle p-2">PVP</th>
                                                                 <th class="align-middle p-2">Total</th>
@@ -394,12 +390,12 @@
                                                                             </div>
                                                                             <div class="row mt-1 mx-0 px-0 mt-2">
                                                                                 <div class="col-6 mx-0 pe-0">
-                                                                                    <button id="" data="${pla.referencia}" type="button" class="btn btn-outline-success pe-2 me-2" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                    <button id="" data="${pla.referencia}" type="button" class="btnEditArt btn btn-outline-success pe-2 me-2" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                         <i class="fad fa-edit"></i>
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="col-6 mx-0 ps-0">
-                                                                                    <button id="btnRmvArt" data="${pla.referencia}" type="button" class="btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                    <button id="" data1="${pla.referencia}" data2="${tienda.stockParcialArticulo(pla.referencia, false)}" type="button" class="btnRmvArt btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                         <i class="fad fa-trash-alt"></i>
                                                                                     </button>
                                                                                 </div>
@@ -412,142 +408,13 @@
                                                     </table>
                                                     <div class="row d-flex justify-content-between">
                                                         <div class="col-auto">
-                                                            <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Volver</a>
+                                                            <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x" ></i> Volver</a>
                                                         </div>
-                                                        <div class="col-auto">
-                                                            <a href="" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-user-plus fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Nuevo planta</a>
-                                                        </div>
-
                                                     </div>
 
                                                     <!--</div>-->
                                                 </div>
                                             </section>
-
-                                            <div class="container-fluid border border-primary " >
-                                                <%--Contenido articulos/planta/agregar--%>
-                                                <!--ESTO VALE<div class="container-fluid border border-danger">
-                                                    <div class="row d-flex justify-content-center justify-content-md-start offset-md-1 my-4">
-                                                        <div class="col">
-                                                            <h1>Agregar nueva planta</h1>
-                                                        </div>
-                                                    </div>
-                                                    <form action="AltaPlanta" method="POST" id="altaPlanta">
-                                                <%--public Planta (String referencia, String categoria, String tipo, String nombre, String fabricante, String descripcion, Integer tipoIVA, Integer stock, Double precioSinIVA){
-                                                        super(referencia, "planta", fabricante, descripcion, 10, stock); --%>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputReferencia" class="form-label">Referencia</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-                                                                <input type="text" class="form-control bg-light shadow" id="inputReferencia"
-                                                                       name="referencia" aria-describedby="referenciaHelp" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputTipo" class="form-label">Tipo</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-    
-                                                                <select name="tipo" class="form-select bg-light shadow" id="inputTipo" form="altaPlanta" aria-describedby="tipoHelp" required>
-                                                                    <option selected value="default">Seleccione tipo</option>
-                                                                    <option value="suculenta">Suculenta</option>
-                                                                    <option value="verde">Planta Verde</option>
-                                                                    <option value="cactus">Cactus</option>
-                                                                    <option value="orquidea">Orquídea</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-3 align-items-center">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputNombre" class="form-label">Nombre</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-                                                                <input type="text" class="form-control bg-light shadow" id="inputNombre"
-                                                                       name="nombre" aria-describedby="nombreHelp" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputFabricante" class="form-label">Fabricante</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-                                                                <input type="text" class="form-control bg-light shadow" id="inputFabricante"
-                                                                       name="fabricante" aria-describedby="fabricanteHelp" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputIVA" class="form-label">IVA</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-    
-                                                                <select name="tipoIVA" class="form-select bg-light shadow" id="inputIVA" form="altaPlanta" aria-describedby="ivaHelp" required>
-                                                                    <option selected>Seleccione IVA</option>
-                                                                    <option value="4">(4%) Super Reducido</option>
-                                                                    <option value="10">(10%) Reducido</option>
-                                                                    <option value="21">(21%) General</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputPrecioSinIVA" class="form-label">Precio sin IVA</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-                                                                <input type="number" step="0.01" class="form-control bg-light shadow mb-3" id="inputPrecioSinIVA"
-                                                                       name="precioSinIVA" aria-describedby="precioSinIVAHelp" required>
-                                                                <input type="number" class="form-control bg-light shadow" id="inputPVP"
-                                                                       name="precioPVP" aria-describedby="precioPVPHelp" disabled>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputStock" class="form-label">Stock</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-                                                                <input type="number" class="form-control bg-light shadow" id="inputStock"
-                                                                       name="stock" aria-describedby="stockHelp" required>
-                                                            </div>
-                                                        </div>
-    
-                                                        <div class="row g-3 align-items-center mb-3">
-                                                            <div class="col-12 col-md-2 mb-0 pb-0">
-                                                                <i class="fad fa-user-tie me-2"></i>
-                                                                <label for="inputDescripcion" class="form-label">Descripción</label>
-                                                            </div>
-                                                            <div class="col-12 col-md-6 mt-0 pt-0">
-                                                                <input type="textArea" class="form-control bg-light shadow" id="inputDescripcion"
-                                                                       name="descripcion" aria-describedby="descripcionHelp" required>
-                                                            </div>
-                                                        </div>
-    
-                                                        <hr class="featurette-divider offset-1 w-75">
-    
-                                                        <hr class="featurette-divider w-100">
-                                                        <div id="footerForm" class="d-flex justify-content-md-center my-5 ">
-                                                            <a href="principal.jsp" class="btn btn-outline-dark active mx-3" role="button"
-                                                               aria-pressed="false">Volver</a>
-                                                            <input class="btn btn-outline-success" type="reset" value="Reiniciar">
-                                                            <button type="submit" class="btn btn-success mx-3 me-5">Agregar</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>-->
-                                            </div>
-
-
                                         </div>
 
                                     </div>
@@ -605,12 +472,12 @@
                                                                         </div>
                                                                         <div class="row mt-1 mx-0 px-0 mt-2">
                                                                             <div class="col-6 mx-0 pe-0">
-                                                                                <button id="" data="${abo.referencia}" type="button" class="btn btn-outline-success pe-2 me-2" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <button id="" data="${abo.referencia}" type="button" class="btnEditArt btn btn-outline-success pe-2 me-2" title="Editar" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                     <i class="fad fa-edit"></i>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="col-6 mx-0 ps-0">
-                                                                                <button id="btnRmvArt" data="${abo.referencia}" type="button" class="btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <button id="btnRmvArt" data1="${abo.referencia}" data2="${tienda.stockParcialArticulo(ar.referencia, false)}" type="button" class="btnRmvArt btn btn-success" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                     <i class="fad fa-trash-alt"></i>
                                                                                 </button>
                                                                             </div>
@@ -623,12 +490,8 @@
                                                 </table>
                                                 <div class="row d-flex justify-content-between">
                                                     <div class="col-auto">
-                                                        <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Volver</a>
+                                                        <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x"></i> Volver</a>
                                                     </div>
-                                                    <div class="col-auto">
-                                                        <a href="" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-user-plus fa-2x" style="text-shadow: 1px 1px 1px black;"></i> Nuevo Abono/Ferti.</a>
-                                                    </div>
-
                                                 </div>
 
                                                 <!--</div>-->
@@ -699,7 +562,7 @@
                                                                 <div class="container p-0">
                                                                     <div class="row px-0 mx-0" >
                                                                         <div class="col-6 mx-0 pe-0" >
-                                                                            <!--Controlamos con javascript la que solo permita 2 digitos-->
+                                                                            
 
                                                                         </div>
                                                                         <div class="col-6 mx-0 ps-0">

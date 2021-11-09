@@ -66,8 +66,8 @@
                         <div class="mb-3">
                             <select style="height: 50px;" class="form-select" aria-label="Seleccione tipo" id="selectTipoPlanta">
                                 <option value="0" selected>Seleccione tipo</option>
-                                <c:forEach var="pla" items="${tienda.agruparArticulosPorRefTipo('Planta')}">
-                                    <option value="${pla.tipo}"><c:out value="${StringUtils.capitalize(pla.tipo)}"/></option>                                    
+                                <c:forEach var="pla" items="${tienda.devuelveTipos('planta')}">
+                                    <option value="${pla.tipo}"><c:out value="${StringUtils.capitalize(pla.tipo)}"/></option>                          
                                 </c:forEach>
                                 <option value="nuevo">+ Añadir tipo nuevo</option>
                             </select>
@@ -86,7 +86,7 @@
                         <div class="mb-3">
                             <select style="height: 50px;" class="form-select" aria-label="Seleccione distribuidor" id="selectFabricantePlanta">
                                 <option value="0" selected>Seleccione distribuidor</option>
-                                <c:forEach var="pla" items="${tienda.agruparArticulosPorRefTipo('Planta')}">
+                                <c:forEach var="pla" items="${tienda.devuelveFabricantes('Planta')}">
                                     <option value="${pla.fabricante}"><c:out value="${StringUtils.capitalize(pla.fabricante)}"/></option>                                    
                                 </c:forEach>
                                 <option value="nuevo">+ Añadir distribuidor nuevo</option>
@@ -103,8 +103,8 @@
                             </div>
                         </div>
                         <div class="form-floating mb-3 mt-3">
-                            <textarea style="height: 100px;" class="form-control" placeholder="Descripción" id="inputDescripcion" maxlength="120"></textarea>
-                            <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">120</i>)</label>
+                            <textarea style="height: 100px;" class="form-control" placeholder="Descripción" id="inputDescripcion" maxlength="140"></textarea>
+                            <label for="inputDescripcion" class="text-muted">Descripción (restante: <i id="contador">140</i>)</label>
                             <div class="invalid-feedback col-10">
                                 Escriba alguna descripción.
                             </div>

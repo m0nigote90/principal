@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -19,6 +21,7 @@ import modelo.dao.ArticuloJpaController;
 import modelo.dao.PedidoJpaController;
 import modelo.dao.PlantaJpaController;
 import modelo.dao.UsuarioJpaController;
+import modelo.dao.exceptions.NonexistentEntityException;
 import modelo.entidades.Abono;
 import modelo.entidades.Articulo;
 import modelo.entidades.Pedido;
@@ -164,14 +167,25 @@ public class Funcionalidad implements Serializable {
 
     //Pasándole el tipo, nos devuelve todos esos articulos agrupados por referencia, para asi mostrar sin repetidos esos articulos de ese tipo
     //nos sirve para las tablas de articulos
-    public List<Articulo> agruparArticulosPorRefTipo(String tipo) {
+    public List<Articulo> agruparArticulosPorRefTipo(String categoria) {
 
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         List<Articulo> resultados
-                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY Referencia;", Articulo.class).setParameter(1, tipo).getResultList();
+                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY Referencia;", Articulo.class).setParameter(1, categoria).getResultList();
         return resultados;
     }
-
+    public List<Articulo> devuelveFabricantes(String tipo){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        List<Articulo> resultados = 
+                em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY fabricante;", Articulo.class).setParameter(1, tipo).getResultList();
+        return resultados;
+    }
+    public List<Articulo> devuelveTipos(String categoria){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        List<Articulo> resultados = 
+                em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY tipo;", Articulo.class).setParameter(1, categoria).getResultList();
+        return resultados;
+    }
     //Filtramos los articulos por referencia haciendo nativeQuery que es mucho más eficiente siempre y cuando no esten vendidos
     public List<Articulo> filtrarArticulosReferencia(String ref) {
 
@@ -321,7 +335,15 @@ public class Funcionalidad implements Serializable {
         ArticuloJpaController ejc = new ArticuloJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         return ejc.findArticulo(id);
     }
-
+    public void removeArticulo(Long id) {
+        try {
+            ArticuloJpaController ejc = new ArticuloJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
+            ejc.destroy(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Funcionalidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public Planta buscarPlanta(Long id) {
         PlantaJpaController ejc = new PlantaJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         return ejc.findPlanta(id);
