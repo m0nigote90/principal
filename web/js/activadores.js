@@ -556,17 +556,17 @@ function inicio() {
 
 
     $('.btnRmvArt').click(function () {
-        
+
         var ref = $(this).attr('data1');
         var num = $(this).attr('data2');
         var resultado;
-        if(num == 0){
+        if (num == 0) {
             alert('No quedan unidades en stock por eliminar.')
             return;
-        } else if( num == 1) {
+        } else if (num == 1) {
             resultado = window.confirm('¿Está seguro que desea eliminar la última unidad en stock?');
         } else {
-            resultado = window.confirm('¿Está seguro que desea eliminar las '+num+' unidades restantes en stock?');
+            resultado = window.confirm('¿Está seguro que desea eliminar las ' + num + ' unidades restantes en stock?');
         }
         if (resultado === true) {
             $.ajax({
@@ -575,7 +575,7 @@ function inicio() {
                 type: "post",
                 data: {
                     "ref": ref,
-                    "num": num            
+                    "num": num
                 },
                 success: function (data) {
                     var flag = data.flag;
@@ -584,16 +584,63 @@ function inicio() {
                     //todas los datos del artículo
                     if (flag == "true") {
                         location.reload();
-                        alert("se ha eliminado bien "+ref+".");
-                        
+                        alert("se ha eliminado bien " + ref + ".");
+
                     } else {
 
                     }
                 }
             });
         } else {
-            
+
         }
+    });
+
+    $('#btnImportar').click(function () {
+
+        var data = new FormData();
+        var filePlantas = $('#inputFilePlantas')[0].files[0];
+        var fileAbonos = $('#inputFileAbonos')[0].files[0];
+        var fileUsuarios = $('#inputFileUsuarios')[0].files[0];
+        data.append('filePlantas', filePlantas);
+        data.append('fileAbonos', fileAbonos);
+        data.append('fileUsuarios', fileUsuarios);
+
+        if (filePlantas != undefined || fileAbonos != undefined || fileUsuarios != undefined) {
+            $.ajax({
+                url: "Importar",
+                data: data,
+                processData: false,
+                type: 'POST',
+                contentType: false,
+                dataType: "json",
+                success: function (data) {
+
+                    var flag = data.flag;
+                    var plantas = data.plantas;
+                    var abonos = data.abonos;
+                    var usuarios = data.usuarios;
+                    //todas los datos del artículo
+                    if (flag == "true") {
+                        if (plantas == "Sí" || abonos == "Sí" || usuarios == "Sí") {
+                            alert("Archivos importados\nPlantas: " + plantas + "\nAbonos: " + abonos + "\nUsuarios: " + usuarios);
+                            location.reload();
+                        } else {
+                            alert("No se ha importado ningun archivo.\nCompruebe que ha seleccionado los archivos correctos.")
+                        }
+
+
+                        //alert(mensaje);
+
+                    } else {
+
+                    }
+                }
+            });
+        } else {
+            alert("No hay ningún archivo seleccionado.")
+        }//aqui acaba AJAX
+
     });
 
     function capitalize(string) {

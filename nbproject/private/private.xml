@@ -4,21 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Articulo.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/activadores.js</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/agregarPlanta.js</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/Importar.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/utilidades/CrearUsuarioAdmin.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Planta.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/Funcionalidad.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/admin/gestion.jsp</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/AltaUsuario.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/EditArticulo.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/principal.jsp</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/validacionRegistro.js</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/AddUnidades.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/activadores.js</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Abono.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/admin/agregarPlanta.jsp</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/AltaPlanta.java</file>
         </group>
     </open-files>
 </project-private>

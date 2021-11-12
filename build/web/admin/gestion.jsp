@@ -107,6 +107,14 @@
                             <button class="nav-link botonesTab" id="pedidos-tab" data-bs-toggle="tab" 
                                     data-bs-target="#pedidos" type="button" role="tab" aria-controls="pedidos" aria-selected="false">Pedidos</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link botonesTab" id="estadisticas-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link botonesTab" id="herramientas-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#herramientas" type="button" role="tab" aria-controls="herramientas" aria-selected="false">Herramientas</button>
+                        </li>
                     </ul>
                     </header>
                     <!-- Modal Editar Art -->
@@ -516,19 +524,31 @@
                             <%--Contenido del panel Usuarios--%>
                             <div class="container-fluid my-3"> 
                                 <section class="wrap">
-                                    <div class="container mb-5">
-                                        <div class="row">
-                                            <h3>Buscar usuario</h3>
-                                            <div class="col">
-                                                <label class="form-label" for="buscarTarjeta">Nombre: </label>
-                                                <input id="filtroTarjeta" type="text" class="form-control" 
-                                                       size="16" maxlength="16"  placeholder="AN XXXXXXXXXX">
-                                            </div>
-                                            <vr class="featurette-divider mt-4">
-                                                <div class="col">
+                                    <div class="container my-4">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="border rounded-3 p-4 shadow-sm col-6 me-5 ms-0">
+                                                <span class="display-6">Buscar usuario</span>
+                                                <%-- <div class="form-floating mb-3">
+                                                     <label class="form-label" for="buscarTarjeta">Nombre: </label>
+                                                     <input id="filtroTarjeta" type="text" class="form-control" 
+                                                            size="16" maxlength="16"  placeholder="AN XXXXXXXXXX">
+                                                 </div>
+
+                                                <div class="form-floating mb-3">
                                                     <label class="form-label" for="buscarNombre">DNI: </label>
                                                     <input type="text" class="form-control" id="filtroNombre" onkeyup="filtrar()">
+                                                </div>--%>
+                                                <div class="form-floating mb-1 mt-3">
+                                                    <input style="height: 50px;" type="text" class="form-control" id="filtroNombre" placeholder="Nombre">
+                                                    <label for="filtroNombre" class="text-muted">Nombre</label>
                                                 </div>
+                                                <hr class="featurette-divider">
+                                                <div class="form-floating">
+                                                    <input style="height: 50px;" type="text" class="form-control" id="filtroNombre" placeholder="DNI">
+                                                    <label for="filtroDNI" class="text-muted" maxlength="9">DNI</label>
+                                                </div>
+                                            </div>
+
                                         </div>   
                                     </div>
                                     <div class="container-fluid">
@@ -562,7 +582,7 @@
                                                                 <div class="container p-0">
                                                                     <div class="row px-0 mx-0" >
                                                                         <div class="col-6 mx-0 pe-0" >
-                                                                            
+
 
                                                                         </div>
                                                                         <div class="col-6 mx-0 ps-0">
@@ -608,6 +628,36 @@
                         <div class="tab-pane fade" id="pedidos" role="tabpanel" aria-labelledby="pedidos-tab">
                             <%--Contenido del panel Pedidos--%>
                             Contenido pedidos
+                        </div>
+                        <div class="tab-pane fade" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
+                            <%--Contenido del panel Estadísticas--%>
+                            Contenido estadísticas
+                        </div>
+                        <div class="tab-pane fade" id="herramientas" role="tabpanel" aria-labelledby="herramientas-tab">
+                            <%--Contenido del panel Herramientas--%>
+                            <div class="border rounded-3 p-4 shadow-sm col-4 my-5 mx-3">
+                                <span class="display-6">Importar</span>
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <div class="my-4">
+                                        <label class="form-label" for="inputFilePlantas">Archivo de plantas:</label>
+                                        <input class="form-control" type="file" accept=".txt" id="inputFilePlantas">
+                                    </div>
+                                    <div class="my-4">
+                                        <label class="form-label" for="inputFileAbonos">Archivo de abonos:</label>
+                                        <input class="form-control" type="file" accept=".txt" id="inputFileAbonos">
+                                    </div>
+                                    <div class="my-4">
+                                        <label class="form-label" for="inputFileUsuarios">Archivo de usuarios:</label>
+                                        <input class="form-control" type="file" accept=".txt" id="inputFileUsuarios">
+                                    </div>
+                                    <hr class="featurette-divider">
+                                    <div class="mt-3">
+                                        <button id="btnImportar" style="height: 50px;" type="submit" 
+                                                class="btn btn-outline-success mx-1 shadow border border-2 border-success w-100 fw-bold fs-5" value="Cargar"><i class="fad fa-file-import fa-2x"></i> Cargar</button>
+                                    </div>
+                                </form>
+
+                            </div>
                         </div>
                     </div>
                 </div>

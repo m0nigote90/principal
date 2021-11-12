@@ -69,7 +69,14 @@ public class Abono extends Articulo implements Comparable {
     public void setVolumen(Double volumen) {
         this.volumen = volumen;
     }
-
+    public void setPrecioSinIVA(Double precioSin){
+        this.precioSinIVA = precioSin;
+    }
+    /**
+     * Devuelve el precio sin IVA de la Planta.
+     * @return Precio sin IVA.
+     */
+    
     @Override
     public String toString(){
         return categoria+": Fabricante: "+fabricante+", Tipo: "+tipo+
