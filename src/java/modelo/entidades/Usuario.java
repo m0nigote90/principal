@@ -62,6 +62,8 @@ public class Usuario implements Serializable {
     @Column(name = "Fecha_Alta")
     @Temporal(value = TemporalType.TIMESTAMP)
     protected Date fechaAlta = new Timestamp(new Date().getTime());
+    @Column(name = "Baja")
+    protected Boolean baja = false;
     @JoinColumn(name = "Pedidos")
     @OneToMany(mappedBy = "usuario", orphanRemoval = false, cascade = CascadeType.MERGE)
     private List<Pedido> pedidos;
@@ -165,11 +167,25 @@ public class Usuario implements Serializable {
     }
 
     public List<Articulo> getArticulos() {
-        return articulos;
+        List<Articulo> lista = new ArrayList<>();
+        for(Articulo a: articulos){
+            if(!a.getBaja()){
+                lista.add(a);
+            }
+        }
+        return lista;
     }
 
     public void setArticulos(List<Articulo> articulos) {
         this.articulos = articulos;
+    }
+
+    public Boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(Boolean baja) {
+        this.baja = baja;
     }
     
     public Integer getEdad(){

@@ -1,0 +1,7 @@
+abo001:Fertilizante Cactus:Compo:Fertilizante líquido mineral con potasio para la retención hídrica para cactus, plantas crasas y suculentas. Muy efectivo.:quimico:500.0:10:5.40
+abo002:Fertilizante Plantas Verdes:Compo:Fertilizante de plantas verdes para plantas de interior, balcón y terraza, con potasio y hierro para que crezcan sanas y fuertes.:quimico:500.0:10:3.50
+abo003:Fertilizante Universal:Compo:Fertilizante de calidad para plantas ornamentales de interior o terraza, con magnesio y microelementos contra enfermedades.:quimico:500.0:10:4.50
+abo004:Fertilizante Natural Guano:Compo:Abono de origen natural que contiene sustancias nutritivas y compuestos orgánicos ideales para plantas de interior y terraza:natural:1000.0:10:5.50
+abo005:Fertilizante Orquídeas:Compo:Fertilizante de fórmula suave para plantas sensibles a la salinidad para orquídeas, hortensias, azaleas, etc. Con guano y extractos.:quimico:500.0:10:4.60
+abo006:Fertilizante Universal:Flower:Fertilizante universal con complejo vitamínico y multinutrientes para un crecimiento sano y vigoroso de sus plantas.:natural:1000.0:10:2.70
+abo007:Fertilizante Cítricos:Flower:Fertilizante para cítricos que mejora su desarollo con hierro y magnesio para una optimo desarrollo, floración y fructificación.:quimico:1000.0:10:7.70

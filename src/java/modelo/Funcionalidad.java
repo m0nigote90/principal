@@ -38,29 +38,42 @@ public class Funcionalidad implements Serializable {
     public static final String PERSISTENCIA = "Proyecto_FINALPU";
 
     //Obtener listas
+    //Modificamos los métodos para traernos los elementos que no estén de baja
     public List<Usuario> getUsuarios() {
-        UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
-        return ujc.findUsuarioEntities();
+//      UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE baja = false;", Usuario.class);
+
+        return query.getResultList();
+//        return ujc.findUsuarioEntities();
     }
 
     public List<Articulo> getArticulos() {
-        ArticuloJpaController ajc = new ArticuloJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
-        return ajc.findArticuloEntities();
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false;", Articulo.class);
+
+        return query.getResultList();
     }
 
     public List<Planta> getPlantas() {
-        PlantaJpaController pjc = new PlantaJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
-        return pjc.findPlantaEntities();
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'Planta' AND baja = false;", Planta.class);
+
+        return query.getResultList();
     }
 
     public List<Abono> getAbonos() {
-        AbonoJpaController ajc = new AbonoJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
-        return ajc.findAbonoEntities();
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'Abono' AND baja = false;", Abono.class);
+
+        return query.getResultList();
     }
 
     public List<Pedido> getPedidos() {
-        PedidoJpaController pjc = new PedidoJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
-        return pjc.findPedidoEntities();
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM pedidos WHERE baja = false;", Pedido.class);
+
+        return query.getResultList();
     }
 
     //Filtros
@@ -112,7 +125,7 @@ public class Funcionalidad implements Serializable {
     public boolean existeUsuarioDNI(String dni) {
         boolean existe = false;
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE dni = ?1;", Usuario.class).setParameter(1, dni);
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE dni = ?1 AND baja = false;", Usuario.class).setParameter(1, dni);
 
         try {
             List<Usuario> usuarios = query.getResultList();
@@ -127,7 +140,7 @@ public class Funcionalidad implements Serializable {
     public boolean existeUsuarioEmail(String email) {
         boolean existe = false;
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE email = ?1;", Usuario.class).setParameter(1, email);
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE email = ?1 AND baja = false;", Usuario.class).setParameter(1, email);
 
         try {
             List<Usuario> usuarios = query.getResultList();
@@ -142,7 +155,7 @@ public class Funcionalidad implements Serializable {
     public boolean existePlantaRef(String ref) {
         boolean existe = false;
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1;", Articulo.class).setParameter(1, ref);
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 AND baja = false;", Articulo.class).setParameter(1, ref);
 
         try {
             List<Articulo> articulos = query.getResultList();
@@ -161,7 +174,7 @@ public class Funcionalidad implements Serializable {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
 
         List<Articulo> resultados
-                = em.createNativeQuery("SELECT * FROM articulos GROUP BY Referencia;", Articulo.class).getResultList();
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia;", Articulo.class).getResultList();
         return resultados;
     }
 
@@ -171,31 +184,35 @@ public class Funcionalidad implements Serializable {
 
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         List<Articulo> resultados
-                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY Referencia;", Articulo.class).setParameter(1, categoria).getResultList();
+                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 AND baja = false GROUP BY Referencia;", Articulo.class).setParameter(1, categoria).getResultList();
         return resultados;
     }
-    public List<Articulo> devuelveFabricantes(String tipo){
+
+    public List<Articulo> devuelveFabricantes(String tipo) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        List<Articulo> resultados = 
-                em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY fabricante;", Articulo.class).setParameter(1, tipo).getResultList();
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 AND baja = false GROUP BY fabricante;", Articulo.class).setParameter(1, tipo).getResultList();
         return resultados;
     }
-    public List<Articulo> devuelveTipos(String categoria){
+
+    public List<Articulo> devuelveTipos(String categoria) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        List<Articulo> resultados = 
-                em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 GROUP BY tipo;", Articulo.class).setParameter(1, categoria).getResultList();
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = ?1 AND baja = false GROUP BY tipo;", Articulo.class).setParameter(1, categoria).getResultList();
         return resultados;
     }
+
     //Filtramos los articulos por referencia haciendo nativeQuery que es mucho más eficiente siempre y cuando no esten vendidos
     public List<Articulo> filtrarArticulosReferencia(String ref) {
 
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         List<Articulo> resultados
-                = em.createNativeQuery("SELECT * FROM articulos WHERE vendido = false AND Referencia = "
+                = em.createNativeQuery("SELECT * FROM articulos WHERE vendido = false and baja = false AND Referencia = "
                         + "?1", Articulo.class).setParameter(1, ref).getResultList();
         return resultados;
     }
 
+    //dudo si controlar los vendidos como baja = false;
     public List<Articulo> filtrarArticulosReferenciaVendidos(String ref) {
 
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
@@ -208,30 +225,31 @@ public class Funcionalidad implements Serializable {
     public Articulo devolverArtPorRef(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Articulo resultado
-                = (Articulo) em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 LIMIT 1;", Articulo.class).setParameter(1, ref).getSingleResult();
+                = (Articulo) em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = ?1 AND baja = false LIMIT 1;", Articulo.class).setParameter(1, ref).getSingleResult();
         return resultado;
     }
+
     public List<Articulo> articulosRef(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         List<Articulo> resultados
                 = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
-                        + "?1", Articulo.class).setParameter(1, ref).getResultList();
+                        + "?1 AND baja = false;", Articulo.class).setParameter(1, ref).getResultList();
         return resultados;
     }
-    
+
     //Devuelve el stockTotal de un articulo en concreto por su referencia
     public Integer stockTotalArticulo(String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         List<Articulo> resultados
                 = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
-                        + "?1", Articulo.class).setParameter(1, ref).getResultList();
+                        + "?1 AND baja = false;", Articulo.class).setParameter(1, ref).getResultList();
         return resultados.size();
     }
 
     public Integer stockParcialArticulo(String ref, Boolean vendido) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE Referencia = "
-                + "?1 AND Vendido = ?2", Articulo.class).setParameter(1, ref).setParameter(2, vendido);
+                + "?1 AND Vendido = ?2 AND baja = false;", Articulo.class).setParameter(1, ref).setParameter(2, vendido);
         List<Articulo> resultados = query.getResultList();
 
         return resultados.size();
@@ -240,7 +258,7 @@ public class Funcionalidad implements Serializable {
     //Aqui manejamos las funciones para la cesta de articulos
     public List<Articulo> cestaUsuarioSinRepetidos(Integer id) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) GROUP BY Referencia;", Articulo.class).setParameter(1, id);
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND baja = false GROUP BY Referencia;", Articulo.class).setParameter(1, id);
         List<Articulo> resultados = query.getResultList();
         return resultados;
     }
@@ -248,7 +266,7 @@ public class Funcionalidad implements Serializable {
     //Cuantas unidades compradas de un mismo articulo
     public Integer unidadesCompradas(Integer id, String ref) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND Referencia = ?2;", Articulo.class).setParameter(1, id).setParameter(2, ref);
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND Referencia = ?2 AND baja = false;", Articulo.class).setParameter(1, id).setParameter(2, ref);
         List<Articulo> resultados = query.getResultList();
         return resultados.size();
     }
@@ -270,6 +288,7 @@ public class Funcionalidad implements Serializable {
 
     //Editamos los articulos que sean de la misma referencia
     //Un bug de JPA me ha hecho reconstruir el método
+    //Ya no uso esto
     public int editarPlantaRef(String ref, String nombre, String tipo, String fab, String des, Integer iva, Double precioSin) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         String q = "UPDATE articulos SET referencia = '" + ref + "', nombre = '" + nombre + "', tipo = '" + tipo + "', fabricante = '" + fab + "', descripcion = '" + des + "', precioSinIVA = " + precioSin + ", Tipo_IVA = " + iva + " WHERE referencia = '" + ref + "';";
@@ -277,11 +296,13 @@ public class Funcionalidad implements Serializable {
         EntityTransaction trans = em.getTransaction();
         trans.begin();
         int n = em.createNativeQuery(q).executeUpdate();
-   
+
         trans.commit();
 
         return n;
-    };
+    }
+
+    ;
     //Podemos usar compareToIgnoreCase() para obviar coincidencia de mayúsculas
     public List<Usuario> getUsuariosAlfabeticamente() {
         List<Usuario> usuarios = getUsuarios();
@@ -335,6 +356,7 @@ public class Funcionalidad implements Serializable {
         ArticuloJpaController ejc = new ArticuloJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         return ejc.findArticulo(id);
     }
+
     public void removeArticulo(Long id) {
         try {
             ArticuloJpaController ejc = new ArticuloJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
@@ -343,7 +365,7 @@ public class Funcionalidad implements Serializable {
             Logger.getLogger(Funcionalidad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Planta buscarPlanta(Long id) {
         PlantaJpaController ejc = new PlantaJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         return ejc.findPlanta(id);
@@ -380,11 +402,15 @@ public class Funcionalidad implements Serializable {
         Double total = 0.;
         if (!IVA) {
             for (Articulo a : lista) {
-                total += a.getPrecioSinIVA();
+                if (!a.getBaja()) {
+                    total += a.getPrecioSinIVA();
+                }
             }
         } else {
             for (Articulo a : lista) {
-                total += a.getPrecio();
+                if (!a.getBaja()) {
+                    total += a.getPrecio();
+                }
             }
         }
         return total;

@@ -3,12 +3,17 @@
     Created on : 03-oct-2021, 15:06:57
     Author     : Pedro
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%--<c:set var="varLocale" value="${pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${varLocale}" scope="application"/>--%>
+<fmt:setBundle basename="idioma" var="lang" scope="application"/>
+<fmt:requestEncoding value="ISO-8859-1" /> 
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--<link 
@@ -53,7 +58,7 @@
                             <img src="img/logoLtrans.png" alt="logoEmpresa"width="100">
                         </div>
                         <div class="col-8 text-center">
-                            <p class="display-4">Registro</p>
+                            <p class="display-4"><fmt:message key="registro.titulo" bundle="${lang}"/></p>
                         </div>
                         <div class="col-1 ms-5">
                             <a href="principal.jsp"><i style="text-shadow: 2px 2px 1px grey;" class="fad fa-house-return fa-2x"></i></a>
@@ -68,12 +73,12 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="text" class="form-control" id="inputNombre" placeholder="Nombre" required>
-                                    <label for="inputNombre" class="text-muted">Nombre</label>
+                                    <label for="inputNombre" class="text-muted"><fmt:message key="registro.nombre" bundle="${lang}"/></label>
                                     <div class="valid-feedback col-10">
-                                        Nombre correcto.
+                                        <fmt:message key="registro.nomVal" bundle="${lang}"/>
                                     </div>
                                     <div class="invalid-feedback col-10">
-                                        El nombre debe comenzar por mayúsculas y no se permiten caracteres especiales ni números.
+                                        <fmt:message key="registro.nomInval" bundle="${lang}"/>
                                     </div>
                                 </div>
                             </div>
@@ -85,12 +90,12 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="text" class="form-control" id="inputApellidos" placeholder="Apellidos" required>
-                                    <label for="inputApellidos" class="text-muted">Apellidos</label>
+                                    <label for="inputApellidos" class="text-muted"><fmt:message key="registro.apellidos" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
-                                        Apellidos correctos.
+                                        <fmt:message key="registro.apeVal" bundle="${lang}"/>
                                     </div>
                                     <div class="invalid-feedback">
-                                        Los apellidos deben comenzar por mayúsculas y no se permiten caracteres especiales ni números.
+                                        <fmt:message key="registro.apeInval" bundle="${lang}"/>
                                     </div>
                                 </div>
                             </div>
@@ -102,12 +107,12 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="date" class="form-control" id="inputFechaNac" placeholder="Fecha Nacimiento" required>
-                                    <label for="inputFechaNac" class="text-muted">Fecha Nacimiento</label>
+                                    <label for="inputFechaNac" class="text-muted"><fmt:message key="registro.fecha" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
-                                        Fecha correcta.
+                                        <fmt:message key="registro.fecVal" bundle="${lang}"/>
                                     </div>
                                     <div class="invalid-feedback">
-                                        La fecha mínima es 01/01/1900 y se debe tener al menos 16 años para registrarse.
+                                        <fmt:message key="registro.fecInval" bundle="${lang}"/>
                                     </div>
                                 </div>
                             </div>
@@ -119,13 +124,13 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="text" class="form-control" id="inputDNI" placeholder="DNI/NIF" maxlength="9" required>
-                                    <label for="inputDNI" class="text-muted">DNI/NIF</label>
-                                    <div class="valid-feedback">
-                                        DNI correcto.
-                                    </div>
-                                    <div id="invalidDNI" class="invalid-feedback">
-                                        Debe introducir un DNI válido en formato 12345678X.
-                                    </div>
+                                    <label for="inputDNI" class="text-muted"><fmt:message key="registro.DNI" bundle="${lang}"/></label>
+                                        <div class="valid-feedback">
+                                            <fmt:message key="registro.DNIVal" bundle="${lang}"/>
+                                        </div>
+                                        <div id="invalidDNI" class="invalid-feedback">
+                                            <fmt:message key="registro.DNIInval" bundle="${lang}"/>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -136,12 +141,12 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
-                                    <label for="inputEmail" class="text-muted">Email</label>
+                                    <label for="inputEmail" class="text-muted"><fmt:message key="registro.correo" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
-                                        Email válido.
+                                        <fmt:message key="registro.corrVal" bundle="${lang}"/>
                                     </div>
                                     <div id="invalidEmail" class="invalid-feedback">
-                                        Introduce un email válido, "nombre@ejemplo.com".
+                                        <fmt:message key="registro.corrInval" bundle="${lang}"/>
                                     </div>
                                 </div>
                             </div>
@@ -153,13 +158,13 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
-                                    <label for="inputPassword" class="text-muted">Contraseña</label>
+                                    <label for="inputPassword" class="text-muted"><fmt:message key="registro.contra" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
-                                        Contraseña válida.
+                                        <fmt:message key="registro.conVal" bundle="${lang}"/>
                                     </div>
                                     <div class="invalid-feedback">
                                         <!--Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character-->
-                                        Mínimo 8 caracteres, contener mayúsculas, minúsculas y números y puede tener caracteres especiales.
+                                        <fmt:message key="registro.conInval" bundle="${lang}"/>
                                     </div>
                                 </div>
                             </div>
@@ -171,12 +176,12 @@
                             <div class="col-10">
                                 <div class="form-floating mb-3">
                                     <input style="height: 50px;" type="password" class="form-control" id="inputPassword2" placeholder="Password" required>
-                                    <label for="inputPassword2" class="text-muted">Repite contraseña</label>
+                                    <label for="inputPassword2" class="text-muted"><fmt:message key="registro.contra2" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
-                                        Coinciden.
+                                        <fmt:message key="registro.con2Val" bundle="${lang}"/>
                                     </div>
                                     <div class="invalid-feedback">
-                                        Las contraseñas deben coincidir.
+                                        <fmt:message key="registro.con2Inval" bundle="${lang}"/>
                                     </div>
                                 </div>
                             </div>
@@ -185,20 +190,20 @@
                             <div class="col-8 offset-2">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="checkAcepto" required>
-                                    <label class="form-check-label" for="checkAceptoTerminos">Acepto los términos y condiciones</label>
+                                    <label class="form-check-label" for="checkAceptoTerminos"><fmt:message key="registro.terminos" bundle="${lang}"/></label>
                                 </div>
                             </div>
                         </div>
                         <hr class="bg-sucess" style="color: green; height: 4px;">
                         <div class="row justify-content-center offset-1">
                             <div class="col">
-                                <a href="principal.jsp" class="btn btn-outline-dark shadow">Volver</a>
+                                <a href="principal.jsp" class="btn btn-outline-dark shadow"><fmt:message key="btn.volver" bundle="${lang}"/></a>
                             </div>
                             <div class="col">
-                                <button type="reset" class="btn btn-outline-success">Reset</button>
+                                <button type="reset" class="btn btn-outline-success"><fmt:message key="btn.reiniciar" bundle="${lang}"/></button>
                             </div>
                             <div class="col">
-                                <button id="btnRegistro" type="submit" class="btn btn-success">Registro</button>
+                                <button id="btnRegistro" type="submit" class="btn btn-success"><fmt:message key="registro.btn" bundle="${lang}"/></button>
                             </div>
                         </div>
                     </form>

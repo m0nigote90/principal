@@ -12,17 +12,20 @@
 <%@page import="modelo.dao.ArticuloJpaController"%>
 <%@page import="javax.persistence.Persistence"%>
 <%@page import="modelo.dao.PlantaJpaController"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-15"%>
 
-<%--Si objeto tienda est√° vac√≠o, llamamos al Servlet que lo genera, igualmente si ya est√° creado, cargamos usuarios y art√≠culos--%>
+<%--Si objeto tienda est· vacÌo, llamamos al Servlet que lo genera, igualmente si ya est· creado, cargamos usuarios y artÌculos--%>
 
 <c:if test="${empty tienda}">
     <c:redirect url="Arranque"/>
 </c:if>
+
 <!-- Color verde oscuro style='color: #005235;-->
 <!DOCTYPE html>
+
+
 <html>
 
     <head>
@@ -42,7 +45,7 @@
         <link rel="icon" type="image/png" href="img/icono.png">
         <title>Eleplant</title>
         <style>
-            /* Necesito modificarle el z-index porque el fade-modal quedaba por detr√°s de la cabecera con .sticky */
+            /* Necesito modificarle el z-index porque el fade-modal quedaba por detr·s de la cabecera con .sticky */
             #cabecera {
                 z-index: 1050;
             }
@@ -79,19 +82,21 @@
                 vertical-align: baseline;
             }
         </style>
-        <!-- Recogemos y definimos la variable locale del navegador del usuario -->
-        <c:set var="varLocale" value="${pageContext.request.locale}" scope="session" />
-        <fmt:setLocale value="${varLocale}" scope="application"/>
-        <%--Si hay un registro nuevo, mostrarmos el alert y ponemos a false la variable para que no se repita--%>
-        <c:if test="${registroNuevo}">
-            <script>
-                alert("Registro nuevo usuario/a");
-            </script>
-            <c:set var="registroNuevo" value="false" scope="application"/>
+        <!-- Recogemos y definimos la variable locale del navegador del usuario por defecto, si escoge otro idioma, cargamos ese locale -->
+        <c:if test="${param.locale!=null}">
+            <fmt:setLocale value="${param.locale}" scope="application" />
+            <input id="localeActual" type="hidden" value="${param.locale}">
         </c:if>
+        <c:if test="${param.locale==null}">
+            <c:set var="varLocale" value="${pageContext.request.locale}" scope="session" />
+            <fmt:setLocale value="${varLocale}" scope="application"/>
+            <input id="localeActual" type="hidden" value="${varLocale}">
+        </c:if>
+        <fmt:setBundle basename="idioma" var="lang" scope="application"/>
+        <fmt:requestEncoding value="ISO-8859-1" />
     </head>
     <body ondragstart="return false">
-        <!-- Con Bootstrap 5.1.3 debemos colocar los modales en lo m√°s alto del body para que funcionen sin interferencias con otros elementos -->
+        <!-- Con Bootstrap 5.1.3 debemos colocar los modales en lo m·s alto del body para que funcionen sin interferencias con otros elementos -->
         <!-- Modal Login -->
         <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 
@@ -107,13 +112,13 @@
 
                                 <div class="mb-3">
                                     <i class="fad fa-at me-2"></i>
-                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <label for="inputEmail" class="form-label"><fmt:message key="login.correo" bundle="${lang}"/></label>
                                     <input type="email" class="form-control bg-light" id="inputEmail"
                                            name="email" aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-3">
                                     <i class="fad fa-unlock-alt me-2"></i>
-                                    <label for="inputPassword" class="form-label">Password</label>
+                                    <label for="inputPassword" class="form-label"><fmt:message key="login.password" bundle="${lang}"/></label>
                                     <input type="password" class="form-control bg-light" name="password" id="inputPassword">
 
                                 </div>
@@ -123,8 +128,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" name="btnCerrarLogin" id="btnCerrarLogin" class="btn btn-outline-dark" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" name="btnLogin" id="btnLogin" class="btn btn-success">Acceder</button>
+                                <button type="button" name="btnCerrarLogin" id="btnCerrarLogin" class="btn btn-outline-dark" data-bs-dismiss="modal"><fmt:message key="cerrar" bundle="${lang}"/></button>
+                                <button type="submit" name="btnLogin" id="btnLogin" class="btn btn-success"><fmt:message key="acceder" bundle="${lang}"/></button>
                             </div>
                         </form>
                     </div>
@@ -134,7 +139,6 @@
 
 
         <header class="sticky-top shadow-lg cabecera" id="cabecera">
-
             <nav class="navbar navbar-expand-lg navbar-light bg-light fs-6">
                 <div class="container-fluid ms-4 align-items-end" style="position: relative;">
                     <a class="navbar-brand" href="principal.jsp"><img src="img/logoLtrans.png" alt="logoEmpresa"
@@ -145,29 +149,29 @@
                         <!-- <span class="navbar-toggler-icon"></span> -->
                         <i class="fad fa-home-lg fa-2x" style='color: #005235;'></i>
                     </button>
-                    <!-- El justify-content-between nos separa el formulario de b√∫squeda a la derecha de lo dem√°s -->
+                    <!-- El justify-content-between nos separa el formulario de b˙squeda a la derecha de lo dem·s -->
                     <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
                         <ul class="nav navbar-nav">
                             <c:if test="${empty usuario}">
                                 <li>
                                     <!-- visually-hidden (BootStrap 5.0) es el antiguo sr-only para lectores de pantalla 
-                                    Tambi√©n agregamos el nav-item y nav-link para que se vean bien-->
+                                    TambiÈn agregamos el nav-item y nav-link para que se vean bien-->
                                     <a class="nav-item nav-link" href="#" data-bs-toggle="modal"
-                                       data-bs-target="#modalLogin" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-sign-in-alt"></i> Acceder<span class="visually-hidden">(Acceder)</span></a>
+                                       data-bs-target="#modalLogin" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-sign-in-alt"></i> <fmt:message key="acceder" bundle="${lang}"/><span class="visually-hidden">(Acceder)</span></a>
                                 </li>
                                 <li>
-                                    <a class="nav-item nav-link" href="registro.jsp" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-clipboard-list-check"></i> Reg√≠strate</a>
+                                    <a class="nav-item nav-link" href="registro.jsp" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-clipboard-list-check"></i> <fmt:message key="registro" bundle="${lang}"/></a>
                                 </li>
                             </c:if>
                             <c:if test="${not empty usuario}">
                                 <c:if test="${usuario.esAdmin()}">
                                     <li class="dropdown">
                                         <a href="" class="dropdown-toggle nav-item nav-link fw-bold" data-bs-toggle="dropdown"
-                                           role="button" aria-expanded="false" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-users-cog"></i> Administrador</a>
+                                           role="button" aria-expanded="false" style="color: #005235;"><i style="font-size: 1.5em;" class="fad fa-users-cog"></i> <fmt:message key="admin" bundle="${lang}"/></a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a href="admin/gestion.jsp" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> Gesti√≥n Tienda
+                                            <li><a href="admin/gestion.jsp" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> <fmt:message key="gestionTienda" bundle="${lang}"/>
                                                 </a></li>
-                                            <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> Cerrar sesi√≥n</a>
+                                            <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> <fmt:message key="cerrarSesion" bundle="${lang}"/></a>
                                             </li>
                                         </ul>
                                     </li>
@@ -180,44 +184,52 @@
                                             <c:out value="${usuario.nombre}"></c:out> <c:out value="${usuario.apellidos.charAt(0)}"></c:out>.
                                             </a>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> Configuraci√≥n
-                                                    </a></li>
-                                                <li><a href="#" class="dropdown-item"><i class="fad fa-user me-2"></i> Editar perfil</a></li>
-                                                <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> Cerrar sesi√≥n</a>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                                    <li><a href="#" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> <fmt:message key="configuracion" bundle="${lang}"/>
+                                                </a></li>
+                                            <li><a href="#" class="dropdown-item"><i class="fad fa-user me-2"></i> <fmt:message key="editarPerfil" bundle="${lang}"/></a></li>
+                                            <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> <fmt:message key="cerrarSesion" bundle="${lang}"/></a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </c:if>
                             </c:if>
                             <!-- Probamos el dropdown-toggle -->
                             <li class="dropdown">
                                 <a href="#" class="nav item nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                   role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 1.2em; font-weight: 500;color: #005235;"><i style="font-size: 1.5em;" class="fad fa-store-alt"></i> Tienda</a>
+                                   role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 1.2em; font-weight: 500;color: #005235;"><i style="font-size: 1.5em;" class="fad fa-store-alt"></i> <fmt:message key="tienda" bundle="${lang}"/></a>
                                 <ul class="dropdown-menu">
-                                    <!-- Imprescindible agregar dropdown-item para correcta visualizaci√≥n -->
-                                    <li><a class="dropdown-item" href="#" id="btnTodos"><i class="fad fa-globe me-2"></i>  Todos</a></li>
-                                    <li><a class="dropdown-item" href="#" id="btnPlantas"><i class="fad fa-flower-daffodil me-2"></i>  Plantas</a></li>
-                                    <li><a class="dropdown-item" href="#" id="btnAbonos"><i class="fad fa-jug me-2"></i>  Abonos</a></li>
-                                    <li><a class="dropdown-item" href="#" id="btnMacetas"><i class="fad fa-chimney me-2"></i>  Macetas</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fad fa-bug me-2"></i> Insecticidas</a></li>
+                                    <!-- Imprescindible agregar dropdown-item para correcta visualizaciÛn -->
+                                    <li><a class="dropdown-item" href="#" id="btnTodos"><i class="fad fa-globe me-2"></i>  <fmt:message key="todos" bundle="${lang}"/></a></li>
+                                    <li><a class="dropdown-item" href="#" id="btnPlantas"><i class="fad fa-flower-daffodil me-2"></i>  <fmt:message key="plantas" bundle="${lang}"/></a></li>
+                                    <li><a class="dropdown-item" href="#" id="btnAbonos"><i class="fad fa-jug me-2"></i>  <fmt:message key="abonos" bundle="${lang}"/></a></li>
+                                    <li><a class="dropdown-item" href="#" id="btnMacetas"><i class="fad fa-chimney me-2"></i>  <fmt:message key="macetas" bundle="${lang}"/></a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fad fa-bug me-2"></i> <fmt:message key="insecticidas" bundle="${lang}"/></a></li>
                                 </ul>
                             </li>
+                            <%-- Esto es una lista de Prueba, BORRAR
                             <li>
                                 <a>Locale: <c:out value="${varLocale}"/></a>
                                 <a>Languaje: <c:out value="${varLocale.language}"/></a>
-                                <a>Pa√≠s: <c:out value="${varLocale.country}"/></a>
-                                <a>Display Pa√≠s: <c:out value="${varLocale.displayCountry}"/></a>
+                                <a>PaÌs: <c:out value="${varLocale.country}"/></a>
+                                <a>Display PaÌs: <c:out value="${varLocale.displayCountry}"/></a>
                                 <a>Num. Pedidos del usuario: <c:out value="${usuario.nombre}"/>: <c:out value="${usuario.pedidos.size()}"/></a>
                             </li>
+                            --%>
                         </ul>
                         <!--Botones derecha cabecera-->
 
 
                         <div class="d-flex">
-                            <img id="btnES" class="mx-2" src="img/iconoES.png" alt="Icono ES" width="35" height="20" style="cursor: pointer;">
-                            <img id="btnES" class="me-4" src="img/iconoEN.png" alt="Icono EN" width="35" height="20" style="cursor: pointer;">
-
-                            <input class="form-control me-2 fs-ls-5" type="search" placeholder="Buscar" aria-label="Search">
+                            
+                            <!--Botones de idiomas -->
+                            
+                            <a id="btnENG" href="principal.jsp?locale=en_GB" title="<fmt:message key="tooltip.ingles" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                <img id="iconoEN" class="" src="img/iconoEN.png" alt="Icono EN" width="35" height="20" style="cursor: pointer;">
+                            </a>
+                            <a id="btnESP" href="principal.jsp?locale=es_ES" class="me-4 ms-2" title="<fmt:message key="tooltip.espanol" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                <img id="iconoES" class="" src="img/iconoES.png" alt="Icono ES" width="35" height="20" style="cursor: pointer;">
+                            </a>
+                            <input class="form-control me-2 fs-ls-5" type="search" placeholder="<fmt:message key="buscar" bundle="${lang}"/>" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit"><i class="fad fa-search"></i></button>
                                 <c:if test="${!empty usuario and !usuario.esAdmin()}">
 
@@ -248,11 +260,11 @@
             <!-- Offcanvas derecho para la CESTA-->
             <div class="offcanvas offcanvas-end" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasCesta" aria-labelledby="offcanvasCestaLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasCestaLabel">Cesta</h5>
+                    <h5 class="offcanvas-title" id="offcanvasCestaLabel"><fmt:message key="cesta" bundle="${lang}"/></h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <c:if test="${usuario.articulos.size()==0 or usuario ==  null}">
-                    <h5 class="display-5">Cesta vac√≠a</h5>
+                    <h5 class="display-5">Cesta vacÌa</h5>
                 </c:if>
                 <c:if test="${usuario.articulos.size()!=0 && usuario != null && tienda != null}">
                     <div class="offcanvas-body">
@@ -260,10 +272,10 @@
                             <thead>
                                 <tr>
                                     <th class="align-middle"></th>
-                                    <th class="align-middle" >Producto</th>
-                                    <th class="align-middle">Precio/U.</th>
+                                    <th class="align-middle" ><fmt:message key="producto" bundle="${lang}"/></th>
+                                    <th class="align-middle"><fmt:message key="precio" bundle="${lang}"/>/U.</th>
                                     <th class="align-middle"></th>
-                                    <th class="align-middle">Subtotal</th>
+                                    <th class="align-middle"><fmt:message key="subtotal" bundle="${lang}"/></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -288,16 +300,16 @@
                         <div class="container">
                             <div class="row justify-content-md-center">
                                 <table class="table table-bordered table-striped">
-                                    <tr><td><b style="color: #C88307;">Subtotal:</b></td><td class="text-center"><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), false)}" type="currency"/></td></tr>
-                                    <tr><td><b style="color: #C88307;">Impuestos:</b></td><td class="text-center"><fmt:formatNumber value = "${(tienda.getPrecioTotal((usuario.articulos), true)) - (tienda.getPrecioTotal((usuario.articulos), false)) }" type="currency"/></td></tr>
-                                    <tr><td><b style="color: #C88307;">Total:</b></td><td class="text-center"><b><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), true)}" type="currency"/></b></td></tr>
+                                    <tr><td><b style="color: #C88307;"><fmt:message key="subtotal" bundle="${lang}"/>:</b></td><td class="text-center"><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), false)}" type="currency"/></td></tr>
+                                    <tr><td><b style="color: #C88307;"><fmt:message key="impuestos" bundle="${lang}"/>:</b></td><td class="text-center"><fmt:formatNumber value = "${(tienda.getPrecioTotal((usuario.articulos), true)) - (tienda.getPrecioTotal((usuario.articulos), false)) }" type="currency"/></td></tr>
+                                    <tr><td><b style="color: #C88307;"><fmt:message key="total" bundle="${lang}"/>:</b></td><td class="text-center"><b><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), true)}" type="currency"/></b></td></tr>
                                 </table>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cerrar</button>
-                        <button id="btnComprarCesta" type="button" class="btn btn-warning">Comprar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas"><fmt:message key="cerrar" bundle="${lang}"/></button>
+                        <button id="btnComprarCesta" type="button" class="btn btn-warning"><fmt:message key="comprar" bundle="${lang}"/></button>
                     </div>
                 </c:if>
             </div>
@@ -306,10 +318,10 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-light ps-5 shadow">
                     <div class="container-fluid">
                         <c:if test="${filtroCategoria eq 'planta'}">
-                            <a class="navbar-brand" style="user-select: none;">Plantas</a>
+                            <a class="navbar-brand" style="user-select: none;"><fmt:message key="plantas" bundle="${lang}"/></a>
                         </c:if>
                         <c:if test="${filtroCategoria eq 'abono'}">
-                            <a class="navbar-brand" style="user-select: none;">Abonos</a>
+                            <a class="navbar-brand" style="user-select: none;"><fmt:message key="abonos" bundle="${lang}"/></a>
                         </c:if>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -319,27 +331,27 @@
                             <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <c:if test="${filtroCategoria eq 'planta'}">
-                                        <a id="btnPlaTodas" class="nav-link active" href="#" >Todas</a>
+                                        <a id="btnPlaTodas" class="nav-link active" href="#" ><fmt:message key="todas" bundle="${lang}"/></a>
                                     </c:if>
                                     <c:if test="${filtroCategoria eq 'abono'}">
-                                        <a id="btnAboTodos" class="nav-link active" href="#" >Todos</a>
+                                        <a id="btnAboTodos" class="nav-link active" href="#" ><fmt:message key="todos" bundle="${lang}"/></a>
                                     </c:if>
                                 </li>
                                 <li class="nav-item">
                                     <c:if test="${filtroCategoria eq 'planta'}">
-                                        <a id="btnPlaSucu" class="nav-link active" href="#" >Suculentas</a>
+                                        <a id="btnPlaSucu" class="nav-link active" href="#" ><fmt:message key="suculentas" bundle="${lang}"/></a>
                                     </c:if>
                                     <c:if test="${filtroCategoria eq 'abono'}">
-                                        <a id="btnAboNatu" class="nav-link active" href="#" >Naturales</a>
+                                        <a id="btnAboNatu" class="nav-link active" href="#" ><fmt:message key="naturales" bundle="${lang}"/></a>
                                     </c:if>
 
                                 </li>
                                 <li class="nav-item">
                                     <c:if test="${filtroCategoria eq 'planta'}">
-                                        <a id="btnPlaTropi" class="nav-link active" href="#" >Tropicales</a>
+                                        <a id="btnPlaTropi" class="nav-link active" href="#" ><fmt:message key="tropicales" bundle="${lang}"/></a>
                                     </c:if>
                                     <c:if test="${filtroCategoria eq 'abono'}">
-                                        <a id="btnAboQuimi" class="nav-link active" href="#" >Qu√≠micos</a>
+                                        <a id="btnAboQuimi" class="nav-link active" href="#" ><fmt:message key="quimicos" bundle="${lang}"/></a>
                                     </c:if>
 
                                 </li>
@@ -357,7 +369,7 @@
                 <div class="row justify-content-center">
                     <%-- 
 
-                    Por cada tipo de art√≠culo, creamos Card y mostramos 
+                    Por cada tipo de artÌculo, creamos Card y mostramos 
                     
                     --%>
                     <%--PRUEBAS BORRAR<a>Filtro Categoria: <c:out value="${filtroCategoria}"/></a>
@@ -368,7 +380,7 @@
                         <%--BORRAR<a>Activa TIENDA?: <c:out value="${tienda}"/></a>
                         <a>Numero articulos BD: <c:out value="${tienda.articulos.size()}"/> </a>--%>
                         <c:forEach var="articulo" items="${tienda.agruparArticulosRef()}" varStatus="status">
-                            <%--Si est√° activado filtro de categoria, filtramos por el que se haya indicado--%>
+                            <%--Si est· activado filtro de categoria, filtramos por el que se haya indicado--%>
                             <c:if test="${isFiltroCategoria and articulo.categoria eq filtroCategoria}">
                                 <div id="<c:out value="${articulo.referencia}"/>" style="user-select: none;"
                                      class="<c:out value="${articulo.categoria}"/> <c:out value="${articulo.tipo}"/>
@@ -386,10 +398,10 @@
                                                     <fmt:formatNumber value = "${articulo.precio}" type = "currency"/>
                                                 </span>
                                                 <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                    <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
+                                                    <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>"><fmt:message key="anadir" bundle="${lang}"/></a> 
                                                 </c:if>
                                                 <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                    <span style="color: red; font-weight: 600;">AGOTADO</span>
+                                                    <span style="color: red; font-weight: 600;"><fmt:message key="agotado" bundle="${lang}"/></span>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -412,10 +424,10 @@
                                                     <fmt:formatNumber value = "${articulo.precio}" type = "currency"/>
                                                 </span>
                                                 <c:if test="${!empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                    <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>">Comprar</a> 
+                                                    <a id="${articulo.referencia}" class="btn btn-success btnComprar <c:if test="${usuario.esAdmin() or empty usuario}">disabled</c:if>"><fmt:message key="anadir" bundle="${lang}"/></a> 
                                                 </c:if>
                                                 <c:if test="${empty tienda.filtrarArticulosReferencia(articulo.referencia)}">
-                                                    <span style="color: red; font-weight: 600;">AGOTADO</span>
+                                                    <span style="color: red; font-weight: 600;"><fmt:message key="agotado" bundle="${lang}"/></span>
                                                 </c:if>
                                             </div>
 
@@ -434,9 +446,9 @@
                              <img src="img/articulos/plant1.jpg" class="card-img-top" alt="...">
                              <div class="card-body">
                                  <h5 class="card-title">Sansilviera</h5>
-                                 <p class="card-text">La Sansevieria Trifasciata Fire es una de las m√°s deseadas y
-                                     exclusivas de su familia, por sus hojas hipn√≥ticas que parecen fuego. Una planta √∫nica
-                                     que tambi√©n es
+                                 <p class="card-text">La Sansevieria Trifasciata Fire es una de las m·s deseadas y
+                                     exclusivas de su familia, por sus hojas hipnÛticas que parecen fuego. Una planta ˙nica
+                                     que tambiÈn es
                                      conocida como llama de oro, lengua de tigre o planta de serpiente.</p>
                                  <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">23.00
                                  </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
@@ -449,10 +461,10 @@
                             <img src="img/plants/plant2.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">Little Mercury</h5>
-                                <p class="card-text">Mercury es todo un espect√°culo con el movimiento hacia arriba y abajo
-                                    de sus hojas durante el d√≠a.
-                                    El contraste de color y las vetas de la Maranta Leuconeura le da un toque retro √∫nico.
-                                    Purifica el aire, querr√°s tenerla cerca. </p>
+                                <p class="card-text">Mercury es todo un espect·culo con el movimiento hacia arriba y abajo
+                                    de sus hojas durante el dÌa.
+                                    El contraste de color y las vetas de la Maranta Leuconeura le da un toque retro ˙nico.
+                                    Purifica el aire, querr·s tenerla cerca. </p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">21.50
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
                             </div>
@@ -466,7 +478,7 @@
                                 <h5 class="card-title">Anturio Rojo</h5>
                                 <p class="card-text">Para las personas que quieren sorprender de verdad: regala una planta.
                                     A tu novio, a tu mujer, a tu madre, a tu amiga o a ti misma. Es conocida por su ardiente
-                                    color rojo y la forma de coraz√≥n de sus br√°cteas que te enamorar√°n. </p>
+                                    color rojo y la forma de corazÛn de sus br·cteas que te enamorar·n. </p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">14.99
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
                             </div>
@@ -481,9 +493,9 @@
                             <img src="img/plants/plant4.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">Cactus Catedral</h5>
-                                <p class="card-text">Parece un cactus pero es una suculenta. Adora los climas c√°lidos y
+                                <p class="card-text">Parece un cactus pero es una suculenta. Adora los climas c·lidos y
                                     crece con un tronco vertical de tres o cuatro tallos suculentos en forma de candelabro.
-                                    Sus hojas parecen esp√°tulas y est√°n unidas a los tallos por una espina.
+                                    Sus hojas parecen esp·tulas y est·n unidas a los tallos por una espina.
                                 </p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">18.00
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
@@ -498,9 +510,9 @@
                         <div class="card" style="width: 18rem;">
                             <img src="img/plants/plant5.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title">Ficus El√°stica Abidjan</h5>
+                                <h5 class="card-title">Ficus El·stica Abidjan</h5>
                                 <p class="card-text">De hojas grandes y brillantes de un color verde oscuro muy elegante, el
-                                    Ficus Elastica Abidjan, conocido como Higuera o √Årbol de Caucho, necesita poco
+                                    Ficus Elastica Abidjan, conocido como Higuera o ¡rbol de Caucho, necesita poco
                                     mantenimiento y duradera. Gala es una planta purificadora del aire.</p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">17.99
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
@@ -513,10 +525,10 @@
                             <img src="img/plants/plant6.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">Monstera Deliciosa</h5>
-                                <p class="card-text">Mercury es todo un espect√°culo con el movimiento hacia arriba y abajo
-                                    de sus hojas durante el d√≠a.
-                                    El contraste de color y las vetas de la Maranta Leuconeura le da un toque retro √∫nico.
-                                    Purifica el aire, querr√°s tenerla cerca.</p>
+                                <p class="card-text">Mercury es todo un espect·culo con el movimiento hacia arriba y abajo
+                                    de sus hojas durante el dÌa.
+                                    El contraste de color y las vetas de la Maranta Leuconeura le da un toque retro ˙nico.
+                                    Purifica el aire, querr·s tenerla cerca.</p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">24.99
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
                             </div>
@@ -527,10 +539,10 @@
                         <div class="card" style="width: 18rem;">
                             <img src="img/plants/plant7.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title">√Årbol del dinero</h5>
-                                <p class="card-text">Ella es Pamela. Pachira Aquatica, Casta√±o de agua o √Årbol del dinero,
+                                <h5 class="card-title">¡rbol del dinero</h5>
+                                <p class="card-text">Ella es Pamela. Pachira Aquatica, CastaÒo de agua o ¡rbol del dinero,
                                     Pamela es un arbolito de grandes hojas verdes, palmeadas y brillantes.
-                                    Su original tronco enrollado como una trenza le da un aspecto r√∫stico y un gran valor
+                                    Su original tronco enrollado como una trenza le da un aspecto r˙stico y un gran valor
                                     ornamental. </p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">22.50
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
@@ -546,11 +558,11 @@
                             <img src="img/plants/plant8.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">Trebol Morado</h5>
-                                <p class="card-text">Su color p√∫rpura est√° cargado de simbolismo. Resistencia y lucha.
-                                    Oxalis triangularis, planta mariposa? sus hojas triangulares crecen muy r√°pido y tienen
+                                <p class="card-text">Su color p˙rpura est· cargado de simbolismo. Resistencia y lucha.
+                                    Oxalis triangularis, planta mariposa? sus hojas triangulares crecen muy r·pido y tienen
                                     mucho ritmo.
-                                    Ver√°s que dependiendo de la intensidad de la luz que reciba, sus hojas se cerrar√°n y se
-                                    abrir√°n.</p>
+                                    Ver·s que dependiendo de la intensidad de la luz que reciba, sus hojas se cerrar·n y se
+                                    abrir·n.</p>
                                 <a href="#" class="btn btn-success me-5">Comprar</a> <span style="font-size: 1.5em;">18.00
                                 </span><i class="fad fa-euro-sign" style="color: rgb(2, 1, 0);"></i>
                             </div>
@@ -566,8 +578,8 @@
 
 
 
-        <!-- Separaci√≥n -->
-        <div style="height: 50px;"></div> <!-- Div vacio de separaci√≥n con el footer fixed -->
+        <!-- SeparaciÛn -->
+        <div style="height: 50px;"></div> <!-- Div vacio de separaciÛn con el footer fixed -->
         <!-- Footer -->
         <footer class="bg-light text-success text-center text-lg-start">
             <!-- Grid container -->
@@ -576,26 +588,24 @@
                 <div class="row">
                     <!--Grid column-->
                     <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">¬øQui√©nes somos?</h5>
+                        <h5 class="text-uppercase"><fmt:message key="principal.footer.quien" bundle="${lang}"/></h5>
 
                         <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
-                            molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
-                            voluptatem veniam, est atque cumque eum delectus sint!
+                            <fmt:message key="principal.footer.quienDes" bundle="${lang}"/>
                         </p>
                     </div>
                     <!--Grid column-->
 
                     <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Enlaces de inter√©s</h5>
+                        <h5 class="text-uppercase"><fmt:message key="principal.footer.enlaces" bundle="${lang}"/></h5>
 
                         <ul class="list-unstyled mb-0">
                             <li>
-                                <a href="#!" class="text-dark">M√©todos de pago</a>
+                                <a href="#!" class="text-dark"><fmt:message key="principal.footer.metodosPago" bundle="${lang}"/></a>
                             </li>
                             <li>
-                                <a href="#!" class="text-dark">Garant√≠a</a>
+                                <a href="#!" class="text-dark"><fmt:message key="principal.footer.garantia" bundle="${lang}"/></a>
                             </li>
 
                         </ul>
@@ -604,14 +614,14 @@
 
                     <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase mb-0">Contacto</h5>
+                        <h5 class="text-uppercase mb-0"><fmt:message key="principal.footer.contacto" bundle="${lang}"/></h5>
 
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#!" class="text-dark">Formulario de contacto</a>
+                                <a href="#!" class="text-dark"><fmt:message key="principal.footer.formContacto" bundle="${lang}"/></a>
                             </li>
                             <li>
-                                <a href="#!" class="text-dark">Localizaci√≥n</a>
+                                <a href="#!" class="text-dark"><fmt:message key="principal.footer.localizacion" bundle="${lang}"/></a>
 
                             </li>
                             <li>
@@ -635,7 +645,7 @@
 
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-                ¬© 2021 Copyright:
+                © 2021 Copyright:
                 <a class="text-white" href="index.jsp">Eleplant.com</a>
             </div>
             <!-- Copyright -->

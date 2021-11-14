@@ -3,6 +3,22 @@
  */
 $(document).ready(inicio);
 function inicio() {
+    //Controlamos la badera según el idioma del navegador del cliente
+    var locale = $('#localeActual').attr('value');
+    var regexpEN = /^en/;
+    var regexpES = /^es/;
+    if(regexpEN.test(locale)){//si es un idioma ingles, activamos bandera inglesa
+        $('#iconoEN').attr('src', 'img/iconoEN.png');
+        $('#iconoEN').css('box-shadow', '2px 2px 2px grey');
+        $('#iconoES').attr('src', 'img/iconoES_DISABLE.png');
+        $('#iconoES').css('box-shadow', 'none');
+    } else if (regexpES.test(locale)){//si es idioma espaniol, activamos bandera espaniola
+        $('#iconoEN').attr('src', 'img/iconoEN_DISABLE.png');
+        $('#iconoEN').css('box-shadow', 'none');
+        $('#iconoES').attr('src', 'img/iconoES.png');
+        $('#iconoES').css('box-shadow', '2px 2px 2px grey');
+    }
+    
     //Manejo de filtrado de PLANTAS con animación
     $("#btnPlaTodas").click(function () {
         $('#portafolio div').each(function () {
@@ -126,13 +142,13 @@ function inicio() {
                 if (flag == "true") {
                     $("#errorLogin").prop('style', "color: green; font-weight: 600;");
                     $("#cuentaAtrasLogin").prop('style', "color: green; font-weight: 600;");
-                    añadirContenido("#errorLogin", "Correcto. Te has logueado con éxito.");
-                    añadirContenido("#cuentaAtrasLogin", "Cerrando en 2");
-                    setTimeout(añadirCuentaAtras, 1000);
+                    anadirContenido("#errorLogin", "Correcto. Te has logueado con &eacute;xito.");
+                    anadirContenido("#cuentaAtrasLogin", "Cerrando en 2");
+                    setTimeout(anadirCuentaAtras, 1000);
                     setTimeout(recargaPagina, 2000);
                 } else {
                     $("#errorLogin").prop('style', "color: red; font-weight: 600;");
-                    añadirContenido("#errorLogin", "Error. Usuario o contraseña erróneos.");
+                    anadirContenido("#errorLogin", "Error. Usuario o contraseña erróneos.");
                 }
             }
         });
@@ -217,11 +233,11 @@ function inicio() {
     //$("#btnPlaSucu").click(cargarPortafolio("11"));
     //$("#btnPlaTropi").click(cargarPortafolio("12"));
     //Botones filtrar ABONOS por tipo
-    function añadirContenido(elemento, mensaje) {
+    function anadirContenido(elemento, mensaje) {
         limpiaMensaje(elemento);
         $(elemento).append(mensaje);
     }
-    function añadirCuentaAtras() {
+    function anadirCuentaAtras() {
         limpiaMensaje("#cuentaAtrasLogin");
         $("#cuentaAtrasLogin").append("Cerrando en 1");
     }
@@ -561,10 +577,8 @@ function inicio() {
         var num = $(this).attr('data2');
         var resultado;
         if (num == 0) {
-            alert('No quedan unidades en stock por eliminar.')
+            alert('No quedan unidades en stock por eliminar.');
             return;
-        } else if (num == 1) {
-            resultado = window.confirm('¿Está seguro que desea eliminar la última unidad en stock?');
         } else {
             resultado = window.confirm('¿Está seguro que desea eliminar las ' + num + ' unidades restantes en stock?');
         }
@@ -643,6 +657,20 @@ function inicio() {
 
     });
 
+    $('#btnESP').click(function(){
+        //var locale = $('#localeActual').attr('value');
+        
+        $('#iconoEN').attr('src', 'img/iconoEN_DISABLE.png');
+        $('#iconoEN').css('box-shadow', 'none');
+        $('#iconoES').attr('src', 'img/iconoES.png');
+        $('#iconoES').css('box-shadow', '2px 2px 2px grey');
+    });
+    $('#btnENG').click(function(){
+        $('#iconoEN').attr('src', 'img/iconoEN.png');
+        $('#iconoEN').css('box-shadow', '2px 2px 2px grey');
+        $('#iconoES').attr('src', 'img/iconoES_DISABLE.png');
+        $('#iconoES').css('box-shadow', 'none');
+    });
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }

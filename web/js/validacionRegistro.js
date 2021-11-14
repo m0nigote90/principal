@@ -51,7 +51,8 @@ function inicio() {
             $('#inputEmail').addClass('is-valid');
             numVal += 1;
         } else {
-            $('#invalidEmail').text("Introduce un email válido, 'nombre@ejemplo.com'.")
+            //$('#invalidEmail').text("Introduce un email válido, 'nombre@ejemplo.com'.")
+            //$('#invalidEmail').text("Prueba error email");
             $('#inputEmail').removeClass('is-valid');
             $('#inputEmail').addClass('is-invalid');
         }
@@ -69,7 +70,7 @@ function inicio() {
             $('#inputDNI').addClass('is-valid');
             numVal += 1;
         } else {
-            $('#invalidDNI').text("Debe introducir un DNI válido en formato 12345678X.")
+            //$('#invalidDNI').text("Debe introducir un DNI válido en formato 12345678X.")
             $('#inputDNI').removeClass('is-valid');
             $('#inputDNI').addClass('is-invalid');
         }
@@ -106,7 +107,6 @@ function inicio() {
 
         //Si se hacen todas las validaciones correctamente y suman 8, hacemos la peticion Ajax
         if (numVal == 8) {
-            alert("Válido! se hace llamamiento.")
 
             var ref = $(this).attr('data');
             var idnumber = "#inputNumber" + ref;

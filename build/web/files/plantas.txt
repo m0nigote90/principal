@@ -1,0 +1,5 @@
+pla001:Calathea Ornata:tropical:Mi distribuidor:10:4.55:Planta tropical muy ornamentales de color verde oscuro con nervios laterales blancos rosado en el haz y purpúreas en envés.
+pla002:Senecio Rowleyanus:suculenta:Mi distribuidor:10:3.63:También conocida como planta rosario, sus hojas son unas pequeñas bolitas carnosas que almacenan gran cantidad de agua.
+pla003:Monstera Deliciosa:tropical:Mi distribuidor:10:5.67:La costilla de Adán es una planta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.
+pla004:Sansevieria:suculenta:Hojasverdes:10:5.9:También conocida como lengua de suegra, fácil de cultivar y una superviviente nata. Purifica el aire de nuestro hogar.
+pla005:Alocasia Amazónica:tropical:Hojasverdes:10:8.6:La oreja de elefante, con hojas espectaculares, de un verde oscuro intenso con nervios blancos bien marcados y forma triangular.

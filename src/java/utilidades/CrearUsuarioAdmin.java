@@ -69,46 +69,46 @@ public class CrearUsuarioAdmin extends HttpServlet {
             u2.setPassword("1234");
             u2.setAdmin(false);
             
-//                public Planta (Integer numSerie, String referencia, String categoria ("Planta"), String tipo, 
-//            String nombre, String fabricante, String descripcion, Integer tipoIVA (10), , Double precioSinIVA){nta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.:10
-            Planta p1 = new Planta ("pla001", "","tropical", "Calathea Ornata", "Distribuidor 1", 
-            "Planta tropical de hojas muy ornamentales de color verde oscuro con nervios laterales blancos rosado en el haz y purpúreas en el envés.", 10, 4.00);
-            Planta p2 = new Planta ("pla002", "","suculenta", "Senecio Rowleyanus", "Distribuidor 2", 
-            "También conocida como planta rosario, sus hojas son unas pequeñas bolitas carnosas que almacenan gran cantidad de agua.", 10, 3.63);
-            Planta p3 = new Planta ("pla003", "","tropical", "Monstera Deliciosa", "Hojasverdes", 
-            "La costilla de Adán es una planta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.", 10, 5.67); //160 caracteres
-            Planta p4 = new Planta("pla004", "", "suculenta", "Sansevieria", "Hojasverdes", 
-            "También conocida como lengua de suegra, fácil de cultivar y una superviviente nata. Purifica el aire de nuestro hogar.", 10, 5.9);
-            Planta p5 = new Planta("pla005", "", "tropical", "Alocasia Amazonica", "Hojasverdes",
-            "La oreja de elefante, con hojas espectaculares, de un verde oscuro intenso con nervios blancos bien marcados y forma triangular.", 10, 8.60);
-            
-            
-
+////                public Planta (Integer numSerie, String referencia, String categoria ("Planta"), String tipo, 
+////            String nombre, String fabricante, String descripcion, Integer tipoIVA (10), , Double precioSinIVA){nta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.:10
+//            Planta p1 = new Planta ("pla001", "","tropical", "Calathea Ornata", "Distribuidor 1", 
+//            "Planta tropical de hojas muy ornamentales de color verde oscuro con nervios laterales blancos rosado en el haz y purpúreas en el envés.", 10, 4.00);
+//            Planta p2 = new Planta ("pla002", "","suculenta", "Senecio Rowleyanus", "Distribuidor 2", 
+//            "También conocida como planta rosario, sus hojas son unas pequeñas bolitas carnosas que almacenan gran cantidad de agua.", 10, 3.63);
+//            Planta p3 = new Planta ("pla003", "","tropical", "Monstera Deliciosa", "Hojasverdes", 
+//            "La costilla de Adán es una planta muy popular caracterizada por unas grandes hojas verdes rasgadas como si se tratase de unas costillas.", 10, 5.67); //160 caracteres
+//            Planta p4 = new Planta("pla004", "", "suculenta", "Sansevieria", "Hojasverdes", 
+//            "También conocida como lengua de suegra, fácil de cultivar y una superviviente nata. Purifica el aire de nuestro hogar.", 10, 5.9);
+//            Planta p5 = new Planta("pla005", "", "tropical", "Alocasia Amazonica", "Hojasverdes",
+//            "La oreja de elefante, con hojas espectaculares, de un verde oscuro intenso con nervios blancos bien marcados y forma triangular.", 10, 8.60);
+//            
+//            
+//
             String mensaje = "Se ha creado el Administrador";
-            String mensaje2 = "Se ha creado la Planta";
-            String mensaje3 = "Se ha creado el Abono";
-            
-            //Abono (Ingeter numSerie, String referencia, String categoria, String nombre, String fabricante, 
-            //String descripcion, String tipoPlanta, Double volumen, Integer tipoIVA, Double precioSinIVA)
-            Abono a1 = new Abono ("abo001", "", "Fertilizante Cactus", "Compo", 
-            "Fertilizante líquido mineral con potasio para cactus, plantas crasas y suculentas. Muy efectivo.", "quimico", 500.0, 10, 5.40);
-            Abono a2 = new Abono ("abo002", "", "Fertilizante Plantas Verdes", "Compo", 
-            "Fertilizante de plantas verdes para plantas de interior, balcón y terraza, con potasio y hierro,", "quimico", 500.0, 10, 3.50);
-            Abono a3 = new Abono ("abo003", "", "Fertilizante Universal", "Compo", 
-            "Fertilizante de calidad para plantas ornamentales de interior o terraza, con magnesio", "quimico", 500.0, 10, 4.50);
-            Abono a4 = new Abono ("abo004", "", "Fertilizante Natural Guano", "Compo", 
-            "Abono de origen natural que contiene sustancias nutritivas y compuestos orgánicos ideales para plantas de interior y terraza", "natural", 1000.0, 10, 5.50);
-            Abono a5 = new Abono ("abo005", "", "Fertilizante Orquídeas", "Compo", 
-            "Fertilizante de fórmula suave para plantas sensibles a la salinidad: orquídeas, hortensias, azaleas, etc., Con guano y extractos.", "quimico", 500.0, 10, 4.60);
-            Abono a6 = new Abono ("abo006", "", "Fertilizante Universal", "Flower", 
-            "Crecimiento sano y vigoroso, complejo vitamínico y multinutrientes", "natural", 1000.0, 10, 2.70);
-            Abono a7 = new Abono ("abo007", "", "Fertilizante Cítricos", "Flower", 
-            "Fertilizante para cítricos que mejora su desarollo con hierro y magnesio.", "quimico", 1000.0, 10, 7.70);
-            
-            PlantaJpaController pjc = 
-                    new PlantaJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
-            AbonoJpaController ajc = 
-                    new AbonoJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
+//            String mensaje2 = "Se ha creado la Planta";
+//            String mensaje3 = "Se ha creado el Abono";
+//            
+//            //Abono (Ingeter numSerie, String referencia, String categoria, String nombre, String fabricante, 
+//            //String descripcion, String tipoPlanta, Double volumen, Integer tipoIVA, Double precioSinIVA)
+//            Abono a1 = new Abono ("abo001", "", "Fertilizante Cactus", "Compo", 
+//            "Fertilizante líquido mineral con potasio para cactus, plantas crasas y suculentas. Muy efectivo.", "quimico", 500.0, 10, 5.40);
+//            Abono a2 = new Abono ("abo002", "", "Fertilizante Plantas Verdes", "Compo", 
+//            "Fertilizante de plantas verdes para plantas de interior, balcón y terraza, con potasio y hierro,", "quimico", 500.0, 10, 3.50);
+//            Abono a3 = new Abono ("abo003", "", "Fertilizante Universal", "Compo", 
+//            "Fertilizante de calidad para plantas ornamentales de interior o terraza, con magnesio", "quimico", 500.0, 10, 4.50);
+//            Abono a4 = new Abono ("abo004", "", "Fertilizante Natural Guano", "Compo", 
+//            "Abono de origen natural que contiene sustancias nutritivas y compuestos orgánicos ideales para plantas de interior y terraza", "natural", 1000.0, 10, 5.50);
+//            Abono a5 = new Abono ("abo005", "", "Fertilizante Orquídeas", "Compo", 
+//            "Fertilizante de fórmula suave para plantas sensibles a la salinidad: orquídeas, hortensias, azaleas, etc., Con guano y extractos.", "quimico", 500.0, 10, 4.60);
+//            Abono a6 = new Abono ("abo006", "", "Fertilizante Universal", "Flower", 
+//            "Crecimiento sano y vigoroso, complejo vitamínico y multinutrientes", "natural", 1000.0, 10, 2.70);
+//            Abono a7 = new Abono ("abo007", "", "Fertilizante Cítricos", "Flower", 
+//            "Fertilizante para cítricos que mejora su desarollo con hierro y magnesio.", "quimico", 1000.0, 10, 7.70);
+//            
+//            PlantaJpaController pjc = 
+//                    new PlantaJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
+//            AbonoJpaController ajc = 
+//                    new AbonoJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
             UsuarioJpaController ujc = 
                     new UsuarioJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
             try {
@@ -118,25 +118,25 @@ public class CrearUsuarioAdmin extends HttpServlet {
                 mensaje = "Se ha producido un error al crear el Usuario Administrador";
                 System.err.println(ex.getClass().getName() + ":" + ex.getMessage());
             }
-            try {
-                pjc.create(p1);
-                pjc.create(p2);
-            } catch (Exception ex2) {
-                mensaje2 = "Se ha producido un error al crear la planta";
-                System.err.println(ex2.getClass().getName() + ":" + ex2.getMessage());
-            }
-            try {
-                ajc.create(a1);
-                ajc.create(a2);
-                ajc.create(a3);
-                ajc.create(a4);
-                ajc.create(a5);
-                ajc.create(a6);
-                ajc.create(a7);
-            } catch (Exception ex3) {
-                mensaje3 = "Se ha producido un error al crear el abono";
-                System.err.println(ex3.getClass().getName() + ":" + ex3.getMessage());
-            }
+//            try {
+//                pjc.create(p1);
+//                pjc.create(p2);
+//            } catch (Exception ex2) {
+//                mensaje2 = "Se ha producido un error al crear la planta";
+//                System.err.println(ex2.getClass().getName() + ":" + ex2.getMessage());
+//            }
+//            try {
+//                ajc.create(a1);
+//                ajc.create(a2);
+//                ajc.create(a3);
+//                ajc.create(a4);
+//                ajc.create(a5);
+//                ajc.create(a6);
+//                ajc.create(a7);
+//            } catch (Exception ex3) {
+//                mensaje3 = "Se ha producido un error al crear el abono";
+//                System.err.println(ex3.getClass().getName() + ":" + ex3.getMessage());
+//            }
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -144,8 +144,8 @@ public class CrearUsuarioAdmin extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>"+mensaje+"</h1>");
-            out.println("<h1>"+mensaje2+"</h1>");
-            out.println("<h1>"+mensaje3+"</h1>");
+//            out.println("<h1>"+mensaje2+"</h1>");
+//            out.println("<h1>"+mensaje3+"</h1>");
             out.println("</body>");
             out.println("</html>");
         }

@@ -8,7 +8,9 @@
 <%@taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <c:set var="locale" value="${pageContext.response.locale}" scope="application" />
-
+<fmt:setLocale value="${varLocale}" scope="application"/>
+<fmt:setBundle basename="idioma" var="lang" scope="application"/>
+<fmt:requestEncoding value="ISO-8859-1" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,7 +53,7 @@
 
         </header>
         <div class="row-4 align-items-center my-5 col-8 offset-2 d-flex justify-content-center position-absolute top-25" id="letreroPulsa">
-            <a href="principal.jsp" style="text-decoration: none; color: black;">PULSE PARA ENTRAR</a>
+            <a href="principal.jsp" style="text-decoration: none; color: black;"><fmt:message key="index.entrar" bundle="${lang}"/></a>
         </div>
         <!-- Carrusel -->
         <section class="wrap">
@@ -103,12 +105,11 @@
         <!-- Alert coockies -->
         <div class="alert alert-success alert-dismissible fade show align-middle fixed-bottom shadow d-flex align-items-center justify-content-center"
              role="alert" style="height: 130px;">
-            <p class="mx-5 d-none d-md-block">Este sitio utiliza <strong>cookies. </strong> Puedes aceptarlas o ver la configuración de las
-                mismas.</p>
+            <p class="mx-5 d-none d-md-block"><fmt:message key="index.msgCook" bundle="${lang}"/></p>
             <!-- Ocultamos el texto de las cookies en resoluciones pequeñas -->
-            <p><button type="button" class="btn btn-outline-success shadow-sm" data-bs-toggle="button" data-bs-dismiss="alert">Aceptar Cookies <i
+            <p><button type="button" class="btn btn-outline-success shadow-sm" data-bs-toggle="button" data-bs-dismiss="alert"><fmt:message key="index.aceptarCook" bundle="${lang}"/><i
                         class="fad fa-cookie-bite" style="color: rgb(246, 180, 94);"></i></button>
-                <button type="button" class="btn btn-outline-success shadow-sm mx-2" data-bs-toggle="button">Configuración
+                <button type="button" class="btn btn-outline-success shadow-sm mx-2" data-bs-toggle="button"><fmt:message key="index.config" bundle="${lang}"/>
                     <i class="fad fa-cogs"></i></button>
             </p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

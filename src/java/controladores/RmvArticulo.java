@@ -3,6 +3,8 @@ package controladores;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,8 +37,14 @@ public class RmvArticulo extends HttpServlet {
             List<Articulo> articulos = tienda.getArticulos();
             
             for (Articulo a : articulos) {
-                if (a.getReferencia().equals(ref) && !a.getVendido()) {
-                    tienda.removeArticulo(a.getId());
+                if (a.getReferencia().equals(ref)) {
+                    //tienda.removeArticulo(a.getId());
+                    a.setBaja(Boolean.TRUE);
+                    try {
+                        tienda.actualizarArticulo(a);
+                    } catch (Exception ex) {
+                        Logger.getLogger(RmvArticulo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     borrados++;
                     
                 }

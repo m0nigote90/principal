@@ -51,7 +51,8 @@ public class Pedido implements Serializable {
     @Column(name = "Fecha")
     @Temporal(value = TemporalType.TIMESTAMP)
     protected Date fecha = new Timestamp(new Date().getTime());
-    
+    @Column(name = "Baja")
+    protected Boolean baja = false;
     @JoinTable(
         name = "rel_pedido_articulos",
         joinColumns = @JoinColumn(name = "FK_PEDIDO", nullable = false),
@@ -140,6 +141,15 @@ public class Pedido implements Serializable {
         }
         return total;
     }
+
+    public Boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(Boolean baja) {
+        this.baja = baja;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -57,6 +57,8 @@ public abstract class Articulo implements Comparable, Serializable {
     protected Date fechaAlta = new Timestamp(new Date().getTime());
     @Column(name = "Vendido")
     protected Boolean vendido = false;
+    @Column(name = "Baja")
+    protected Boolean baja = false;
     @ManyToMany(mappedBy = "articulosPedido")
     protected List<Pedido> pedidos;
     
@@ -71,6 +73,7 @@ public abstract class Articulo implements Comparable, Serializable {
         this.descripcion = descripcion;
         this.tipoIVA = tipoIVA;
         vendido = false;
+        baja = false;
     }     
     
     public Long getId() {
@@ -137,7 +140,13 @@ public abstract class Articulo implements Comparable, Serializable {
         this.pedidos = pedidos;
     }
 
-    
+    public Boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(Boolean baja) {
+        this.baja = baja;
+    }
     
     public Date getFechaAlta() {
         return fechaAlta;
