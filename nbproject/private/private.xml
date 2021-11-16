@@ -3,20 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Articulo.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/activadores.js</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/RmvArticulo.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Usuario.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/agregarPlanta.js</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/utilidades/CrearUsuarioAdmin.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Planta.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/CrearPedido.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/Importar.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/Funcionalidad.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/admin/gestion.jsp</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/jquery-3.5.1.min.js</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/EditArticulo.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/AddArticulo.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/principal.jsp</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/activadores.js</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Pedido.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/Arranque.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/registro.jsp</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/validacionRegistro.js</file>
         </group>
     </open-files>
 </project-private>

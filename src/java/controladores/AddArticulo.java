@@ -2,8 +2,6 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +47,8 @@ public class AddArticulo extends HttpServlet {
                     boolean encontrado = false;
                     for (Articulo art : articulos) {
                         if (art.getReferencia().equals(ref) && !art.getVendido() && !encontrado) {
-                            usuario.getArticulos().add(art);
+                            //usuario.getArticulos().add(art);
+                            usuario.addArticulo(art);
                             Integer numArt = usuario.getArticulos().size();
                             
                             art.setVendido(true);

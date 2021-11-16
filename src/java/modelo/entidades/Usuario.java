@@ -165,7 +165,10 @@ public class Usuario implements Serializable {
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-
+    
+    public void addPedido(Pedido p){
+        pedidos.add(p);
+    }
     public List<Articulo> getArticulos() {
         List<Articulo> lista = new ArrayList<>();
         for(Articulo a: articulos){
@@ -175,7 +178,12 @@ public class Usuario implements Serializable {
         }
         return lista;
     }
-
+    public void addArticulo(Articulo a){
+        articulos.add(a);
+    }
+    public void vaciarCesta(){
+        articulos.clear();
+    }
     public void setArticulos(List<Articulo> articulos) {
         this.articulos = articulos;
     }

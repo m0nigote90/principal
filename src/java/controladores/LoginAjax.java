@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import modelo.Funcionalidad;
 import modelo.dao.UsuarioJpaController;
 import modelo.entidades.Articulo;
 import modelo.entidades.Usuario;
@@ -33,51 +33,54 @@ public class LoginAjax extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json;charset=utf-8");
         request.setCharacterEncoding("utf-8");
-//        JSONArray jsonArray=new JSONArray();
+        Funcionalidad tienda = (Funcionalidad) getServletContext().getAttribute("tienda");
+        JSONObject jsonObject = new JSONObject();
 
-//        jsonArray.add(0,jsonObject1);
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        ArrayList <Articulo> cestaActual = new ArrayList();
+        //ArrayList <Articulo> cestaActual = new ArrayList();
         try (PrintWriter out = response.getWriter()) {
-            //System.out.println(email + "\n" + password);
-            JSONObject jsonObject = null;
-            String error = null;
-            if (email == null || password == null) {
-                error = "Debe acceder por la página de login";
-            } else {
-                if (email.isEmpty() || password.isEmpty()) {//Esto lo mandaré para que salga en rojo dentro de los campos del modal
-                    error = "Se deben rellenar los campos usuario y contraseña";
+            
+            
+            if(tienda.existeUsuarioEmail(email)){
+                Usuario usuario = tienda.buscarUsuarioEmail(email);
+                if(usuario.getPassword().equals(password)){ //Login correcto
+                    
+                    HttpSession sesion = request.getSession();
+                    sesion.setAttribute("usuario", usuario);
+                    jsonObject.put("flag", "true");
                 } else {
-                    UsuarioJpaController ejc
-                            = new UsuarioJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
-                    List<Usuario> usuarios = ejc.findUsuarioEntities();
-                    for (Usuario usu : usuarios) {
-                        if (usu.getEmail().equals(email) && usu.getPassword().equals(password)) {
-                            // Login correcto
-                            HttpSession sesion = request.getSession();
-                            sesion.setAttribute("usuario", usu);
-                            sesion.setAttribute("cestaActual", cestaActual);
-                            jsonObject = new JSONObject();
-                            jsonObject.put("flag", "true");
-                            //System.out.println("HEMOS ENCONTRADO EL USUARIO");
-                            out.print(jsonObject);
-                            //sesion.setAttribute("funcion", new Funcionalidad());
-                            //response.sendRedirect("principal.jsp");
-                            return;
-                        }
-                    }
-                    jsonObject = new JSONObject();
                     jsonObject.put("flag", "false");
-                    //System.out.println("JSONObject en false: " + jsonObject);
-                    error = "Usuario o contraseña incorrectos";
-                    request.setAttribute("error", error);
+                    jsonObject.put("pass", "false");
+                    jsonObject.put("email", "true");
                 }
-
+            } else {
+                jsonObject.put("flag", "false");
+                jsonObject.put("email", "false");
             }
-            // Tengo que cerrarlo y olvidé por qué, ¿como si no se transmitiera sin cerrar?
+            
             out.print(jsonObject);
             out.close();
+         
+            
+//                    List<Usuario> usuarios = tienda.getUsuarios();
+//                    for (Usuario usu : usuarios) {
+//                        if (usu.getEmail().equals(email) && usu.getPassword().equals(password)) {
+//                            // Login correcto
+//                            HttpSession sesion = request.getSession();
+//                            sesion.setAttribute("usuario", usu);
+//                            
+//                            jsonObject = new JSONObject();
+//                            jsonObject.put("flag", "true");
+//                            out.print(jsonObject);
+//                            
+//                            return;
+//                        }
+//                    }                    
+//                    jsonObject.put("flag", "false");
+            
+            // Tengo que cerrarlo y olvidé por qué, ¿como si no se transmitiera sin cerrar?
+            
             System.out.println("JSONObject al final: " + jsonObject);
         }
 

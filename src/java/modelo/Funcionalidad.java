@@ -91,7 +91,35 @@ public class Funcionalidad implements Serializable {
         }
         return filtrados;
     }
-
+    public List<Usuario> filtrarUsuariosDni(String filtro) {
+        List<Usuario> usuarios = getUsuarios();
+        List<Usuario> filtrados = new ArrayList();
+        if (!filtro.isEmpty()) {
+            for (Usuario u : usuarios) {
+                if (u.getDNI().contains(filtro)) {
+                    filtrados.add(u);
+                }
+            }
+        } else {
+            filtrados = usuarios;
+        }
+        return filtrados;
+    }
+    public List<Usuario> filtrarUsuariosNombreDni(String nombre, String dni) {
+        List<Usuario> usuarios = getUsuarios();
+        List<Usuario> filtrados = new ArrayList();
+        if (!nombre.isEmpty() && !dni.isEmpty()) {
+            for (Usuario u : usuarios) {
+                if (u.getNombre().contains(nombre) || u.getApellidos().contains(nombre) && u.getDNI().contains(dni)) {
+                    filtrados.add(u);
+                }
+            }
+        } else {
+            filtrados = usuarios;
+        }
+        return filtrados;
+    }
+    
     public List<Articulo> filtrarArticulosCategoria(String filtro) {
         List<Articulo> articulos = getArticulos();
         List<Articulo> filtrados = new ArrayList();
@@ -255,7 +283,7 @@ public class Funcionalidad implements Serializable {
         return resultados.size();
     }
 
-    //Aqui manejamos las funciones para la cesta de articulos
+    //Aqui manejamos las funciones para la cesta a de articulos
     public List<Articulo> cestaUsuarioSinRepetidos(Integer id) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND baja = false GROUP BY Referencia;", Articulo.class).setParameter(1, id);
@@ -350,6 +378,13 @@ public class Funcionalidad implements Serializable {
     public Usuario buscarUsuario(Long id) {
         UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         return ujc.findUsuario(id);
+    }
+
+    public Usuario buscarUsuarioEmail(String email) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Usuario resultado
+                = (Usuario) em.createNativeQuery("SELECT * FROM usuarios WHERE email = ?1 AND baja = false;", Usuario.class).setParameter(1, email).getSingleResult();
+        return resultado;
     }
 
     public Articulo buscarArticulo(Long id) {

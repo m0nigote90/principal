@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Funcionalidad;
-import modelo.dao.ArticuloJpaController;
-import modelo.dao.PedidoJpaController;
-import modelo.dao.UsuarioJpaController;
 import modelo.entidades.Articulo;
 import modelo.entidades.Pedido;
 import modelo.entidades.Usuario;
@@ -51,20 +47,23 @@ public class CrearPedido extends HttpServlet {
             pedido.setUsuario(usuario);
 
             
-            usuario.getArticulos().clear();
-            usuario.getPedidos().add(pedido);
-            try {
-                tienda.actualizarUsuario(usuario);
-            } catch (Exception ex) {
-                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            //usuario.getArticulos().clear();
+            usuario.vaciarCesta();
+            usuario.addPedido(pedido);
+            List<Articulo> cestaRestante = usuario.getArticulos();
             try {
                 
                 tienda.altaPedido(pedido);
             } catch (Exception ex) {
                 Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
+            try {
+                tienda.actualizarUsuario(usuario);
+            } catch (Exception ex) {
+                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
             
             
             sesion.setAttribute("usuario", usuario);

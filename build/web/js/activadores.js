@@ -7,18 +7,18 @@ function inicio() {
     var locale = $('#localeActual').attr('value');
     var regexpEN = /^en/;
     var regexpES = /^es/;
-    if(regexpEN.test(locale)){//si es un idioma ingles, activamos bandera inglesa
+    if (regexpEN.test(locale)) {//si es un idioma ingles, activamos bandera inglesa
         $('#iconoEN').attr('src', 'img/iconoEN.png');
         $('#iconoEN').css('box-shadow', '2px 2px 2px grey');
         $('#iconoES').attr('src', 'img/iconoES_DISABLE.png');
         $('#iconoES').css('box-shadow', 'none');
-    } else if (regexpES.test(locale)){//si es idioma espaniol, activamos bandera espaniola
+    } else if (regexpES.test(locale)) {//si es idioma espaniol, activamos bandera espaniola
         $('#iconoEN').attr('src', 'img/iconoEN_DISABLE.png');
         $('#iconoEN').css('box-shadow', 'none');
         $('#iconoES').attr('src', 'img/iconoES.png');
         $('#iconoES').css('box-shadow', '2px 2px 2px grey');
     }
-    
+
     //Manejo de filtrado de PLANTAS con animación
     $("#btnPlaTodas").click(function () {
         $('#portafolio div').each(function () {
@@ -127,31 +127,51 @@ function inicio() {
     //Petición Ajax de login
     $("#btnLogin").click(function (e) {
         e.preventDefault();
-        $.ajax({
-            url: "LoginAjax",
-            dataType: "json",
-            type: "post",
-            data: {
-                "email": $("#inputEmail").val(),
-                "password": $("#inputPassword").val()
+        var email = $("#inputEmail").val();
+        var password = $("#inputPassword").val();
+        if (email != "" && password != "") {
+            $("#mensajeErrorLogin").hide();
+            $.ajax({
+                url: "LoginAjax",
+                dataType: "json",
+                type: "post",
+                data: {
+                    "email": email,
+                    "password": password
+                },
+                success: function (data) {
+                    var flag = data.flag;
+                    var email = data.email;
+                    var pass = data.pass;
+                    if (flag == "true") {
+                        $("#mensajeLogin").prop('style', "color: green; font-weight: 600;");
+                        $("#mensajeLogin").show();
 
-            },
-            success: function (data) {
-
-                var flag = data.flag;
-                if (flag == "true") {
-                    $("#errorLogin").prop('style', "color: green; font-weight: 600;");
-                    $("#cuentaAtrasLogin").prop('style', "color: green; font-weight: 600;");
-                    anadirContenido("#errorLogin", "Correcto. Te has logueado con &eacute;xito.");
-                    anadirContenido("#cuentaAtrasLogin", "Cerrando en 2");
-                    setTimeout(anadirCuentaAtras, 1000);
-                    setTimeout(recargaPagina, 2000);
-                } else {
-                    $("#errorLogin").prop('style', "color: red; font-weight: 600;");
-                    anadirContenido("#errorLogin", "Error. Usuario o contraseña erróneos.");
+                        $("#cuentaAtrasLogin").prop('style', "font-weight: 600;");
+                        $("#cuentaAtrasLogin").show();
+                        //anadirContenido("#errorLogin", "Correcto. Te has logueado con &eacute;xito.");
+                        anadirContenido("#numCuentaAtras", "2");
+                        setTimeout(anadirCuentaAtras, 1000);
+                        setTimeout(recargaPagina, 2000);
+                    } else {
+                        if (email == "false") {
+                            $('#inputEmail').removeClass('is-valid');
+                            $('#inputEmail').addClass('is-invalid');
+                        } else {
+                            if (pass == "false") {
+                                $('#inputEmail').removeClass('is-invalid');
+                                $('#inputEmail').addClass('is-valid');
+                                $('#inputPassword').removeClass('is-valid');
+                                $('#inputPassword').addClass('is-invalid');
+                            }
+                        }
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            $("#mensajeErrorLogin").prop('style', "color: red; font-weight: 600;");
+            $("#mensajeErrorLogin").show();
+        }
     });
     //Petición Ajax mostrar catálogo
     $("#btnTodos").click(function () {
@@ -238,8 +258,8 @@ function inicio() {
         $(elemento).append(mensaje);
     }
     function anadirCuentaAtras() {
-        limpiaMensaje("#cuentaAtrasLogin");
-        $("#cuentaAtrasLogin").append("Cerrando en 1");
+        limpiaMensaje("#numCuentaAtras");
+        $("#numCuentaAtras").append("1");
     }
     function recargaPagina() {
         location.reload();
@@ -631,16 +651,17 @@ function inicio() {
                 success: function (data) {
 
                     var flag = data.flag;
-                    var plantas = data.plantas;
-                    var abonos = data.abonos;
-                    var usuarios = data.usuarios;
+                    var pla = data.plantas;
+                    var abo = data.abonos;
+                    var usu = data.usuarios;
                     //todas los datos del artículo
                     if (flag == "true") {
-                        if (plantas == "Sí" || abonos == "Sí" || usuarios == "Sí") {
-                            alert("Archivos importados\nPlantas: " + plantas + "\nAbonos: " + abonos + "\nUsuarios: " + usuarios);
+                        if (pla == "Si" || abo == "Si" || usu == "Si") {
+                            alert("Archivos importados\nPlantas: " + pla + "\nAbonos: " + abo + "\nUsuarios: " + usu);
                             location.reload();
                         } else {
-                            alert("No se ha importado ningun archivo.\nCompruebe que ha seleccionado los archivos correctos.")
+                            alert("No se ha importado ning&uacute;n archivo.\nCompruebe que ha seleccionado los archivos correctos.\n\
+                                    Tambien es posible que los usuarios ya estén cargados en la tienda.")
                         }
 
 
@@ -652,20 +673,20 @@ function inicio() {
                 }
             });
         } else {
-            alert("No hay ningún archivo seleccionado.")
+            alert("No hay ning&uacute;n archivo seleccionado.")
         }//aqui acaba AJAX
 
     });
 
-    $('#btnESP').click(function(){
+    $('#btnESP').click(function () {
         //var locale = $('#localeActual').attr('value');
-        
+
         $('#iconoEN').attr('src', 'img/iconoEN_DISABLE.png');
         $('#iconoEN').css('box-shadow', 'none');
         $('#iconoES').attr('src', 'img/iconoES.png');
         $('#iconoES').css('box-shadow', '2px 2px 2px grey');
     });
-    $('#btnENG').click(function(){
+    $('#btnENG').click(function () {
         $('#iconoEN').attr('src', 'img/iconoEN.png');
         $('#iconoEN').css('box-shadow', '2px 2px 2px grey');
         $('#iconoES').attr('src', 'img/iconoES_DISABLE.png');
@@ -674,6 +695,40 @@ function inicio() {
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+    //funcion para filtrar Usuarios
+    function filtrar() {
+        
+    }
+    $("#filtroNombre").keyup(function () {
+        var filtroNombre = $(this).val();
+        var filtroDNI = $('#filtroDNI').val();
+        
+        console.log("filtroNombre: "+filtroNombre);
+        console.log("filtroDNI: "+filtroDNI);
+        $.ajax({
+            method: "POST",
+            url: "filtradoUsuarios.jsp",
+            data: {filtroNombre: filtroNombre, filtroDNI: filtroDNI}
+        })
+                .done(function (listado) {
+                    $("#listadoUsuarios").html(listado);
+                });
+    });
+    $("#filtroDNI").keyup(function () {
+        var filtroNombre = $('#filtroNombre').val();
+        var filtroDNI = $(this).val();
+        
+        console.log("filtroNombre: "+filtroNombre);
+        console.log("filtroDNI: "+filtroDNI);
+        $.ajax({
+            method: "POST",
+            url: "filtradoUsuarios.jsp",
+            data: {filtroNombre: filtroNombre, filtroDNI: filtroDNI}
+        })
+                .done(function (listado) {
+                    $("#listadoUsuarios").html(listado);
+                });
+    });
 }
 
 

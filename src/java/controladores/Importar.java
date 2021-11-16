@@ -34,7 +34,7 @@ public class Importar extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/json;charset=ISO-8859-15");
         try (PrintWriter out = response.getWriter()) {
             JSONObject jsonObject = new JSONObject();
             Funcionalidad tienda = (Funcionalidad) getServletContext().getAttribute("tienda");
@@ -74,7 +74,7 @@ public class Importar extends HttpServlet {
                     }
 
                 }
-                jsonObject.put("plantas", "Sí");
+                jsonObject.put("plantas", "Si");
             }
             if (fileAbonos.getSubmittedFileName() == null || !fileAbonos.getSubmittedFileName().equals("abonos.txt")) {
                 jsonObject.put("abonos", "No");
@@ -99,9 +99,9 @@ public class Importar extends HttpServlet {
                         tienda.altaAbono(a);
                     } catch (Exception ex) {
 
-                    }
-                    jsonObject.put("abonos", "Sí");
+                    } 
                 }
+                jsonObject.put("abonos", "Si");
             }
             if (fileUsuarios.getSubmittedFileName() == null || !fileUsuarios.getSubmittedFileName().equals("usuarios.txt")) {
                 jsonObject.put("usuarios", "No");
@@ -132,9 +132,10 @@ public class Importar extends HttpServlet {
                         } catch (Exception ex) {
 
                         }
-                        jsonObject.put("usuarios", "Sí");
+                        
                     }
                 }
+                jsonObject.put("usuarios", "Si");
             }
 
             jsonObject.put("flag", "true");

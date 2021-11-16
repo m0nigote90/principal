@@ -6,7 +6,6 @@
 package controladores;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.servlet.ServletException;

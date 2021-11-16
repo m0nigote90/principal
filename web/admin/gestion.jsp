@@ -7,7 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-15"%>
-<fmt:requestEncoding value="ISO-8859-1" /> 
+<%--<fmt:requestEncoding value="ISO-8859-1" /> --%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -86,7 +86,7 @@
 
             <div class="container-fluid p-3 align-items-end bg-light" id="cabecera">
                 <a class="navbar-brand ms-5" href="../principal.jsp"><img src="../img/logoLtrans.png" alt="logoEmpresa"
-                                                                     width="60"></a>
+                                                                          width="60"></a>
                 <a class="display-5 text-decoration-none text-success cartel"><fmt:message key="gestion.titulo" bundle="${lang}"/></a>
             </div>
 
@@ -528,23 +528,13 @@
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="border rounded-3 p-4 shadow-sm col-6 me-5 ms-0">
                                                 <span class="display-6"><fmt:message key="gestion.buscarUsuario.titulo" bundle="${lang}"/></span>
-                                                <%-- <div class="form-floating mb-3">
-                                                     <label class="form-label" for="buscarTarjeta">Nombre: </label>
-                                                     <input id="filtroTarjeta" type="text" class="form-control" 
-                                                            size="16" maxlength="16"  placeholder="AN XXXXXXXXXX">
-                                                 </div>
-
-                                                <div class="form-floating mb-3">
-                                                    <label class="form-label" for="buscarNombre">DNI: </label>
-                                                    <input type="text" class="form-control" id="filtroNombre" onkeyup="filtrar()">
-                                                </div>--%>
                                                 <div class="form-floating mb-1 mt-3">
                                                     <input style="height: 50px;" type="text" class="form-control" id="filtroNombre" placeholder="Nombre">
                                                     <label for="filtroNombre" class="text-muted"><fmt:message key="gestion.table.nombre" bundle="${lang}"/></label>
                                                 </div>
                                                 <hr class="featurette-divider">
                                                 <div class="form-floating">
-                                                    <input style="height: 50px;" type="text" class="form-control" id="filtroNombre" placeholder="DNI">
+                                                    <input style="height: 50px;" type="text" class="form-control" id="filtroDNI" placeholder="DNI">
                                                     <label for="filtroDNI" class="text-muted" maxlength="9"><fmt:message key="gestion.table.dni" bundle="${lang}"/></label>
                                                 </div>
                                             </div>
@@ -552,64 +542,12 @@
                                         </div>   
                                     </div>
                                     <div class="container-fluid">
-                                        <!--<div class="table-responsive-xl">-->
-                                        <table class="table table-sm table-bordered table-striped table-hover shadow text-center sortable" id="tableArt" width="100%">
-                                            <caption><fmt:message key="gestion.table.caption.usu" bundle="${lang}"/> <b>${tienda.usuarios.size() - 1}</b></caption>
-                                            <thead>
-                                                <tr><th class="align-middle p-2"><fmt:message key="gestion.table.nombre" bundle="${lang}"/></th>
-                                                    <th class="align-middle p-2"><fmt:message key="gestion.table.edad" bundle="${lang}"/></th>
-                                                    <th class="align-middle p-2"><fmt:message key="gestion.table.dni" bundle="${lang}"/></th>
-                                                    <th class="align-middle p-2"><fmt:message key="gestion.table.correo" bundle="${lang}"/></th>
-                                                    <th class="align-middle p-2"><fmt:message key="gestion.table.fechaAlta" bundle="${lang}"/></th>
-                                                    <th class="align-middle p-2"><fmt:message key="gestion.table.pedidos" bundle="${lang}"/></th>
-                                                    <th class="p-3 sorttable_nosort"></th>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="usu" items="${tienda.usuarios}">
-                                                    <c:if test="${!usu.esAdmin()}">
-                                                        <tr>
-
-                                                            <td class="align-middle p-2">${usu.apellidos}, ${usu.nombre}</td>
-                                                            <td class="align-middle p-2">${usu.getEdad()}</td>
-                                                            <td class="align-middle p-2">${usu.getDNI()}</td>
-                                                            <td class="align-middle p-2">${usu.email}</td>
-
-                                                            <td class="align-middle p-2"><fmt:formatDate type = "both" 
-                                                                            dateStyle = "short" timeStyle = "short" value = "${usu.fechaAlta}" /></td>
-                                                            <td class="align-middle p-2">${usu.getPedidos().size()}</td>
-
-
-                                                            <td class="align-middle p-0">
-                                                                <div class="container p-0">
-                                                                    <div class="row px-0 mx-0" >
-                                                                        <div class="col-6 mx-0 pe-0" >
-
-
-                                                                        </div>
-                                                                        <div class="col-6 mx-0 ps-0">
-
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row mx-0 px-0 my-2">
-                                                                        <div class="col-6 mx-0 pe-0">
-                                                                            <button id="" data="${usu.getDNI()}" type="button" class="btn btn-outline-success" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
-                                                                                <i class="fad fa-edit"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-6 mx-0 ps-0">
-                                                                            <button id="btnRmvArt" data="${usu.getDNI()}" type="button" class="btn btn-success" title="<fmt:message key="gestion.tooltip.eliminar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
-                                                                                <i class="fad fa-trash-alt"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div> 
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
+                                        <!--<div class="table-responsive-xl"> Aquí va el import correspondiente a la tabla usuarios-->
+                                        <div id="listadoUsuarios">
+                                            <c:import url="filtradoUsuarios.jsp">
+                                                <c:param name="filtro" value=""/>
+                                            </c:import>
+                                        </div>
                                         <div class="row d-flex justify-content-between">
                                             <div class="col-auto">
                                                 <a href="../principal.jsp" class="text-decoration-none text-success" style="font-weight: bold;"><i class="fad fa-arrow-alt-left fa-2x" style="text-shadow: 1px 1px 1px black;"></i> <fmt:message key="btn.volver" bundle="${lang}"/></a>
