@@ -116,7 +116,7 @@
                                     <fmt:message key="login.correoInval" bundle="${lang}"/>
                                 </div>
                             </div>    
-                            
+
                             <div class="form-floating mb-3">
                                 <input style="height: 50px;" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
                                 <label for="inputPassword" class="text-muted"><i class="fad fa-unlock-alt me-2"></i><fmt:message key="login.password" bundle="${lang}"/></label>
@@ -151,7 +151,7 @@
                         data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                         aria-label="Toggle navigation">
                     <!-- <span class="navbar-toggler-icon"></span> -->
-                    <i class="fad fa-home-lg fa-2x" style='color: #005235;'></i>
+                    <i id="btnHomeColapse" class="fad fa-home-lg fa-2x" style='color: #005235;'></i>
                 </button>
                 <!-- El justify-content-between nos separa el formulario de búsqueda a la derecha de lo demás -->
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
@@ -233,10 +233,31 @@
                         <a id="btnESP" href="principal.jsp?locale=es_ES" class="me-4 ms-2" title="<fmt:message key="tooltip.espanol" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
                             <img id="iconoES" class="" src="img/iconoES.png" alt="Icono ES" width="35" height="20" style="cursor: pointer;">
                         </a>
-                        <input class="form-control me-2 fs-ls-5" type="search" placeholder="<fmt:message key="buscar" bundle="${lang}"/>" aria-label="Search">
+                        <input id="inputBuscar" class="form-control me-2 fs-ls-5 w-100" list="listadoProductosBusqueda" type="search" placeholder="<fmt:message key="buscar" bundle="${lang}"/>" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit"><i class="fad fa-search"></i></button>
-                            <c:if test="${!empty usuario and !usuario.esAdmin()}">
-
+                       <%-- <datalist id="listadoProductosBusqueda">Aquí importaremos la busqueda de productos
+                            <c:import url="busquedaProductos.jsp"/>
+                        </datalist>--%>
+                        <div id="listadoProductosBusqueda" style="position: absolute;">
+                            <c:import url="busquedaProductos.jsp"/>
+                        </div>
+                        <%--Prueba para BORRAR
+                        <details>
+                            <summary>Click to get the user details</summary>
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Date of birth</th>
+                                    <th>Job</th>
+                                </tr>
+                                <tr>
+                                    <td>John</td>
+                                    <td>March 19</td>
+                                    <td>Accountant</td>
+                                </tr>
+                            </table>
+                        </details>--%>
+                        <c:if test="${!empty usuario and !usuario.esAdmin()}">
                             <!-- BOTON DE CESTA DE COMPRA-->
                             <span class="fa-stack ms-4 me-3" data-bs-target="#offcanvasCesta" data-bs-toggle="offcanvas" 
                                   aria-controls="offcanvasCesta" style="cursor: pointer; color: rgb(2, 77, 2);">

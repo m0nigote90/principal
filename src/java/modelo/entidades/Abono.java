@@ -76,7 +76,10 @@ public class Abono extends Articulo implements Comparable {
      * Devuelve el precio sin IVA de la Planta.
      * @return Precio sin IVA.
      */
-    
+    @Override
+    public String getNombreImagen(){
+        return this.referencia+".jpg";
+    }
     @Override
     public String toString(){
         return categoria+": Fabricante: "+fabricante+", Tipo: "+tipo+

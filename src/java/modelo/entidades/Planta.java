@@ -80,7 +80,10 @@ public class Planta extends Articulo implements Comparable {
     public Double getPrecioSinIVA(){
         return precioSinIVA;
     }
-
+    @Override
+    public String getNombreImagen(){
+        return this.referencia+".jpg";
+    }
 //    @Override
 //    public int hashCode() {
 //        int hash = 0;

@@ -685,6 +685,7 @@ function inicio() {
         $('#iconoEN').css('box-shadow', 'none');
         $('#iconoES').attr('src', 'img/iconoES.png');
         $('#iconoES').css('box-shadow', '2px 2px 2px grey');
+
     });
     $('#btnENG').click(function () {
         $('#iconoEN').attr('src', 'img/iconoEN.png');
@@ -697,14 +698,14 @@ function inicio() {
     }
     //funcion para filtrar Usuarios
     function filtrar() {
-        
+
     }
     $("#filtroNombre").keyup(function () {
         var filtroNombre = $(this).val();
         var filtroDNI = $('#filtroDNI').val();
-        
-        console.log("filtroNombre: "+filtroNombre);
-        console.log("filtroDNI: "+filtroDNI);
+
+        console.log("filtroNombre: " + filtroNombre);
+        console.log("filtroDNI: " + filtroDNI);
         $.ajax({
             method: "POST",
             url: "filtradoUsuarios.jsp",
@@ -717,9 +718,9 @@ function inicio() {
     $("#filtroDNI").keyup(function () {
         var filtroNombre = $('#filtroNombre').val();
         var filtroDNI = $(this).val();
-        
-        console.log("filtroNombre: "+filtroNombre);
-        console.log("filtroDNI: "+filtroDNI);
+
+        console.log("filtroNombre: " + filtroNombre);
+        console.log("filtroDNI: " + filtroDNI);
         $.ajax({
             method: "POST",
             url: "filtradoUsuarios.jsp",
@@ -728,6 +729,64 @@ function inicio() {
                 .done(function (listado) {
                     $("#listadoUsuarios").html(listado);
                 });
+    });
+    //método que detecta pulsación de teclas en la barra de búsqueda y agrega filtros y muestra div personalizado
+    $("#inputBuscar").keyup(function () {
+        var filtro = $(this).val();
+        //var position = $(this).offset();
+        var position = $(this).position();
+        var width = $(this).width();
+        console.log(position);
+        console.log(width);
+
+        console.log("filtroNombre: " + filtro);
+        if (filtro != "") {
+            $("#listadoProductosBusqueda").show();
+            $.ajax({
+                method: "POST",
+                url: "busquedaProductos.jsp",
+                data: {filtro: filtro}
+            })
+                    .done(function (listado) {
+                        $("#listadoProductosBusqueda").css("width", width + 30);
+                        $("#listadoProductosBusqueda").css("top", position.top + 40);
+                        $("#listadoProductosBusqueda").css("left", position.left);
+                        $("#listadoProductosBusqueda").html(listado);
+                    });
+        } else {
+            $("#listadoProductosBusqueda").hide();
+        }
+    });
+    //capturamos los redimensionamientos de la ventana principal para tener siempre bien posicionado el div
+    //absolute de la búsqueda principal
+    $(window).resize(function () {
+        //console.log("resizeee");
+        var position = $("#inputBuscar").position();
+        var width = $("#inputBuscar").width();
+        $("#listadoProductosBusqueda").css("width", width + 30);
+        $("#listadoProductosBusqueda").css("top", position.top + 40);
+        $("#listadoProductosBusqueda").css("left", position.left);
+    });
+    //capturaremos también el boton Home para posicionar bien la búsqueda
+    $("#btnHomeColapse").click(function () {
+        var position = $("#inputBuscar").position();
+        var width = $("#inputBuscar").width();
+        $("#listadoProductosBusqueda").css("width", width + 30);
+        $("#listadoProductosBusqueda").css("top", position.top + 40);
+        $("#listadoProductosBusqueda").css("left", position.left);
+    });
+    //en un cambio de esto, si está vacío, ocultamos la búsqueda
+    $("inputBuscar").on('change', 'input', function () {
+        var filtro = $(this).val();
+        if (filtro == "") {
+            $("#listadoProductosBusqueda").hide();
+        }
+    });
+
+    //al hacer clic sobre un artículo en la búsqueda nos abrirá la pantalla de dicho artículo
+    $(".artBusqueda").click(function () {
+        var ref = $(this).attr("id");
+        alert(ref);
     });
 }
 

@@ -247,7 +247,7 @@
                                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                         <div class="row m-4">
                                             <div class="col-6  border rounded-3 p-3 shadow-sm">
-                                                <label class="form-label fw-bolder" for="selectAgregar"><fmt:message key="gestion.agregarArt.titulo" bundle="${lang}"/></label>
+                                                <label class="form-label fw-bolder ms-1" for="selectAgregar"><fmt:message key="gestion.agregarArt.titulo" bundle="${lang}"/></label>
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <select class="form-select" aria-label="Agregar nuevo artículo" id="selectAgregar">
@@ -523,29 +523,34 @@
                         <div class="tab-pane fade" id="usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
                             <%--Contenido del panel Usuarios--%>
                             <div class="container-fluid my-3"> 
-                                <section class="wrap">
-                                    <div class="container my-4">
-                                        <div class="d-flex justify-content-start align-items-center">
-                                            <div class="border rounded-3 p-4 shadow-sm col-6 me-5 ms-0">
-                                                <span class="display-6"><fmt:message key="gestion.buscarUsuario.titulo" bundle="${lang}"/></span>
-                                                <div class="form-floating mb-1 mt-3">
+                                <section class="">
+                                    <div class="border rounded-3 p-3 mb-3 mt-5 ms-2 shadow-sm col-4">
+                                        <div class="row">
+                                            <div class="col-12 mb-2 ms-1">
+                                                <span class=""><b><fmt:message key="gestion.buscarUsuario.titulo" bundle="${lang}"/></b></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+
+                                                <div class="form-floating">
                                                     <input style="height: 50px;" type="text" class="form-control" id="filtroNombre" placeholder="Nombre">
                                                     <label for="filtroNombre" class="text-muted"><fmt:message key="gestion.table.nombre" bundle="${lang}"/></label>
                                                 </div>
-                                                <hr class="featurette-divider">
+                                            </div>
+                                            <div class="col-6">
                                                 <div class="form-floating">
                                                     <input style="height: 50px;" type="text" class="form-control" id="filtroDNI" placeholder="DNI">
                                                     <label for="filtroDNI" class="text-muted" maxlength="9"><fmt:message key="gestion.table.dni" bundle="${lang}"/></label>
                                                 </div>
                                             </div>
-
-                                        </div>   
-                                    </div>
+                                        </div>
+                                    </div>  
                                     <div class="container-fluid">
                                         <!--<div class="table-responsive-xl"> Aquí va el import correspondiente a la tabla usuarios-->
                                         <div id="listadoUsuarios">
                                             <c:import url="filtradoUsuarios.jsp">
-                                                <c:param name="filtro" value=""/>
+                                                <%--<c:param name="filtro" value=""/>--%>
                                             </c:import>
                                         </div>
                                         <div class="row d-flex justify-content-between">

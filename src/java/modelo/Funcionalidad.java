@@ -42,7 +42,7 @@ public class Funcionalidad implements Serializable {
     public List<Usuario> getUsuarios() {
 //      UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory(PERSISTENCIA));
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE baja = false;", Usuario.class);
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE baja = false AND Admin = false;", Usuario.class);
 
         return query.getResultList();
 //        return ujc.findUsuarioEntities();
@@ -61,7 +61,18 @@ public class Funcionalidad implements Serializable {
 
         return query.getResultList();
     }
+    public List<Planta> getPlantasGroupByRef(){ 
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'planta' AND baja = false GROUP BY Referencia;", Planta.class);
 
+        return query.getResultList();
+    }
+    public List<Abono> getAbonosGroupByRef(){ 
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'abono' AND baja = false GROUP BY Referencia;", Abono.class);
+
+        return query.getResultList();
+    }
     public List<Abono> getAbonos() {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'Abono' AND baja = false;", Abono.class);
@@ -119,7 +130,30 @@ public class Funcionalidad implements Serializable {
         }
         return filtrados;
     }
-    
+    public List<Articulo> filtrarArticulos(String filtro) {
+        //List<Articulo> articulos = getArticulos();
+        List<Planta> plantas = getPlantasGroupByRef();
+        List<Abono> abonos = getAbonosGroupByRef();
+        List<Articulo> filtrados = new ArrayList();
+        if (!filtro.isEmpty()) {
+            for (Planta p : plantas) {
+                if (p.getNombre().toLowerCase().contains(filtro.toLowerCase())
+                        || p.getCategoria().toLowerCase().contains(filtro.toLowerCase())
+                        || p.getTipo().toLowerCase().contains(filtro.toLowerCase())) {
+                    filtrados.add(p);
+                }
+            }
+            for (Abono a : abonos) {
+                if (a.getNombre().toLowerCase().contains(filtro.toLowerCase())
+                        || a.getCategoria().toLowerCase().contains(filtro.toLowerCase())) {
+                    filtrados.add(a);
+                }
+            }
+        } else {
+            
+        }
+        return filtrados;
+    }
     public List<Articulo> filtrarArticulosCategoria(String filtro) {
         List<Articulo> articulos = getArticulos();
         List<Articulo> filtrados = new ArrayList();
