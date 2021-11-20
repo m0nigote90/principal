@@ -5,8 +5,6 @@ package controladores;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,60 +13,64 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Funcionalidad;
+import modelo.entidades.Abono;
 import modelo.entidades.Articulo;
 import modelo.entidades.Pedido;
+import modelo.entidades.Planta;
 import modelo.entidades.Usuario;
 import org.json.JSONObject;
 
 /**
  *
- * @author Pedro 02/11/2021
+ * @author Pedro M., 19/11/2021
  */
-@WebServlet(name = "CrearPedido", urlPatterns = {"/CrearPedido"})
-public class CrearPedido extends HttpServlet {
+@WebServlet(name = "PedidoDetalle", urlPatterns = {"/PedidoDetalle"})
+public class PedidoDetalle extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-15");
         try (PrintWriter out = response.getWriter()) {
-            JSONObject jsonObject = new JSONObject();
-            ServletContext aplicacion = getServletContext();
+            Long id = Long.valueOf(request.getParameter("idPedido"));
+            JSONObject jO = new JSONObject();
             HttpSession sesion = request.getSession();
+            ServletContext aplicacion = getServletContext();
             Funcionalidad tienda = (Funcionalidad) aplicacion.getAttribute("tienda");
-            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
-            List<Articulo> cesta = usuario.getArticulos();
-
-            Pedido pedido = new Pedido();
-            pedido.setArticulosPedido(cesta);
+            Usuario usuario = (Usuario)sesion.getAttribute("usuario");
+            Pedido p = tienda.buscarPedido(id);
+            Integer numArt = p.getNumArticulos();
+            //sesion.setAttribute("pedidoDetalle", pedido);
+            jO.put("numPed", id);
+            jO.put("fecPed", p.getFecha());
+            jO.put("numArt", numArt);
+            jO.put("precioSin", p.getTotalSinIVA());
+            jO.put("precio", p.getTotal());
+            jO.put("impuestos", (p.getTotal()) - (p.getTotalSinIVA()));
             
-            pedido.setUsuario(usuario);
-
-            
-            //usuario.getArticulos().clear();
-            usuario.vaciarCesta();
-            usuario.addPedido(pedido);
-            List<Articulo> cestaRestante = usuario.getArticulos();
-            try {
+            Integer n = 0;
+            List<Articulo> articulos = tienda.pedidoUsuarioSinRepetidos(id);
+            JSONObject jOArticulos = new JSONObject();
+            for(Articulo a : articulos){
+                JSONObject jOArt = new JSONObject();
+                if(a.getCategoria().equals("planta")){
+                    Planta pla = (Planta)a;
+                    jOArt.put("nombre", pla.getNombre());
+                } else if(a.getCategoria().equals("abono")){
+                    Abono abo = (Abono)a;
+                    jOArt.put("nombre", abo.getNombre());
+                }
                 
-                tienda.altaPedido(pedido);
-            } catch (Exception ex) {
-                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
+                jOArt.put("nomImg", a.getNombreImagen());
+                jOArt.put("cant", tienda.unidadesCompradasPedido(id, a.getReferencia()));
+                jOArt.put("precio", a.getPrecio());
+                jOArticulos.put("art"+String.valueOf(n), jOArt);
+                n++;
             }
-            try {
-                tienda.actualizarUsuario(usuario);
-            } catch (Exception ex) {
-                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            jO.put("articulos", jOArticulos);
             
-            
-            
-            
-            sesion.setAttribute("usuario", usuario);
-            jsonObject.put("flag", "true");
-            out.print(jsonObject);
-
+            jO.put("flag", "true");
+            out.print(jO);
             out.close();
-
         }
     }
 

@@ -130,7 +130,15 @@ function inicio() {
         var email = $("#inputEmail").val();
         var password = $("#inputPassword").val();
         if (email != "" && password != "") {
-            $("#mensajeErrorLogin").hide();
+            //$("#mensajeErrorLogin").hide();
+            $("#invalidEmail").hide();
+            $("#invalidEmail2").hide();
+            $("#contraInval").hide();
+            $("#contraInval2").hide();
+            $('#inputEmail').removeClass('is-valid');
+            $('#inputEmail').removeClass('is-invalid');
+            $('#inputPassword').removeClass('is-valid');
+            $('#inputPassword').removeClass('is-invalid');
             $.ajax({
                 url: "LoginAjax",
                 dataType: "json",
@@ -142,8 +150,17 @@ function inicio() {
                 success: function (data) {
                     var flag = data.flag;
                     var email = data.email;
-                    var pass = data.pass;
+
                     if (flag == "true") {
+                        $('#inputEmail').removeClass('is-invalid');
+                        $('#inputEmail').addClass('is-valid');
+                        $('#inputPassword').removeClass('is-invalid');
+                        $('#inputPassword').addClass('is-valid');
+                        $("#invalidEmail").hide();
+                        $("#invalidEmail2").hide();
+                        $("#contraInval").hide();
+                        $("#contraInval2").hide();
+
                         $("#mensajeLogin").prop('style', "color: green; font-weight: 600;");
                         $("#mensajeLogin").show();
 
@@ -154,24 +171,76 @@ function inicio() {
                         setTimeout(anadirCuentaAtras, 1000);
                         setTimeout(recargaPagina, 2000);
                     } else {
-                        if (email == "false") {
+                        if (email == "true") {
+                            $("#invalidEmail").hide();
+                            $("#invalidEmail2").hide();
+                            $('#inputEmail').removeClass('is-invalid');
+                            $('#inputEmail').addClass('is-valid');
+
+                            $("#contraInval").show();
+                            $("#contraInval2").hide();
+                            $('#inputPassword').removeClass('is-valid');
+                            $('#inputPassword').addClass('is-invalid');
+
+                        } else {
+                            $("#invalidEmail").show();
+                            $("#invalidEmail2").hide();
                             $('#inputEmail').removeClass('is-valid');
                             $('#inputEmail').addClass('is-invalid');
-                        } else {
-                            if (pass == "false") {
-                                $('#inputEmail').removeClass('is-invalid');
-                                $('#inputEmail').addClass('is-valid');
-                                $('#inputPassword').removeClass('is-valid');
-                                $('#inputPassword').addClass('is-invalid');
-                            }
+                            $('#inputPassword').removeClass('is-invalid');
+                            $('#inputPassword').removeClass('is-valid');
+                            $("#contraInval").hide();
+                            $("#contraInval2").hide();
                         }
                     }
                 }
             });
         } else {
-            $("#mensajeErrorLogin").prop('style', "color: red; font-weight: 600;");
-            $("#mensajeErrorLogin").show();
+            if (email == "" && password == "") {
+                $("#invalidEmail").hide();
+                $("#invalidEmail2").show();
+                $("#contraInval").hide();
+                $("#contraInval2").show();
+                $('#inputEmail').removeClass('is-valid');
+                $('#inputEmail').addClass('is-invalid');
+                $('#inputPassword').removeClass('is-valid');
+                $('#inputPassword').addClass('is-invalid');
+            } else if (email != "" && password == "") {
+                $("#invalidEmail").hide();
+                $("#invalidEmail2").hide();
+                $("#contraInval").hide();
+                $("#contraInval2").show();
+                $('#inputEmail').removeClass('is-invalid');
+                $('#inputEmail').addClass('is-valid');
+                $('#inputPassword').removeClass('is-valid');
+                $('#inputPassword').addClass('is-invalid');
+            } else if (email == "" && password != "") {
+                $("#invalidEmail").hide();
+                $("#invalidEmail2").show();
+                $("#contraInval").hide();
+                $("#contraInval2").hide();
+                $('#inputEmail').removeClass('is-valid');
+                $('#inputEmail').addClass('is-invalid');
+                $('#inputPassword').removeClass('is-invalid');
+                $('#inputPassword').removeClass('is-valid');
+            }
+
         }
+    });
+    //cada vez que se detecte cambio en el input de login, reseteamos validación
+    $('#inputEmail').on('keyup keydown change', function ()
+    {
+        $("#invalidEmail").hide();
+        $("#invalidEmail2").hide();
+        $(this).removeClass('is-invalid');
+        $(this).removeClass('is-valid');
+    });
+    $('#inputPassword').on('keyup keydown change', function ()
+    {
+        $("#contraInval").hide();
+        $("#contraInval2").hide();
+        $(this).removeClass('is-invalid');
+        $(this).removeClass('is-valid');
     });
     //Petición Ajax mostrar catálogo
     $("#btnTodos").click(function () {
@@ -186,12 +255,12 @@ function inicio() {
 
                 var flag1 = data.flag1;
                 if (flag1 == "true") {
-                    console.log("Todo ha ido bien Servlet CargarPortafolio");
-                    alert("Ha funcionado la request a filtro");
+                    //console.log("Todo ha ido bien Servlet CargarPortafolio");
+                    //alert("Ha funcionado la request a filtro");
                     recargaPagina();
                 } else {
-                    console.log("ERROR Servlet CargarPortafolio");
-                    alert("ERROR request a filtro");
+                    //console.log("ERROR Servlet CargarPortafolio");
+                    //alert("ERROR request a filtro");
                 }
             }
         });
@@ -209,12 +278,12 @@ function inicio() {
 
                 var flag2 = data.flag2;
                 if (flag2 == "true") {
-                    console.log("Todo ha ido bien Servlet CargarPortafolio");
-                    alert("Ha funcionado la request a filtro");
+                    //console.log("Todo ha ido bien Servlet CargarPortafolio");
+                    //alert("Ha funcionado la request a filtro");
                     recargaPagina();
                 } else {
-                    console.log("ERROR Servlet CargarPortafolio");
-                    alert("ERROR request a filtro");
+                    //console.log("ERROR Servlet CargarPortafolio");
+                    //alert("ERROR request a filtro");
                 }
             }
         });
@@ -233,12 +302,12 @@ function inicio() {
 
                 var flag3 = data.flag3;
                 if (flag3 == "true") {
-                    console.log("Todo ha ido bien Servlet CargarPortafolio");
-                    alert("Ha funcionado la request a filtro");
+//                    console.log("Todo ha ido bien Servlet CargarPortafolio");
+//                    alert("Ha funcionado la request a filtro");
                     recargaPagina();
                 } else {
-                    console.log("ERROR Servlet CargarPortafolio");
-                    alert("ERROR request a filtro");
+//                    console.log("ERROR Servlet CargarPortafolio");
+//                    alert("ERROR request a filtro");
                 }
             }
         });
@@ -290,8 +359,8 @@ function inicio() {
                     //añadirContenido("#numArtCesta", numArtCesta);
                     recargaPagina();
                 } else {
-                    console.log("ERROR Servlet AddArticulo");
-                    alert("ERROR add articulo");
+//                    console.log("ERROR Servlet AddArticulo");
+//                    alert("ERROR add articulo");
                 }
             }
         });
@@ -319,7 +388,7 @@ function inicio() {
                     //añadirContenido("#numArtCesta", numArtCesta);
                     recargaPagina();
                 } else {
-                    console.log("ERROR Servlet REMOVEArticulo");
+                    //console.log("ERROR Servlet REMOVEArticulo");
                     alert("ERROR REMOVE articulo");
                 }
             }
@@ -704,8 +773,8 @@ function inicio() {
         var filtroNombre = $(this).val();
         var filtroDNI = $('#filtroDNI').val();
 
-        console.log("filtroNombre: " + filtroNombre);
-        console.log("filtroDNI: " + filtroDNI);
+//        console.log("filtroNombre: " + filtroNombre);
+//        console.log("filtroDNI: " + filtroDNI);
         $.ajax({
             method: "POST",
             url: "filtradoUsuarios.jsp",
@@ -719,8 +788,8 @@ function inicio() {
         var filtroNombre = $('#filtroNombre').val();
         var filtroDNI = $(this).val();
 
-        console.log("filtroNombre: " + filtroNombre);
-        console.log("filtroDNI: " + filtroDNI);
+//        console.log("filtroNombre: " + filtroNombre);
+//        console.log("filtroDNI: " + filtroDNI);
         $.ajax({
             method: "POST",
             url: "filtradoUsuarios.jsp",
@@ -730,16 +799,27 @@ function inicio() {
                     $("#listadoUsuarios").html(listado);
                 });
     });
+    //función general para agregar un delay a una determinada función
+    function delay(fn, ms) {
+        let timer = 0;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(fn.bind(this, ...args), ms || 0);
+        };
+    }
+    ;
+
+
     //método que detecta pulsación de teclas en la barra de búsqueda y agrega filtros y muestra div personalizado
-    $("#inputBuscar").keyup(function () {
+    $("#inputBuscar").keyup(delay(function (e) {
         var filtro = $(this).val();
         //var position = $(this).offset();
         var position = $(this).position();
         var width = $(this).width();
-        console.log(position);
-        console.log(width);
-
-        console.log("filtroNombre: " + filtro);
+//        console.log(position);
+//        console.log(width);
+//
+//        console.log("filtroNombre: " + filtro);
         if (filtro != "") {
             $("#listadoProductosBusqueda").show();
             $.ajax({
@@ -753,6 +833,34 @@ function inicio() {
                         $("#listadoProductosBusqueda").css("left", position.left);
                         $("#listadoProductosBusqueda").html(listado);
                     });
+
+        } else {
+            $("#listadoProductosBusqueda").hide();
+        }
+    }, 500));
+    $("#inputBuscarOLD").keyup(function () {
+        var filtro = $(this).val();
+        //var position = $(this).offset();
+        var position = $(this).position();
+        var width = $(this).width();
+//        console.log(position);
+//        console.log(width);
+//
+//        console.log("filtroNombre: " + filtro);
+        if (filtro != "") {
+            $("#listadoProductosBusqueda").show();
+            $.ajax({
+                method: "POST",
+                url: "busquedaProductos.jsp",
+                data: {filtro: filtro}
+            })
+                    .done(function (listado) {
+                        $("#listadoProductosBusqueda").css("width", width + 30);
+                        $("#listadoProductosBusqueda").css("top", position.top + 40);
+                        $("#listadoProductosBusqueda").css("left", position.left);
+                        $("#listadoProductosBusqueda").html(listado);
+                    });
+
         } else {
             $("#listadoProductosBusqueda").hide();
         }
@@ -786,7 +894,93 @@ function inicio() {
     //al hacer clic sobre un artículo en la búsqueda nos abrirá la pantalla de dicho artículo
     $(".artBusqueda").click(function () {
         var ref = $(this).attr("id");
-        alert(ref);
+        //alert(ref);
+        $.ajax({
+            url: "ArticuloDetalle",
+            dataType: "json",
+            type: "post",
+            data: {
+                "ref": ref
+            },
+            success: function (data) {
+                var flag = data.flag;
+
+                //todas los datos del artículo
+                if (flag == "true") {
+                    //redirect
+                    //mostramos por url ref para dar información al usuario aunque no haga falta
+                    window.location.href = "producto.jsp?ref=" + ref;
+                } else {
+
+                }
+            }
+        });
+    });
+
+    $(".verPed").click(function () {
+        var id = $(this).attr('data');
+        //alert(id);
+        $.ajax({
+            url: "PedidoDetalle",
+            dataType: "json",
+            type: "post",
+            data: {
+                "idPedido": id
+            },
+            success: function (data) {
+                var flag = data.flag;
+                var fecPed = data.fecPed;
+                var numPed = data.numPed;
+                var numArt = data.numArt;
+                var precioSin = data.precioSin;
+                var total = data.precio;
+                var articulos = data.articulos;
+                var impuestos = data.impuestos;
+
+                //console.log("Object.key(): " + Object.keys(articulos));
+                var articulosJOS = JSON.stringify(articulos);
+                var JSONAr = JSON.parse(articulosJOS);
+
+
+                //todas los datos del artículo
+                if (flag == "true") {
+                    $('#tbodyArt').html("");//limpiamos el listado de articulos anterior
+                    $('#numPedido').html(numPed);
+                    var fecha = new Date(fecPed);
+                    $('#fecPedido').html(fecha.toLocaleDateString("es-ES"));
+                    $('#subtotalPedido').html(precioSin.toFixed(2)+" \u20AC");
+                    $('#impuestosPedido').html(impuestos.toFixed(2)+" \u20AC");
+                    $('#totalPedido').html("<b>"+total.toFixed(2)+" \u20AC</b>");
+//                    console.log(id);
+//                    console.log(fecPed);
+//                    console.log(numPed);
+                    Object.keys(JSONAr).forEach(key => {
+                        let value = JSONAr[key];
+//                    console.log(key, value);
+//                    console.log("value: "+value);
+//                    console.log(Object.keys(value))
+//                    console.log(Object.values(value));
+//                    console.log(Object.keys(value)[0]);
+                        var precio = Object.values(value)[0];
+                        var nomImg = Object.values(value)[1];
+                        var cantidad = Object.values(value)[2];
+                        var nombre = Object.values(value)[3];
+                        console.log("precio: " + Object.values(value)[0]);
+                        console.log("nomImg: " + Object.values(value)[1]);
+                        console.log("cantidad: " + Object.values(value)[2]);
+                        console.log("nombre: " + Object.values(value)[3]);
+                        $('#tbodyArt').append("<tr>\n\
+                            <td  class='align-middle'><img style='width: 50px;' src='img/articulos/" + nomImg + "' /></td>\n\
+                            <td  class='align-middle'>" + nombre + "</td>\n\
+                            <td  class='align-middle'>" + precio.toFixed(2) + "\u20AC</td>\n\
+                            <td  class='align-middle'>x" +cantidad+"</td>\n\
+                            <td  class='align-middle'>x" +(cantidad*precio).toFixed(2)+"\u20AC</td>\n\
+                            </tr>");
+                    })
+
+                }
+            }
+        });
     });
 }
 

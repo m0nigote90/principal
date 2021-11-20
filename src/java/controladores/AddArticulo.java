@@ -38,11 +38,8 @@ public class AddArticulo extends HttpServlet {
         ServletContext aplicacion = getServletContext();
         Usuario usuario = (Usuario)sesion.getAttribute("usuario");
         Funcionalidad tienda = (Funcionalidad)aplicacion.getAttribute("tienda");
-        
-        ArticuloJpaController ajc = new ArticuloJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
-        UsuarioJpaController ujc = new UsuarioJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
-        
-//                    List<Articulo> articulos = ajc.findArticuloEntities();
+
+
                     List<Articulo> articulos = tienda.getArticulos();
                     boolean encontrado = false;
                     for (Articulo art : articulos) {

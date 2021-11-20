@@ -1,12 +1,10 @@
 /*
+ * 
  */
 package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,59 +14,33 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Funcionalidad;
 import modelo.entidades.Articulo;
-import modelo.entidades.Pedido;
-import modelo.entidades.Usuario;
 import org.json.JSONObject;
 
 /**
  *
- * @author Pedro 02/11/2021
+ * @author Pedro M., 18/11/2021
  */
-@WebServlet(name = "CrearPedido", urlPatterns = {"/CrearPedido"})
-public class CrearPedido extends HttpServlet {
+@WebServlet(name = "ArticuloDetalle", urlPatterns = {"/ArticuloDetalle"})
+public class ArticuloDetalle extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=ISO-8859-15");
         try (PrintWriter out = response.getWriter()) {
-            JSONObject jsonObject = new JSONObject();
-            ServletContext aplicacion = getServletContext();
             HttpSession sesion = request.getSession();
+            ServletContext aplicacion = getServletContext();
+            JSONObject jsonObject = new JSONObject();
             Funcionalidad tienda = (Funcionalidad) aplicacion.getAttribute("tienda");
-            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
-            List<Articulo> cesta = usuario.getArticulos();
-
-            Pedido pedido = new Pedido();
-            pedido.setArticulosPedido(cesta);
             
-            pedido.setUsuario(usuario);
-
+            String ref = request.getParameter("ref");
+            Articulo articulo = tienda.devolverArtPorRef(ref);
             
-            //usuario.getArticulos().clear();
-            usuario.vaciarCesta();
-            usuario.addPedido(pedido);
-            List<Articulo> cestaRestante = usuario.getArticulos();
-            try {
-                
-                tienda.altaPedido(pedido);
-            } catch (Exception ex) {
-                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                tienda.actualizarUsuario(usuario);
-            } catch (Exception ex) {
-                Logger.getLogger(CrearPedido.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
-            
-            
-            sesion.setAttribute("usuario", usuario);
+            sesion.setAttribute("articuloDetalle", articulo);
             jsonObject.put("flag", "true");
             out.print(jsonObject);
-
             out.close();
-
+            //response.sendRedirect("producto.jsp");
+            
         }
     }
 

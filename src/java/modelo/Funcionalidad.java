@@ -54,25 +54,34 @@ public class Funcionalidad implements Serializable {
 
         return query.getResultList();
     }
+    public List<Articulo> getArticulosGroupByRef() {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia;", Articulo.class);
 
+        return query.getResultList();
+    }
+    
     public List<Planta> getPlantas() {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'Planta' AND baja = false;", Planta.class);
 
         return query.getResultList();
     }
-    public List<Planta> getPlantasGroupByRef(){ 
+
+    public List<Planta> getPlantasGroupByRef() {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'planta' AND baja = false GROUP BY Referencia;", Planta.class);
 
         return query.getResultList();
     }
-    public List<Abono> getAbonosGroupByRef(){ 
+
+    public List<Abono> getAbonosGroupByRef() {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'abono' AND baja = false GROUP BY Referencia;", Abono.class);
 
         return query.getResultList();
     }
+
     public List<Abono> getAbonos() {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
         Query query = em.createNativeQuery("SELECT * FROM articulos WHERE DTYPE = 'Abono' AND baja = false;", Abono.class);
@@ -102,6 +111,7 @@ public class Funcionalidad implements Serializable {
         }
         return filtrados;
     }
+
     public List<Usuario> filtrarUsuariosDni(String filtro) {
         List<Usuario> usuarios = getUsuarios();
         List<Usuario> filtrados = new ArrayList();
@@ -116,6 +126,7 @@ public class Funcionalidad implements Serializable {
         }
         return filtrados;
     }
+
     public List<Usuario> filtrarUsuariosNombreDni(String nombre, String dni) {
         List<Usuario> usuarios = getUsuarios();
         List<Usuario> filtrados = new ArrayList();
@@ -130,6 +141,7 @@ public class Funcionalidad implements Serializable {
         }
         return filtrados;
     }
+
     public List<Articulo> filtrarArticulos(String filtro) {
         //List<Articulo> articulos = getArticulos();
         List<Planta> plantas = getPlantasGroupByRef();
@@ -150,10 +162,37 @@ public class Funcionalidad implements Serializable {
                 }
             }
         } else {
-            
+
         }
         return filtrados;
     }
+    //versión optimizada para menos consultas en BD del método anterior
+    public List<Articulo> filtrarArticulosOpti(String filtro) {
+        List<Articulo> articulos = getArticulosGroupByRef();
+//        List<Planta> plantas = getPlantasGroupByRef();
+//        List<Abono> abonos = getAbonosGroupByRef();
+        List<Articulo> filtrados = new ArrayList();
+        if (!filtro.isEmpty()) {
+            for (Articulo a : articulos) {
+                if (a.getCategoria().equals("planta")) {
+                    Planta p = (Planta) a;
+                    if (p.getNombre().toLowerCase().contains(filtro.toLowerCase())
+                            || p.getCategoria().toLowerCase().contains(filtro.toLowerCase())
+                            || p.getTipo().toLowerCase().contains(filtro.toLowerCase())) {
+                        filtrados.add(p);
+                    }
+                } else if (a.getCategoria().equals("abono")) {
+                    Abono abo = (Abono)a;
+                    if (abo.getNombre().toLowerCase().contains(filtro.toLowerCase())
+                        || a.getCategoria().toLowerCase().contains(filtro.toLowerCase())) {
+                    filtrados.add(a);
+                }
+                }
+            }
+        }
+        return filtrados;
+    }
+
     public List<Articulo> filtrarArticulosCategoria(String filtro) {
         List<Articulo> articulos = getArticulos();
         List<Articulo> filtrados = new ArrayList();
@@ -317,22 +356,34 @@ public class Funcionalidad implements Serializable {
         return resultados.size();
     }
 
-    //Aqui manejamos las funciones para la cesta a de articulos
-    public List<Articulo> cestaUsuarioSinRepetidos(Integer id) {
+    //Aquí manejamos las funciones para la cesta a de artículos
+    public List<Articulo> cestaUsuarioSinRepetidos(Long idUsuario) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND baja = false GROUP BY Referencia;", Articulo.class).setParameter(1, id);
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND baja = false GROUP BY Referencia;", Articulo.class).setParameter(1, idUsuario);
         List<Articulo> resultados = query.getResultList();
         return resultados;
     }
-
-    //Cuantas unidades compradas de un mismo articulo
-    public Integer unidadesCompradas(Integer id, String ref) {
+    public List<Articulo> pedidoUsuarioSinRepetidos(Long idPedido) {
         EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
-        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND Referencia = ?2 AND baja = false;", Articulo.class).setParameter(1, id).setParameter(2, ref);
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_pedido_articulos WHERE FK_PEDIDO = ?1) AND baja = false GROUP BY Referencia;", Articulo.class).setParameter(1, idPedido);
+        List<Articulo> resultados = query.getResultList();
+        return resultados;
+    }
+    //Cuántas unidades compradas de un mismo artículo pasando el usuario.id y el artículo.referencia
+    public Integer unidadesCompradas(Long idUsuario, String refArticulo) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_usuario_articulos WHERE FK_USUARIO = ?1) AND Referencia = ?2 AND baja = false;", Articulo.class).setParameter(1, idUsuario).setParameter(2, refArticulo);
         List<Articulo> resultados = query.getResultList();
         return resultados.size();
     }
 
+    //Unidades compradas por un usuario de un mismo artículo en un pedido en concreto
+    public Integer unidadesCompradasPedido(Long idPedido, String refArticulo) {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM articulos WHERE id IN (SELECT FK_ARTICULO FROM rel_pedido_articulos WHERE FK_PEDIDO = ?1) AND Referencia = ?2 AND baja = false;", Articulo.class).setParameter(1, idPedido).setParameter(2, refArticulo);
+        List<Articulo> resultados = query.getResultList();
+        return resultados.size();
+    }
     public List<Abono> filtrarAbonosTipoPlanta(String filtro) {
         List<Abono> abonos = getAbonos();
         List<Abono> filtrados = new ArrayList();

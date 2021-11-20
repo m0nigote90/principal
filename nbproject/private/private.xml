@@ -5,15 +5,14 @@
         <group>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/activadores.js</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/RmvArticulo.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/entidades/Usuario.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/agregarPlanta.js</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/CrearPedido.java</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/Importar.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/ArticuloDetalle.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/Login.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/producto.jsp</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/modelo/Funcionalidad.java</file>
+            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/LoginAjax.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/admin/gestion.jsp</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/src/java/controladores/AddArticulo.java</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/principal.jsp</file>
-            <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/registro.jsp</file>
             <file>file:/C:/Users/Pedro/Desktop/Proyecto%20Final%20DAW/Proyecto/Proyecto%20FINAL/web/js/validacionRegistro.js</file>
         </group>
     </open-files>

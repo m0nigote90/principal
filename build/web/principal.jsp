@@ -110,19 +110,24 @@
                     <form class="form needs-validation" novalidate>
                         <div class="modal-body">
                             <div class="form-floating mb-3">
-                                <input style="height: 50px;" type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
+                                <input style="height: 50px;" type="email" class="form-control inputLogin" id="inputEmail" placeholder="name@example.com" required>
                                 <label for="inputEmail" class="text-muted"><i class="fad fa-at me-2"></i><fmt:message key="login.correo" bundle="${lang}"/></label>
                                 <div id="invalidEmail" class="invalid-feedback">
                                     <fmt:message key="login.correoInval" bundle="${lang}"/>
                                 </div>
+                                <div id="invalidEmail2" class="invalid-feedback">
+                                    <fmt:message key="login.correoVacio" bundle="${lang}"/>
+                                </div>
                             </div>    
 
                             <div class="form-floating mb-3">
-                                <input style="height: 50px;" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                                <input style="height: 50px;" type="password" class="form-control inputLogin" id="inputPassword" placeholder="Password" required>
                                 <label for="inputPassword" class="text-muted"><i class="fad fa-unlock-alt me-2"></i><fmt:message key="login.password" bundle="${lang}"/></label>
-                                <div class="invalid-feedback">
-                                    <!--Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character-->
+                                <div id="contraInval" class="invalid-feedback">
                                     <fmt:message key="login.contraInval" bundle="${lang}"/>
+                                </div>
+                                <div id="contraInval2" class="invalid-feedback">
+                                    <fmt:message key="login.contraVacia" bundle="${lang}"/>
                                 </div>
                             </div>
                             <div class="">
@@ -188,7 +193,7 @@
                                         <c:out value="${usuario.nombre}"></c:out> <c:out value="${usuario.apellidos.charAt(0)}"></c:out>.
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#" class="dropdown-item"><i class="fad fa-bags-shopping me-2"></i> <fmt:message key="usuario.mispedidos" bundle="${lang}"/></a></li>
+                                                <li><a href="misPedidos.jsp" class="dropdown-item"><i class="fad fa-bags-shopping me-2"></i> <fmt:message key="usuario.mispedidos" bundle="${lang}"/></a></li>
                                         <li><a href="#" class="dropdown-item"><i class="fad fa-sliders-v me-2"></i> <fmt:message key="configuracion" bundle="${lang}"/></a></li>
                                         <li><a href="#" class="dropdown-item"><i class="fad fa-user me-2"></i> <fmt:message key="editarPerfil" bundle="${lang}"/></a></li>
                                         <li><a href="CerrarSesion" class="dropdown-item"><i class="fad fa-sign-out me-2"></i> <fmt:message key="cerrarSesion" bundle="${lang}"/></a>
@@ -210,6 +215,7 @@
                                 <li><a class="dropdown-item" href="#"><i class="fad fa-bug me-2"></i> <fmt:message key="insecticidas" bundle="${lang}"/></a></li>
                             </ul>
                         </li>
+                         <a>Num. Pedidos del usuario: <c:out value="${usuario.nombre}"/>: <c:out value="${usuario.pedidos.size()}"/></a>
                         <%-- Esto es una lista de Prueba, BORRAR
                         <li>
                             <a>Locale: <c:out value="${varLocale}"/></a>

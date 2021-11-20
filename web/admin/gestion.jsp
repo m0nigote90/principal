@@ -316,7 +316,7 @@
                                                                         </div>
                                                                         <div class="row mt-1 mx-0 px-0 mt-2">
                                                                             <div class="col-6 mx-0 pe-0">
-                                                                                <button id="" data="${ar.referencia}" type="button" class="btnEditArt btn btn-outline-success pe-2 me-2" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <button id="" data="${ar.referencia}" type="button" class="btnEditArt btn btn-outline-success me-2" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                     <i class="fad fa-edit"></i>
                                                                                 </button>
                                                                             </div>
@@ -398,7 +398,7 @@
                                                                             </div>
                                                                             <div class="row mt-1 mx-0 px-0 mt-2">
                                                                                 <div class="col-6 mx-0 pe-0">
-                                                                                    <button id="" data="${pla.referencia}" type="button" class="btnEditArt btn btn-outline-success pe-2 me-2" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                    <button id="" data="${pla.referencia}" type="button" class="btnEditArt btn btn-outline-success me-2" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                         <i class="fad fa-edit"></i>
                                                                                     </button>
                                                                                 </div>
@@ -480,7 +480,7 @@
                                                                         </div>
                                                                         <div class="row mt-1 mx-0 px-0 mt-2">
                                                                             <div class="col-6 mx-0 pe-0">
-                                                                                <button id="" data="${abo.referencia}" type="button" class="btnEditArt btn btn-outline-success pe-2 me-2" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                                                <button id="" data="${abo.referencia}" type="button" class="btnEditArt btn btn-outline-success me-2" title="<fmt:message key="gestion.tooltip.editar" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
                                                                                     <i class="fad fa-edit"></i>
                                                                                 </button>
                                                                             </div>
