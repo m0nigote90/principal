@@ -214,7 +214,10 @@ public class Usuario implements Serializable {
     public LocalDate convertToLocalDateViaSqlDate(Date dateToConvert) {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }   
-
+    
+    public void quitarArticuloCesta(Articulo a){
+        articulos.remove(a);
+    }
    
     @Override
     public int hashCode() {

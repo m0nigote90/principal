@@ -84,8 +84,10 @@
         </style>
         <!-- Recogemos y definimos la variable locale del navegador del usuario por defecto, si escoge otro idioma, cargamos ese locale -->
         <c:if test="${param.locale!=null}">
-            <fmt:setLocale value="${param.locale}" scope="application" />
-        <input id="localeActual" type="hidden" value="${param.locale}">
+            <fmt:setLocale value="${param.locale}" scope="session" />
+            <c:set var="varLocale" value="${param.locale}" scope="session" />
+        <%--<input id="localeActual" type="hidden" value="${param.locale}">--%>
+        <input id="localeActual" type="hidden" value="${varLocale}">
     </c:if>
     <c:if test="${param.locale==null}">
         <c:set var="varLocale" value="${pageContext.request.locale}" scope="session" />
@@ -265,7 +267,7 @@
                         </details>--%>
                         <c:if test="${!empty usuario and !usuario.esAdmin()}">
                             <!-- BOTON DE CESTA DE COMPRA-->
-                            <span class="fa-stack ms-4 me-3" data-bs-target="#offcanvasCesta" data-bs-toggle="offcanvas" 
+                            <span id="btnCesta" class="fa-stack ms-4 me-3" data-bs-target="#offcanvasCesta" data-bs-toggle="offcanvas" 
                                   aria-controls="offcanvasCesta" style="cursor: pointer; color: rgb(2, 77, 2);">
 
                                 <!-- The icon that will wrap the number -->
@@ -312,7 +314,7 @@
                         </thead>
                         <tbody>
                             <c:forEach var="articulo" items="${tienda.cestaUsuarioSinRepetidos(usuario.id)}">
-                                <tr class="" style="font-size: 0.9em;">
+                                <tr id="${articulo.referencia}" class="" style="font-size: 0.9em;">
                                     <td class="align-middle"><img src="img/articulos/${articulo.nombreImagen}" style="width: 50px;"/></td>
                                     <td class="align-middle">${articulo.nombre}</td>
                                     <td class="align-middle"><fmt:formatNumber value = "${articulo.precio}" type = "currency"/></td></td>
@@ -321,7 +323,9 @@
                                     <td id="" data="${articulo.referencia}" class="btnEliArtCesta align-middle"><i class="fal fa-times fa-2x" style="color: red; cursor: pointer;"></i></td>
                                 </tr>
                             </c:forEach>
-
+                        <input id="numArtCestaHiden" type="hidden" data="${usuario.getArticulos().size()}"/>
+                        <input id="precioSinHiden" type="hidden" data="${tienda.getPrecioTotal((usuario.articulos), false)}"/>
+                        <input id="precioTotalHiden" type="hidden" data="${tienda.getPrecioTotal((usuario.articulos), true)}"/>
                         </tbody>
                         <tfoot>
 
@@ -331,9 +335,9 @@
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <table class="table table-bordered table-striped">
-                                <tr><td><b style="color: #C88307;"><fmt:message key="subtotal" bundle="${lang}"/>:</b></td><td class="text-center"><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), false)}" type="currency"/></td></tr>
-                                <tr><td><b style="color: #C88307;"><fmt:message key="impuestos" bundle="${lang}"/>:</b></td><td class="text-center"><fmt:formatNumber value = "${(tienda.getPrecioTotal((usuario.articulos), true)) - (tienda.getPrecioTotal((usuario.articulos), false)) }" type="currency"/></td></tr>
-                                <tr><td><b style="color: #C88307;"><fmt:message key="total" bundle="${lang}"/>:</b></td><td class="text-center"><b><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), true)}" type="currency"/></b></td></tr>
+                                <tr><td><b style="color: #C88307;"><fmt:message key="subtotal" bundle="${lang}"/>:</b></td><td  id="subtotalCesta" class="text-center"><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), false)}" type="currency"/></td></tr>
+                                <tr><td><b style="color: #C88307;"><fmt:message key="impuestos" bundle="${lang}"/>:</b></td><td id="impuestoCesta" class="text-center"><fmt:formatNumber value = "${(tienda.getPrecioTotal((usuario.articulos), true)) - (tienda.getPrecioTotal((usuario.articulos), false)) }" type="currency"/></td></tr>
+                                <tr><td><b style="color: #C88307;"><fmt:message key="total" bundle="${lang}"/>:</b></td><td id="totalCesta" class="text-center"><b><fmt:formatNumber value = "${tienda.getPrecioTotal((usuario.articulos), true)}" type="currency"/></b></td></tr>
                             </table>
                         </div>
                     </div>

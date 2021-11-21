@@ -83,7 +83,6 @@
     </head>
     <body>
         <header class="pt-2 bg-light sticky-top mb-0" id="cabecera">
-
             <div class="container-fluid p-3 align-items-end bg-light" id="cabecera">
                 <a class="navbar-brand ms-5" href="../principal.jsp"><img src="../img/logoLtrans.png" alt="logoEmpresa"
                                                                           width="60"></a>

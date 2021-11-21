@@ -37,7 +37,7 @@ public class RemoveArticuloCesta extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            JSONObject jsonObject = null;
+            JSONObject jsonObject = new JSONObject();
             String ref = request.getParameter("refArticulo");
             HttpSession sesion = request.getSession();
             ServletContext aplicacion = getServletContext();
@@ -49,10 +49,13 @@ public class RemoveArticuloCesta extends HttpServlet {
 
             //Lista de articulos que se han decidido borrar, aqui tenemos en cuenta que sean varias unidades
             List<Articulo> artBorrar = tienda.filtrarArticulosReferenciaVendidos(ref);
-            List<Articulo> cestaUsuario = usuario.getArticulos();
+            Double precioSinEliminado = 0.;
+            Double precioEliminado = 0.;
 
             for(Articulo a: artBorrar){
-                cestaUsuario.remove(a);
+                precioSinEliminado += a.getPrecioSinIVA();
+                precioEliminado += a.getPrecio();
+                usuario.quitarArticuloCesta(a);
                 a.setVendido(false);
                 try {
                     ajc.edit(a);
@@ -71,7 +74,9 @@ public class RemoveArticuloCesta extends HttpServlet {
             
             sesion.setAttribute("usuario", usuario);
             System.out.println("Eliminado de cesta art: " + ref);
-            jsonObject = new JSONObject();
+            jsonObject.put("precioSinEliminado", precioSinEliminado);
+            jsonObject.put("precioEliminado", precioEliminado);
+            jsonObject.put("numArtRmv", artBorrar.size());
             jsonObject.put("flag", "true");
             System.out.println(jsonObject);
             //System.out.println("HEMOS ENCONTRADO EL USUARIO");

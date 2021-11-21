@@ -30,7 +30,15 @@
         <link rel="icon" type="image/png" href="img/icono.png">
         <title>Eleplant</title>
         <style>
-            html, body{ height: 99%;}
+            html {
+                height: 100%;
+            }
+            body {
+                min-height: 100%;
+            }
+            #tbodyArt{
+                height: 200px;
+            }
             table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
                 content: " \25BE";
                 color: gainsboro;
@@ -44,8 +52,11 @@
         <script src="js/jquery-3.5.1.min.js"></script>
     </head>
     <body>
-        <header class="pt-2 bg-light sticky-top mb-0" id="cabecera">
-            <p>Nombre usuario: ${usu.getNombre()}</p>
+
+            <input id="localePedidos" type="hidden" value="${varLocale}"/>
+        
+        <header class="pt-2 bg-light sticky-top mb-0 shadow" id="cabecera">
+
             <div class="container-fluid p-3 align-items-end bg-light" id="cabecera">
                 <a class="navbar-brand ms-5" href="principal.jsp"><img src="img/logoLtrans.png" alt="logoEmpresa"
                                                                        width="100"></a>
@@ -54,9 +65,10 @@
         </header>
         <section class="wrap">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-6 rounded-3">
-                        <table class="table table-sm table-responsive table-bordered table-striped table-hover shadow text-center sortable caption-top rounded-3" id="tablePedidosUsu">
+                <div class="row justify-content-between">
+                    <div class="col-xs-10 col-lg-5 border-2 rounded-3 mt-2 mx-auto">
+                        <p class="display-5"><fmt:message key="misPedidos.lista" bundle="${lang}"/></p>
+                        <table class="table table-sm table-responsive table-bordered table-striped table-hover shadow text-center sortable rounded rounded-3" id="tablePedidosUsu">
                             <caption><fmt:message key="misPedidos.caption" bundle="${lang}"/> <b>${numPedidos}</b></caption>
                             <thead>
                                 <tr>
@@ -82,7 +94,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="col-6 mx-0 ps-0">
-                                                        <button id="" data1="${ped.getId()}" " type="button" class="imprimirPed btn btn-success" title="<fmt:message key="misPedidos.tooltip.imprimir" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                        <button id="" data1="${ped.getId()}" type="button" class="imprimirPed btn btn-success" title="<fmt:message key="misPedidos.tooltip.imprimir" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
                                                             <i class="fad fa-print"></i>
                                                         </button>
                                                     </div>
@@ -95,28 +107,28 @@
                         </table>
 
                     </div>
-                    <div class="col-5 rounded-3 shadow">
-                        <p class="display-5">Vista previa pedido</p>
-                        <div class="row">
+                    <div class="col-xs-10 col-lg-5 rounded-3 mt-2 mx-auto">
+                        <p class="display-5"><fmt:message key="misPedidos.detalles" bundle="${lang}"/></p>
+                        <div class="row border border-2 rounded-3 shadow">
                             <div class="col m-2">
-                                <div class="row bg-light rounded-3">
-                                    <div class="col-10">
-                                        <p><b>Pedido número: </b><span id="numPedido"></span></p>
-                                        <p><b>Fecha: </b><span id="fecPedido"></span></p>
+                                <div class="row bg-light border rounded-3 shadow pt-2">
+                                    <div class="col-10 border border-light">
+                                        <p class=""><b><fmt:message key="misPedidos.numPed" bundle="${lang}"/>: </b><span id="numPedido"></span></p>
+                                        <p><b><fmt:message key="misPedidos.fecha" bundle="${lang}"/>: </b><span id="fecPedido"></span></p>
                                     </div>
                                     <div class="col-1">
                                         <img src="img/logoLtrans.png" alt="logoEmpresa" width="50">
                                     </div>
                                 </div>
-                                <div class="row mt-3 bg-light rounded-3 p3" style="heigth: 200px;">
+                                <div class="row mt-3 bg-light rounded-3 p3 shadow border" style="heigth: 200px;">
                                     <table id="listaArticulos" class="table text-center">
                                         <thead>
                                             <tr>
                                                 <th class="align-middle"></th>
-                                                <th class="align-middle">Artículo</th>
-                                                <th class="align-middle">Precio</th>
+                                                <th class="align-middle"><fmt:message key="misPedidos.articulo" bundle="${lang}"/></th>
+                                                <th class="align-middle"><fmt:message key="misPedidos.precio" bundle="${lang}"/></th>
                                                 <th class="align-middle">x</th>
-                                                <th class="align-middle">Subtotal</th>
+                                                <th class="align-middle"><fmt:message key="misPedidos.subtotal" bundle="${lang}"/></th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbodyArt">
@@ -126,7 +138,7 @@
                                     <hr class="bg-sucess border-2 border-top border-sucess">
                                     <div class="container">
                                         <div class="row justify-content-md-end me-3">
-                                            <table class="table table-bordered table-striped w-25">
+                                            <table class="table table-bordered table-striped w-50 shadow-sm">
                                                 <tr><td class="text-end w-50"><b style="color: #C88307;"><fmt:message key="subtotal" bundle="${lang}"/>:</b></td><td id="subtotalPedido" class="text-end w-50"></td></tr>
                                                 <tr><td class="text-end"><b style="color: #C88307;"><fmt:message key="impuestos" bundle="${lang}"/>:</b></td><td id="impuestosPedido" class="text-end"></td></tr>
                                                 <tr><td class="text-end"><b style="color: #C88307;"><fmt:message key="total" bundle="${lang}"/>:</b></td><td id="totalPedido" class="text-end"></td></tr>
@@ -137,6 +149,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>

@@ -18,7 +18,8 @@ function inicio() {
         $('#iconoES').attr('src', 'img/iconoES.png');
         $('#iconoES').css('box-shadow', '2px 2px 2px grey');
     }
-
+    //Pasamos el locale a gestión
+    //$('#localeGestion').attr('data', locale);
     //Manejo de filtrado de PLANTAS con animación
     $("#btnPlaTodas").click(function () {
         $('#portafolio div').each(function () {
@@ -369,32 +370,81 @@ function inicio() {
     //Eliminar articulo de la cesta y devolver a la tienda btnEliminarArtCesta
     $(".btnEliArtCesta").click(function () {
         //alert("Boton eliminar ARt");
+        modCesta = true;
         var ref = $(this).attr('data');
+        var numArtTotal = $('#numArtCestaHiden').attr('data');
+        var precioSin = $('#precioSinHiden').attr('data');
+        var precioTotal = $('#precioTotalHiden').attr('data');
+
+        console.log("precioSin: " + precioSin);
+        console.log("precioTotal: " + precioTotal);
+        console.log("locale: " + locale);
+
+        //alert("numArtActual: " + numArtTotal);
         //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
         $.ajax({
             url: "RemoveArticuloCesta",
             dataType: "json",
             type: "post",
             data: {
-                "refArticulo": ref,
+                "refArticulo": ref
             },
             success: function (data) {
 
                 var flag = data.flag;
+                var numArtRmv = data.numArtRmv;
+                var precioSinEliminado = data.precioSinEliminado;
+                //console.log("precioSinEli: " + precioSinEliminado);
+                var precioTotalEliminado = data.precioEliminado;
+                //console.log("precioEliminado: " + precioTotalEliminado);
 
                 if (flag == "true") {
-                    alert("ELIMINADO DE CESTA" + ref)
-                    //alert("Actualizado ya: "+numArtCesta);
-                    //añadirContenido("#numArtCesta", numArtCesta);
-                    recargaPagina();
+                    //vamos modificando el acumulado mientras no se recargue página, es decir, no se cierre la cesta
+                    $('#numArtCestaHiden').attr('data', (numArtTotal - numArtRmv));
+                    $('#precioSinHiden').attr('data', (precioSin - precioSinEliminado));
+                    $('#precioTotalHiden').attr('data', (precioTotal - precioTotalEliminado));
+                    //var numArtRestantes = $('#numArtCestaHiden').attr('data');
+                    //Ocultamos el elemento a eliminar
+                    $("#" + ref).hide(500);
+                    //alert("se borran: " + numArtRmv);
+                    //alert("quedan: " + (numArtTotal - numArtRmv));
+                    //modificamos los valores del precio en la cesta SEGÚN locale
+                    if (regexpEN.test(locale)) {
+                        $("#subtotalCesta").html("\u00A3" + Math.abs((precioSin - precioSinEliminado)).toFixed(2));
+                        $("#impuestoCesta").html("\u00A3" + Math.abs(((precioTotal - precioTotalEliminado) - (precioSin - precioSinEliminado))).toFixed(2));
+                        $("#totalCesta").html("<b>\u00A3" + Math.abs((precioTotal - precioTotalEliminado)).toFixed(2) + "</b>");
+
+                    } else if (regexpES.test(locale)) {
+                        $("#subtotalCesta").html(Math.abs((precioSin - precioSinEliminado)).toFixed(2) + " \u20AC");
+                        $("#impuestoCesta").html(Math.abs(((precioTotal - precioTotalEliminado) - (precioSin - precioSinEliminado))).toFixed(2) + " \u20AC");
+                        $("#totalCesta").html("<b>" + Math.abs((precioTotal - precioTotalEliminado)).toFixed(2) + " \u20AC</b>");
+                    }
+
+                    if ((numArtTotal - numArtRmv) == 0) {//desactivamos el boton de compra si hay 0 artículos en cesta
+                        $("#btnComprarCesta").prop("disabled", true);
+                    }
+                    //console.log("numArtRestantes " + numArtRestantes);
+
                 } else {
                     //console.log("ERROR Servlet REMOVEArticulo");
-                    alert("ERROR REMOVE articulo");
+                    alert("Algo no salió bien al eliminar articulo de la cesta");
                 }
             }
         });
     });
-
+    //Capturar evento al cerrar la cesta (offcanvas) y modCesta detecta cambios en la cesta (se han eliminado articulos)
+    let modCesta = false;
+    //siempre que abramos la cesta volveremos a resetear la bandera modCesta a false
+    $('#btnCesta').click(function () {
+        modCesta = false;
+    });
+    //si al cierre del offcanvas cesta hay cambios, actualizamos la página
+    $('#offcanvasCesta').on('hidden.bs.offcanvas', function () {
+        if (modCesta) {
+            recargaPagina();
+        }
+        //alert("Se cierra offcanvas: "+modCesta);
+    });
     //Método que agrega unidades del mismo tipo. Recogemos id y numUnidades a agregar del campo input.
     $(".btnAddUnidades").click(function () {
 
@@ -919,6 +969,7 @@ function inicio() {
 
     $(".verPed").click(function () {
         var id = $(this).attr('data');
+        var localePedidos = $('#localePedidos').attr('value');
         //alert(id);
         $.ajax({
             url: "PedidoDetalle",
@@ -938,22 +989,31 @@ function inicio() {
                 var impuestos = data.impuestos;
 
                 //console.log("Object.key(): " + Object.keys(articulos));
+                //Creamos un JSON partiendo de un string con el método primero .stringify y luego .parse
                 var articulosJOS = JSON.stringify(articulos);
                 var JSONAr = JSON.parse(articulosJOS);
-
 
                 //todas los datos del artículo
                 if (flag == "true") {
                     $('#tbodyArt').html("");//limpiamos el listado de articulos anterior
                     $('#numPedido').html(numPed);
                     var fecha = new Date(fecPed);
-                    $('#fecPedido').html(fecha.toLocaleDateString("es-ES"));
-                    $('#subtotalPedido').html(precioSin.toFixed(2)+" \u20AC");
-                    $('#impuestosPedido').html(impuestos.toFixed(2)+" \u20AC");
-                    $('#totalPedido').html("<b>"+total.toFixed(2)+" \u20AC</b>");
+                    if (regexpES.test(localePedidos)) {
+                        $('#fecPedido').html(fecha.toLocaleDateString("es-ES"));
+                        $('#subtotalPedido').html(precioSin.toFixed(2) + "\u20AC");
+                        $('#impuestosPedido').html(impuestos.toFixed(2) + "\u20AC");
+                        $('#totalPedido').html("<b>" + total.toFixed(2) + "\u20AC</b>");
+                    } else if (regexpEN.test(localePedidos)) {
+                        $('#fecPedido').html(fecha.toLocaleDateString("en-GB"));
+                        $('#subtotalPedido').html("\u00A3" + precioSin.toFixed(2));
+                        $('#impuestosPedido').html("\u00A3" + impuestos.toFixed(2));
+                        $('#totalPedido').html("<b>\u00A3" + total.toFixed(2) + "</b>");
+                    }
+
 //                    console.log(id);
 //                    console.log(fecPed);
 //                    console.log(numPed);
+                    //Recorremos todas las claves y valores del JSON que hemos creado con todos los artículos a mostrar
                     Object.keys(JSONAr).forEach(key => {
                         let value = JSONAr[key];
 //                    console.log(key, value);
@@ -969,14 +1029,28 @@ function inicio() {
                         console.log("nomImg: " + Object.values(value)[1]);
                         console.log("cantidad: " + Object.values(value)[2]);
                         console.log("nombre: " + Object.values(value)[3]);
-                        $('#tbodyArt').append("<tr>\n\
+
+                        console.log("locale: " + localePedidos);
+                        console.log("validacion locale: " + regexpES.test(localePedidos));
+                        if (regexpES.test(localePedidos)) {
+                            $('#tbodyArt').append("<tr>\n\
                             <td  class='align-middle'><img style='width: 50px;' src='img/articulos/" + nomImg + "' /></td>\n\
                             <td  class='align-middle'>" + nombre + "</td>\n\
                             <td  class='align-middle'>" + precio.toFixed(2) + "\u20AC</td>\n\
-                            <td  class='align-middle'>x" +cantidad+"</td>\n\
-                            <td  class='align-middle'>x" +(cantidad*precio).toFixed(2)+"\u20AC</td>\n\
+                            <td  class='align-middle'>x" + cantidad + "</td>\n\
+                            <td  class='align-middle'>" + (cantidad * precio).toFixed(2) + "\u20AC</td>\n\
                             </tr>");
-                    })
+                        } else if (regexpEN.test(localePedidos)) {
+                            $('#tbodyArt').append("<tr>\n\
+                            <td  class='align-middle'><img style='width: 50px;' src='img/articulos/" + nomImg + "' /></td>\n\
+                            <td  class='align-middle'>" + nombre + "</td>\n\
+                            <td  class='align-middle'>\u00A3" + precio.toFixed(2) + "</td>\n\
+                            <td  class='align-middle'>x" + cantidad + "</td>\n\
+                            <td  class='align-middle'>\u00A3" + (cantidad * precio).toFixed(2) + "</td>\n\
+                            </tr>");
+                        }
+
+                    });
 
                 }
             }
