@@ -6,13 +6,15 @@
 package modelo.dao;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import modelo.entidades.Pedido;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import modelo.dao.exceptions.NonexistentEntityException;
 import modelo.entidades.Planta;
 
@@ -32,11 +34,24 @@ public class PlantaJpaController implements Serializable {
     }
 
     public void create(Planta planta) {
+        if (planta.getPedidos() == null) {
+            planta.setPedidos(new ArrayList<Pedido>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Pedido> attachedPedidos = new ArrayList<Pedido>();
+            for (Pedido pedidosPedidoToAttach : planta.getPedidos()) {
+                pedidosPedidoToAttach = em.getReference(pedidosPedidoToAttach.getClass(), pedidosPedidoToAttach.getId());
+                attachedPedidos.add(pedidosPedidoToAttach);
+            }
+            planta.setPedidos(attachedPedidos);
             em.persist(planta);
+            for (Pedido pedidosPedido : planta.getPedidos()) {
+                pedidosPedido.getArticulosPedido().add(planta);
+                pedidosPedido = em.merge(pedidosPedido);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +65,29 @@ public class PlantaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Planta persistentPlanta = em.find(Planta.class, planta.getId());
+            List<Pedido> pedidosOld = persistentPlanta.getPedidos();
+            List<Pedido> pedidosNew = planta.getPedidos();
+            List<Pedido> attachedPedidosNew = new ArrayList<Pedido>();
+            for (Pedido pedidosNewPedidoToAttach : pedidosNew) {
+                pedidosNewPedidoToAttach = em.getReference(pedidosNewPedidoToAttach.getClass(), pedidosNewPedidoToAttach.getId());
+                attachedPedidosNew.add(pedidosNewPedidoToAttach);
+            }
+            pedidosNew = attachedPedidosNew;
+            planta.setPedidos(pedidosNew);
             planta = em.merge(planta);
+            for (Pedido pedidosOldPedido : pedidosOld) {
+                if (!pedidosNew.contains(pedidosOldPedido)) {
+                    pedidosOldPedido.getArticulosPedido().remove(planta);
+                    pedidosOldPedido = em.merge(pedidosOldPedido);
+                }
+            }
+            for (Pedido pedidosNewPedido : pedidosNew) {
+                if (!pedidosOld.contains(pedidosNewPedido)) {
+                    pedidosNewPedido.getArticulosPedido().add(planta);
+                    pedidosNewPedido = em.merge(pedidosNewPedido);
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -79,6 +116,11 @@ public class PlantaJpaController implements Serializable {
                 planta.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The planta with id " + id + " no longer exists.", enfe);
+            }
+            List<Pedido> pedidos = planta.getPedidos();
+            for (Pedido pedidosPedido : pedidos) {
+                pedidosPedido.getArticulosPedido().remove(planta);
+                pedidosPedido = em.merge(pedidosPedido);
             }
             em.remove(planta);
             em.getTransaction().commit();

@@ -39,36 +39,39 @@ public abstract class Articulo implements Comparable, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "Referencia", length = 10, unique = true)
+    @Column(name = "Referencia")
     protected String referencia;
     @Column(name = "Categoria")
     protected String categoria;
     @Column(name = "Fabricante")
     protected String fabricante;
-    @Column(name = "Descripcion")
+    @Column(name = "Descripcion", length = 400)
     protected String descripcion;
     @Column(name = "Tipo_IVA")
     protected Integer tipoIVA;
-    @Column(name = "Stock")
-    protected Integer stock;
     @Column(name = "Fecha_Alta")
     @Temporal(value = TemporalType.TIMESTAMP)
     protected Date fechaAlta = new Timestamp(new Date().getTime());
+    @Column(name = "Vendido")
+    protected Boolean vendido = false;
+    @Column(name = "Baja")
+    protected Boolean baja = false;
     @ManyToMany(mappedBy = "articulosPedido")
     protected List<Pedido> pedidos;
     
+    
+    
     public Articulo () {}
 
-    public Articulo(String referencia, String categoria, String fabricante, String descripcion, Integer tipoIVA, Integer stock) {
+    public Articulo(String referencia, String categoria, String fabricante, String descripcion, Integer tipoIVA) {
         this.referencia = referencia;
         this.categoria = categoria;
         this.fabricante = fabricante;
         this.descripcion = descripcion;
         this.tipoIVA = tipoIVA;
-        this.stock = stock;
-    }
-    
-    
+        vendido = false;
+        baja = false;
+    }     
     
     public Long getId() {
         return id;
@@ -118,20 +121,28 @@ public abstract class Articulo implements Comparable, Serializable {
         this.tipoIVA = tipoIVA;
     }
 
-    public Integer getStock() {
-        return stock;
+    public Boolean getVendido() {
+        return vendido;
     }
 
-    public void setStock(Integer n) {
-        if(n>=0){
-          this.stock = n;  
-        } else {
-            throw new IllegalArgumentException();
-        } 
+    public void setVendido(Boolean vendido) {
+        this.vendido = vendido;
     }
-    
-    public void quitarStock(Integer n){
-        this.stock = stock - n;
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public Boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(Boolean baja) {
+        this.baja = baja;
     }
     
     public Date getFechaAlta() {

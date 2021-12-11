@@ -6,16 +6,18 @@
 package modelo.dao;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import modelo.entidades.Usuario;
+import modelo.entidades.Articulo;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import modelo.dao.exceptions.NonexistentEntityException;
 import modelo.entidades.Pedido;
-import modelo.entidades.Usuario;
 
 /**
  *
@@ -33,6 +35,9 @@ public class PedidoJpaController implements Serializable {
     }
 
     public void create(Pedido pedido) {
+        if (pedido.getArticulosPedido() == null) {
+            pedido.setArticulosPedido(new ArrayList<Articulo>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,10 +47,20 @@ public class PedidoJpaController implements Serializable {
                 usuario = em.getReference(usuario.getClass(), usuario.getId());
                 pedido.setUsuario(usuario);
             }
+            List<Articulo> attachedArticulosPedido = new ArrayList<Articulo>();
+            for (Articulo articulosPedidoArticuloToAttach : pedido.getArticulosPedido()) {
+                articulosPedidoArticuloToAttach = em.getReference(articulosPedidoArticuloToAttach.getClass(), articulosPedidoArticuloToAttach.getId());
+                attachedArticulosPedido.add(articulosPedidoArticuloToAttach);
+            }
+            pedido.setArticulosPedido(attachedArticulosPedido);
             em.persist(pedido);
             if (usuario != null) {
                 usuario.getPedidos().add(pedido);
                 usuario = em.merge(usuario);
+            }
+            for (Articulo articulosPedidoArticulo : pedido.getArticulosPedido()) {
+                articulosPedidoArticulo.getPedidos().add(pedido);
+                articulosPedidoArticulo = em.merge(articulosPedidoArticulo);
             }
             em.getTransaction().commit();
         } finally {
@@ -63,10 +78,19 @@ public class PedidoJpaController implements Serializable {
             Pedido persistentPedido = em.find(Pedido.class, pedido.getId());
             Usuario usuarioOld = persistentPedido.getUsuario();
             Usuario usuarioNew = pedido.getUsuario();
+            List<Articulo> articulosPedidoOld = persistentPedido.getArticulosPedido();
+            List<Articulo> articulosPedidoNew = pedido.getArticulosPedido();
             if (usuarioNew != null) {
                 usuarioNew = em.getReference(usuarioNew.getClass(), usuarioNew.getId());
                 pedido.setUsuario(usuarioNew);
             }
+            List<Articulo> attachedArticulosPedidoNew = new ArrayList<Articulo>();
+            for (Articulo articulosPedidoNewArticuloToAttach : articulosPedidoNew) {
+                articulosPedidoNewArticuloToAttach = em.getReference(articulosPedidoNewArticuloToAttach.getClass(), articulosPedidoNewArticuloToAttach.getId());
+                attachedArticulosPedidoNew.add(articulosPedidoNewArticuloToAttach);
+            }
+            articulosPedidoNew = attachedArticulosPedidoNew;
+            pedido.setArticulosPedido(articulosPedidoNew);
             pedido = em.merge(pedido);
             if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
                 usuarioOld.getPedidos().remove(pedido);
@@ -75,6 +99,18 @@ public class PedidoJpaController implements Serializable {
             if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
                 usuarioNew.getPedidos().add(pedido);
                 usuarioNew = em.merge(usuarioNew);
+            }
+            for (Articulo articulosPedidoOldArticulo : articulosPedidoOld) {
+                if (!articulosPedidoNew.contains(articulosPedidoOldArticulo)) {
+                    articulosPedidoOldArticulo.getPedidos().remove(pedido);
+                    articulosPedidoOldArticulo = em.merge(articulosPedidoOldArticulo);
+                }
+            }
+            for (Articulo articulosPedidoNewArticulo : articulosPedidoNew) {
+                if (!articulosPedidoOld.contains(articulosPedidoNewArticulo)) {
+                    articulosPedidoNewArticulo.getPedidos().add(pedido);
+                    articulosPedidoNewArticulo = em.merge(articulosPedidoNewArticulo);
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -109,6 +145,11 @@ public class PedidoJpaController implements Serializable {
             if (usuario != null) {
                 usuario.getPedidos().remove(pedido);
                 usuario = em.merge(usuario);
+            }
+            List<Articulo> articulosPedido = pedido.getArticulosPedido();
+            for (Articulo articulosPedidoArticulo : articulosPedido) {
+                articulosPedidoArticulo.getPedidos().remove(pedido);
+                articulosPedidoArticulo = em.merge(articulosPedidoArticulo);
             }
             em.remove(pedido);
             em.getTransaction().commit();

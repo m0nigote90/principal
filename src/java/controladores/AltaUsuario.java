@@ -6,6 +6,9 @@
 package controladores;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,8 +20,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Cifrado;
 import modelo.Funcionalidad;
 import modelo.entidades.Usuario;
+import org.json.JSONObject;
 
 /**
  *
@@ -27,62 +32,81 @@ import modelo.entidades.Usuario;
 @WebServlet(name = "AltaUsuario", urlPatterns = {"/AltaUsuario"})
 public class AltaUsuario extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        {
-        String error = null;
-        String DNI = request.getParameter("DNI");
-        String nombre = request.getParameter("nombre");
-        String apellidos = request.getParameter("apellidos");
-        //Aqui hay que hacer algo con la fecha que viene como String
-        String fecha = request.getParameter("fechaNac");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date fechaNac = null;
+
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            String nombre = request.getParameter("nombre");
+            String apellidos = request.getParameter("apellidos");
+            String fechaNac = request.getParameter("fechaNac");
+            String dni = request.getParameter("dni");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            //Tratamos la fecha
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacDATE = null;
             try {
-                fechaNac = sdf.parse(fecha);
+                fechaNacDATE = sdf.parse(fechaNac);
             } catch (ParseException ex) {
                 Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        Boolean admin = false;
-        Usuario nuevo = new Usuario(DNI, nombre, apellidos, fechaNac, email, password, admin);
-        ServletContext aplicacion = getServletContext();
-        
-        
-        Funcionalidad funcion = new Funcionalidad();
-        try {
-            funcion.altaUsuario(nuevo);
-        } catch (Exception ex) {
-            //error = "Ya existe un usuario con el email " + email;
-            error = ex.getMessage() + " ERROR";
-        }
-        if (error != null) {
-            request.setAttribute("error", error);
-            request.setAttribute("DNI", DNI);
-            request.setAttribute("nombre", nombre);
-            request.setAttribute("apellidos", apellidos);
-            request.setAttribute("fechaNac", fechaNac);
-            request.setAttribute("email", email);
-            request.setAttribute("password", password);
-            getServletContext().getRequestDispatcher("/registro.jsp").forward(request, response);
-        } else {
-            String mensaje = "Se ha dado de alta al/la usuario/a "+nombre; 
-            //request.setAttribute("registroNuevo", mensaje);
-            aplicacion.setAttribute("registroNuevo", true);
-            //getServletContext().getRequestDispatcher("/principal.jsp").forward(request, response);
-            response.sendRedirect("principal.jsp");
-        }
-        }
+            
+            String errorDNI = null;
+            String errorEmail = null;
+            
+            
+            JSONObject jsonObject = new JSONObject();
+            ServletContext aplicacion = getServletContext();
+            Funcionalidad tienda = (Funcionalidad) aplicacion.getAttribute("tienda");
+            
+            
+            if(!tienda.existeUsuarioDNI(dni)){
+                //jsonObject.put("flag", "true");
+                if(!tienda.existeUsuarioEmail(email)){
+                    Usuario u = new Usuario();
+                    u.setNombre(nombre);
+                    u.setApellidos(apellidos);
+                    u.setDNI(dni);
+                    u.setFechaNac(fechaNacDATE);
+                    u.setEmail(email);
+                    //Encriptamos password antes de set y commit a la BD
+                    Cifrado c = new Cifrado();
+                    String pwCifrada = "";
+                    try {
+                        pwCifrada = c.encriptar(password);
+                    } catch (GeneralSecurityException | UnsupportedEncodingException ex) {
+                        Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }  
+                    
+                    u.setPassword(pwCifrada);
+                    u.setAdmin(false);
+                    try {
+                        tienda.altaUsuario(u);
+                    } catch (Exception ex) {
+                        Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    jsonObject.put("flag", "true");
+                    jsonObject.put("nombre", nombre);
+                    
+                } else {
+                    errorEmail = "Ya existe un usuario registrado con ese Email";
+                    jsonObject.put("errorEmail", errorEmail);
+                    jsonObject.put("flag", "false");
+                }
+            } else {
+                errorDNI = "Ya existe un usuario registrado con ese DNI";
+                jsonObject.put("errorDNI", errorDNI);
+                jsonObject.put("flag", "false");
+                //out.print(jsonObject);
+                
+            }
+            
+            out.print(jsonObject);
+            out.close();
+
+        } //Termina el out
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -5,30 +5,18 @@
  */
 package modelo.entidades;
 
-import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+
 
 /**
  *
  * @author Pedro
  */
 @Entity
-@Table(
-        name = "Abonos",
-        indexes = {@Index(name = "indice_id", columnList = "id", unique = true)}
-)
-public class Abono extends Articulo implements Comparable, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Abono extends Articulo implements Comparable {
     @Column(name = "Nombre")
     protected String nombre;
     @Column(name = "Tipo_Planta")
@@ -41,8 +29,8 @@ public class Abono extends Articulo implements Comparable, Serializable {
     public Abono () {}
     
     public Abono (String referencia, String categoria, String nombre, String fabricante, 
-            String descripcion, String tipo, Double volumen, Integer tipoIVA, Integer stock, Double precioSinIVA){
-        super(referencia, "abono", fabricante, descripcion, tipoIVA, stock);
+            String descripcion, String tipo, Double volumen, Integer tipoIVA, Double precioSinIVA){
+        super(referencia, "abono", fabricante, descripcion, tipoIVA);
         this.nombre = nombre;
         this.tipo = tipo;
         this.volumen = volumen;
@@ -61,14 +49,6 @@ public class Abono extends Articulo implements Comparable, Serializable {
      * Devuelve el precio sin IVA del Abono.
      * @return Precio sin IVA.
      */
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     @Override
     public Double getPrecioSinIVA(){
         return precioSinIVA;
@@ -89,28 +69,17 @@ public class Abono extends Articulo implements Comparable, Serializable {
     public void setVolumen(Double volumen) {
         this.volumen = volumen;
     }
-
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public void setPrecioSinIVA(Double precioSin){
+        this.precioSinIVA = precioSin;
     }
-
+    /**
+     * Devuelve el precio sin IVA de la Planta.
+     * @return Precio sin IVA.
+     */
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Abono)) {
-            return false;
-        }
-        Abono other = (Abono) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public String getNombreImagen(){
+        return this.referencia+".jpg";
     }
-
     @Override
     public String toString(){
         return categoria+": Fabricante: "+fabricante+", Tipo: "+tipo+

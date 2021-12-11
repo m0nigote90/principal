@@ -5,30 +5,18 @@
  */
 package modelo.entidades;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+
 
 /**
  *
  * @author Pedro
  */
 @Entity
-@Table(
-        name = "Plantas",
-        indexes = {@Index(name = "indice_id", columnList = "id", unique = true)}
-)
-public class Planta extends Articulo implements Comparable, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Planta extends Articulo implements Comparable {
+
     @Column(name = "Nombre")
     protected String nombre;
     @Column(name = "Tipo")
@@ -38,8 +26,8 @@ public class Planta extends Articulo implements Comparable, Serializable {
     
     public Planta () {}
     
-    public Planta (String referencia, String categoria, String tipo, String nombre, String fabricante, String descripcion, Integer tipoIVA, Integer stock, Double precioSinIVA){
-        super(referencia, "planta", fabricante, descripcion, 10, stock);
+    public Planta (String referencia, String categoria, String tipo, String nombre, String fabricante, String descripcion, Integer tipoIVA, Double precioSinIVA){
+        super(referencia, "planta", fabricante, descripcion, tipoIVA);
         this.nombre = nombre;
         this.tipo = tipo;
         this.precioSinIVA = precioSinIVA;
@@ -57,10 +45,22 @@ public class Planta extends Articulo implements Comparable, Serializable {
         return tipo;
     }
 
+    @Override
+    public String getCategoria() {
+        return categoria;
+    }
+
+    @Override
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+    public void setPrecioSinIVA(Double precioSin){
+        this.precioSinIVA = precioSin;
+    }
     /**
      * Devuelve el precio sin IVA de la Planta.
      * @return Precio sin IVA.
@@ -69,34 +69,29 @@ public class Planta extends Articulo implements Comparable, Serializable {
     public Double getPrecioSinIVA(){
         return precioSinIVA;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String getNombreImagen(){
+        return this.referencia+".jpg";
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Planta)) {
-            return false;
-        }
-        Planta other = (Planta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (super.id != null ? super.id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof Planta)) {
+//            return false;
+//        }
+//        Planta other = (Planta) object;
+//        if ((id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString(){

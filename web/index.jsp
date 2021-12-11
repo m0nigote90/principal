@@ -6,17 +6,22 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-15"%>
 <c:set var="locale" value="${pageContext.response.locale}" scope="application" />
-
+<fmt:setLocale value="${varLocale}" scope="application"/>
+<fmt:setBundle basename="idioma" var="lang" scope="application"/>
+<fmt:requestEncoding value="ISO-8859-15" />
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="img/icono.png">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
+        <link 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+            rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous"
+            >
         <style>
             /* Necesito modificarle el z-index porque el fade-modal quedaba por detrás de la cabecera con .sticky */
             #cabecera {
@@ -25,14 +30,18 @@
             #letreroPulsa{ 
                 z-index: 2000;
                 text-shadow: 2px 2px 5px rgb(0, 2, 0); 
-                font-size: 1.4em;}
-
+                font-size: 1.4em;
+            }
+            .carousel-inner img {
+                width: 100%; 
+                height: 715px; 
+            }
         </style>
         <c:set var="varLocale" value="${pageContext.request.locale}" scope="session" />
         <title>Eleplant</title>
     </head>
     <body>
-        
+
         <header class="sticky-top shadow-sm" id="cabecera">
             <nav class="navbar navbar-expand-lg navbar-light bg-light fs-6">
                 <div class="container-fluid ms-4 align-items-end" id="cabecera">
@@ -43,7 +52,7 @@
 
         </header>
         <div class="row-4 align-items-center my-5 col-8 offset-2 d-flex justify-content-center position-absolute top-25" id="letreroPulsa">
-            <a href="principal.jsp" style="text-decoration: none; color: black;">PULSE PARA ENTRAR</a>
+            <a href="principal.jsp" style="text-decoration: none; color: black;"><fmt:message key="index.entrar" bundle="${lang}"/></a>
         </div>
         <!-- Carrusel -->
         <section class="wrap">
@@ -56,7 +65,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active position-relative" data-bs-interval="4000">
                         <a href="principal.jsp" data-bs-toggle="tooltip" data-bs-placement="top"
-                           title="CLICK PARA ENTRAR"><img src="img/carrusel4.jpg" class="d-block w-100" alt="..."></a>
+                           title="CLICK PARA ENTRAR"><img src="img/carrusel4.jpg" class="d-block" alt="..."></a>
 
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Suculentas</h5>
@@ -65,14 +74,14 @@
                     </div>
                     <div class="carousel-item" data-bs-interval="4000">
 
-                        <a href="principal.jsp"><img src="img/carrusel5.jpg" class="d-block w-100" alt="...">
+                        <a href="principal.jsp"><img src="img/carrusel5.jpg" class="d-block" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Cactus</h5>
                                 <p>Dale un toque de color</p>
                             </div>
                     </div>
                     <div class="carousel-item">
-                        <a href="principal.jsp"><img src="img/carrusel6.jpeg" class="d-block w-100" alt="..."></a>
+                        <a href="principal.jsp"><img src="img/carrusel6.jpeg" class="d-block" alt="..."></a>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Monstera Deliciosa</h5>
                             <p>El mejor diseño minimalista para tu hogar</p>
@@ -95,12 +104,11 @@
         <!-- Alert coockies -->
         <div class="alert alert-success alert-dismissible fade show align-middle fixed-bottom shadow d-flex align-items-center justify-content-center"
              role="alert" style="height: 130px;">
-            <p class="mx-5 d-none d-md-block">Este sitio utiliza <strong>cookies. </strong> Puedes aceptarlas o ver la configuración de las
-                mismas.</p>
+            <p class="mx-5 d-none d-md-block"><fmt:message key="index.msgCook" bundle="${lang}"/></p>
             <!-- Ocultamos el texto de las cookies en resoluciones pequeñas -->
-            <p><button type="button" class="btn btn-outline-success shadow-sm" data-bs-toggle="button" data-bs-dismiss="alert">Aceptar Cookies <i
+            <p><button type="button" class="btn btn-outline-success shadow-sm" data-bs-toggle="button" data-bs-dismiss="alert"><fmt:message key="index.aceptarCook" bundle="${lang}"/><i
                         class="fad fa-cookie-bite" style="color: rgb(246, 180, 94);"></i></button>
-                <button type="button" class="btn btn-outline-success shadow-sm mx-2" data-bs-toggle="button">Configuración
+                <button type="button" class="btn btn-outline-success shadow-sm mx-2" data-bs-toggle="button"><fmt:message key="index.config" bundle="${lang}"/>
                     <i class="fad fa-cogs"></i></button>
             </p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -110,8 +118,12 @@
 
 
         <script src="js/jquery-3.5.1.min.js"></script>
-        <script src="js/tooltip.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
+
+        <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"
+        ></script>
         <script src="js/font-awesome5.js"></script>
     </body>
 </html>

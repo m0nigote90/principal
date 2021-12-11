@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo.entidades;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -50,19 +48,25 @@ public class Usuario implements Serializable {
     protected Date fechaNac;
     @Column(name = "eMail", unique = true)
     protected String email;
-    @Column(name = "Password", length = 20)
+    @Column(name = "Password")
     protected String password;
     @Column(name = "Admin")
     protected Boolean admin;
     @Column(name = "Fecha_Alta")
     @Temporal(value = TemporalType.TIMESTAMP)
     protected Date fechaAlta = new Timestamp(new Date().getTime());
+    @Column(name = "Baja")
+    protected Boolean baja = false;
     @JoinColumn(name = "Pedidos")
     @OneToMany(mappedBy = "usuario", orphanRemoval = false, cascade = CascadeType.MERGE)
     private List<Pedido> pedidos;
-    
-    
-
+    @JoinTable(
+        name = "rel_usuario_articulos",
+        joinColumns = @JoinColumn(name = "FK_USUARIO", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="FK_ARTICULO", nullable = false)
+    )
+    @ManyToMany(cascade = CascadeType.MERGE)
+    protected List<Articulo> articulos = new ArrayList<>();
 
     public Usuario () { }
 
@@ -75,7 +79,7 @@ public class Usuario implements Serializable {
         this.email = email;
         this.password = password;
         this.admin = admin;
-        
+               
     }
 
       public Long getId() {
@@ -150,13 +154,49 @@ public class Usuario implements Serializable {
     public List<Pedido> getPedidos() {
         return pedidos;
     }
-
-    public Integer getNumPedidos(){
-        int num = this.pedidos.size();
-        return num;
-    }
+    public Pedido getPedido(Long id) {
+        Pedido pedido = null;
+        if(pedidos != null && !pedidos.isEmpty()){
+            for(Pedido p : this.getPedidos()){
+                if(p.getId() == id){
+                    pedido = p;
+                }
+            }
+        }
+        return pedido;
+    };
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+    
+    public void addPedido(Pedido p){
+        pedidos.add(p);
+    }
+    public List<Articulo> getArticulos() {
+        List<Articulo> lista = new ArrayList<>();
+        for(Articulo a: articulos){
+            if(!a.getBaja()){
+                lista.add(a);
+            }
+        }
+        return lista;
+    }
+    public void addArticulo(Articulo a){
+        articulos.add(a);
+    }
+    public void vaciarCesta(){
+        articulos.clear();
+    }
+    public void setArticulos(List<Articulo> articulos) {
+        this.articulos = articulos;
+    }
+
+    public Boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(Boolean baja) {
+        this.baja = baja;
     }
     
     public Integer getEdad(){
@@ -170,7 +210,10 @@ public class Usuario implements Serializable {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }   
     
-    
+    public void quitarArticuloCesta(Articulo a){
+        articulos.remove(a);
+    }
+   
     @Override
     public int hashCode() {
         int hash = 0;

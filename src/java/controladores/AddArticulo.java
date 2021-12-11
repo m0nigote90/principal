@@ -2,56 +2,76 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Persistence;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import modelo.dao.ArticuloJpaController;
-import modelo.dao.UsuarioJpaController;
+import modelo.Funcionalidad;
 import modelo.entidades.Articulo;
 import modelo.entidades.Usuario;
 import org.json.JSONObject;
 
 /**
- * En este servlet no controlaremos el stock existente ya que no podremos pulsar boton comprar en caso de stock == 0;
+ * En este servlet no controlaremos el stock existente ya que no podremos pulsar
+ * boton comprar en caso de stock == 0;
+ *
  * @author Pedro
  */
 @WebServlet(name = "AddArticulo", urlPatterns = {"/AddArticulo"})
 public class AddArticulo extends HttpServlet {
 
-   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-             
-        JSONObject jsonObject = null;
-        String ref = request.getParameter("refArticulo");
-        HttpSession sesion = request.getSession();
-        ArrayList <Articulo> cesta = (ArrayList)sesion.getAttribute("cestaActual");
-        
-        ArticuloJpaController ajc
-                            = new ArticuloJpaController(Persistence.createEntityManagerFactory("Proyecto_FINALPU"));
-                    List<Articulo> articulos = ajc.findArticuloEntities();
-                    for (Articulo art : articulos) {
-                        if (art.getReferencia().equals(ref)) {
-                            cesta.add(art);
-                            art.quitarStock(1);
-                            try {
-                                ajc.edit(art);
-                            } catch (Exception ex) {
-                                Logger.getLogger(AddArticulo.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            sesion.setAttribute("cestaActual", cesta);
-                            System.out.println("Añadido art: "+ref);
-                        }
-                        }
+        try (PrintWriter out = response.getWriter()) {
+            JSONObject jsonObject = new JSONObject();
+            String ref = request.getParameter("refArticulo");
+            HttpSession sesion = request.getSession();
+            ServletContext aplicacion = getServletContext();
+            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+            Funcionalidad tienda = (Funcionalidad) aplicacion.getAttribute("tienda");
+            Articulo articulo = null;
+            Integer numArt = null;
+
+            List<Articulo> articulos = tienda.getArticulos();
+            boolean encontrado = false;
+
+            for (Articulo art : articulos) {
+                if (art.getReferencia().equals(ref) && !art.getVendido() && !encontrado) {
+                    articulo = art;
+                    encontrado = true;
+                }
+            }
+
+            if (encontrado && articulo != null) {
+                usuario.addArticulo(articulo);
+                numArt = usuario.getArticulos().size();
+                articulo.setVendido(true);
+
+                try {
+                    tienda.actualizarArticulo(articulo);
+                    tienda.actualizarUsuario(usuario);
+                } catch (Exception ex) {
+                    Logger.getLogger(AddArticulo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                sesion.setAttribute("usuario", usuario);
+                //System.out.println("Añadido art: " + ref);
+                jsonObject.put("flag", "true");
+                jsonObject.put("numArtCesta", numArt);
+                //System.out.println(jsonObject);
+
+            } else {
+                jsonObject.put("flag", "false");
+            }
+            out.print(jsonObject);
+            out.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
