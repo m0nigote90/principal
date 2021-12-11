@@ -169,7 +169,7 @@ sorttable = {
     for (var i=0; i<table.tBodies[0].rows.length; i++) {
       text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
       if (text != '') {
-        if (text.match(/^-?[£$¤]?[\d,.]+%?$/)) {
+        if (text.match(/^-?[£$¤]?[\d,.]+?( €)?/)) {
           return sorttable.sort_numeric;
         }
         // check for a date: dd/mm/yyyy or dd/mm/yy
@@ -261,7 +261,7 @@ sorttable = {
   sort_numeric: function(a,b) {
     aa = parseFloat(a[0].replace(/[^0-9.-]/g,''));
     if (isNaN(aa)) aa = 0;
-    bb = parseFloat(b[0].replace(/[^0-9.-]/g,''));
+    bb = parseFloat(b[0].replace(/[^0-9.-]/g,'')); 
     if (isNaN(bb)) bb = 0;
     return aa-bb;
   },
@@ -331,7 +331,7 @@ sorttable = {
 
     } // while(swap)
   }
-}
+};
 
 /* ******************************************************************
    Supporting functions: bundled here to avoid depending on a library
@@ -492,3 +492,5 @@ var forEach = function(object, block, context) {
 		resolve.forEach(object, block, context);
 	}
 };
+var newTableObject = document.getElementById("tableUsuSort");
+sorttable.makeSortable(newTableObject);

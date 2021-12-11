@@ -7,18 +7,17 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Persistence;
+import java.security.GeneralSecurityException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import modelo.Cifrado;
 import modelo.Funcionalidad;
-import modelo.dao.UsuarioJpaController;
-import modelo.entidades.Articulo;
 import modelo.entidades.Usuario;
 import org.json.JSONObject;
 
@@ -35,16 +34,24 @@ public class LoginAjax extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         Funcionalidad tienda = (Funcionalidad) getServletContext().getAttribute("tienda");
         JSONObject jsonObject = new JSONObject();
+        Cifrado c = new Cifrado();
 
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String passwordR = request.getParameter("password");
         //ArrayList <Articulo> cestaActual = new ArrayList();
         try (PrintWriter out = response.getWriter()) {
             
             
             if(tienda.existeUsuarioEmail(email)){
                 Usuario usuario = tienda.buscarUsuarioEmail(email);
-                if(usuario.getPassword().equals(password)){ //Login correcto
+                String pwCifrada = usuario.getPassword();
+                String pwDescifrada = "";
+                try {
+                    pwDescifrada = c.desencriptar(pwCifrada);
+                } catch (GeneralSecurityException ex) {
+                    Logger.getLogger(LoginAjax.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(pwDescifrada.equals(passwordR)){ //Login correcto
                     
                     HttpSession sesion = request.getSession();
                     sesion.setAttribute("usuario", usuario);

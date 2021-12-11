@@ -7,6 +7,8 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Cifrado;
 import modelo.Funcionalidad;
 import modelo.entidades.Usuario;
 import org.json.JSONObject;
@@ -29,15 +32,7 @@ import org.json.JSONObject;
 @WebServlet(name = "AltaUsuario", urlPatterns = {"/AltaUsuario"})
 public class AltaUsuario extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -76,7 +71,16 @@ public class AltaUsuario extends HttpServlet {
                     u.setDNI(dni);
                     u.setFechaNac(fechaNacDATE);
                     u.setEmail(email);
-                    u.setPassword(password);
+                    //Encriptamos password antes de set y commit a la BD
+                    Cifrado c = new Cifrado();
+                    String pwCifrada = "";
+                    try {
+                        pwCifrada = c.encriptar(password);
+                    } catch (GeneralSecurityException | UnsupportedEncodingException ex) {
+                        Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }  
+                    
+                    u.setPassword(pwCifrada);
                     u.setAdmin(false);
                     try {
                         tienda.altaUsuario(u);

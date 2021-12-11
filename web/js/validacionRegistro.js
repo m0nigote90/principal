@@ -236,13 +236,34 @@ function inicio() {
     ;
 
     function validarPassword(password) {
-        var regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$.!%*?&])[A-Za-z\d@$.!%*?&]{8,}$/;
+        var regExp = /^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*[0-9])\S{8,}$/;
         if (regExp.test(password)) {
             return true;
         } else {
             return false;
         }
-    }
-
+    };
+    //funciones para manejar el icono del ojo que muestra la pw
+    $('#show_password2').click(function () {
+        var cambio = document.getElementById("inputPassword");
+        if (cambio.type === "password") {
+            cambio.type = "text";
+            $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+        } else {
+            cambio.type = "password";
+            $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+        }
+    });
+    
+    $('#show_password3').click(function () {
+        var cambio = document.getElementById("inputPassword2");
+        if (cambio.type === "password") {
+            cambio.type = "text";
+            $('.icon2').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+        } else {
+            cambio.type = "password";
+            $('.icon2').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+        }
+    });
 
 }

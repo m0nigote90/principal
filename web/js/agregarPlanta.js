@@ -86,15 +86,6 @@ function inicio() {
 
     });
 
-    //Tratamos el textarea
-    var max = 140;
-    
-    $('#max').html(max);
-    $('#inputDescripcion').keyup(function () {
-        var chars = $(this).val().length;
-        var diff = max - chars;
-        $('#contador').html(diff);
-    });
 
     $('form').on('submit', function (e) {
         e.preventDefault();

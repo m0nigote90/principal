@@ -45,7 +45,7 @@ public abstract class Articulo implements Comparable, Serializable {
     protected String categoria;
     @Column(name = "Fabricante")
     protected String fabricante;
-    @Column(name = "Descripcion")
+    @Column(name = "Descripcion", length = 400)
     protected String descripcion;
     @Column(name = "Tipo_IVA")
     protected Integer tipoIVA;

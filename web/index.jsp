@@ -6,27 +6,22 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-15"%>
 <c:set var="locale" value="${pageContext.response.locale}" scope="application" />
 <fmt:setLocale value="${varLocale}" scope="application"/>
 <fmt:setBundle basename="idioma" var="lang" scope="application"/>
-<fmt:requestEncoding value="ISO-8859-1" />
+<fmt:requestEncoding value="ISO-8859-15" />
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="img/icono.png">
-        <!--<link 
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
-            rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
-            crossorigin="anonymous"
-            >-->
         <link 
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-              crossorigin="anonymous"
-              >
+            rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous"
+            >
         <style>
             /* Necesito modificarle el z-index porque el fade-modal quedaba por detrás de la cabecera con .sticky */
             #cabecera {
@@ -35,8 +30,12 @@
             #letreroPulsa{ 
                 z-index: 2000;
                 text-shadow: 2px 2px 5px rgb(0, 2, 0); 
-                font-size: 1.4em;}
-
+                font-size: 1.4em;
+            }
+            .carousel-inner img {
+                width: 100%; 
+                height: 715px; 
+            }
         </style>
         <c:set var="varLocale" value="${pageContext.request.locale}" scope="session" />
         <title>Eleplant</title>
@@ -66,7 +65,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active position-relative" data-bs-interval="4000">
                         <a href="principal.jsp" data-bs-toggle="tooltip" data-bs-placement="top"
-                           title="CLICK PARA ENTRAR"><img src="img/carrusel4.jpg" class="d-block w-100" alt="..."></a>
+                           title="CLICK PARA ENTRAR"><img src="img/carrusel4.jpg" class="d-block" alt="..."></a>
 
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Suculentas</h5>
@@ -75,14 +74,14 @@
                     </div>
                     <div class="carousel-item" data-bs-interval="4000">
 
-                        <a href="principal.jsp"><img src="img/carrusel5.jpg" class="d-block w-100" alt="...">
+                        <a href="principal.jsp"><img src="img/carrusel5.jpg" class="d-block" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Cactus</h5>
                                 <p>Dale un toque de color</p>
                             </div>
                     </div>
                     <div class="carousel-item">
-                        <a href="principal.jsp"><img src="img/carrusel6.jpeg" class="d-block w-100" alt="..."></a>
+                        <a href="principal.jsp"><img src="img/carrusel6.jpeg" class="d-block" alt="..."></a>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Monstera Deliciosa</h5>
                             <p>El mejor diseño minimalista para tu hogar</p>
@@ -119,16 +118,11 @@
 
 
         <script src="js/jquery-3.5.1.min.js"></script>
-        <script src="js/tooltip.js"></script>
-       <!-- <script 
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
-            crossorigin="anonymous"
-        ></script>-->
+
         <script 
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
-                crossorigin="anonymous"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"
         ></script>
         <script src="js/font-awesome5.js"></script>
     </body>

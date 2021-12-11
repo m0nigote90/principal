@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controladores;
 
 import java.io.IOException;
@@ -19,7 +14,6 @@ import modelo.Funcionalidad;
 import modelo.entidades.Abono;
 import modelo.entidades.Articulo;
 import modelo.entidades.Planta;
-import modelo.entidades.Usuario;
 import org.json.JSONObject;
 
 /**

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controladores;
 
 import java.io.IOException;
@@ -49,8 +44,8 @@ public class RemoveArticuloCesta extends HttpServlet {
 
             //Lista de articulos que se han decidido borrar, aqui tenemos en cuenta que sean varias unidades
             List<Articulo> artBorrar = tienda.filtrarArticulosReferenciaVendidos(ref);
-            Double precioSinEliminado = 0.;
-            Double precioEliminado = 0.;
+            double precioSinEliminado = 0.;
+            double precioEliminado = 0.;
 
             for(Articulo a: artBorrar){
                 precioSinEliminado += a.getPrecioSinIVA();
@@ -58,7 +53,8 @@ public class RemoveArticuloCesta extends HttpServlet {
                 usuario.quitarArticuloCesta(a);
                 a.setVendido(false);
                 try {
-                    ajc.edit(a);
+                    //ajc.edit(a);
+                    tienda.actualizarArticulo(a);
                 } catch (Exception ex) {
                     Logger.getLogger(RemoveArticuloCesta.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -66,7 +62,8 @@ public class RemoveArticuloCesta extends HttpServlet {
             }
             try {
 
-                ujc.edit(usuario);
+                //ujc.edit(usuario);
+                tienda.actualizarUsuario(usuario);
 
             } catch (Exception ex) {
                 Logger.getLogger(RemoveArticuloCesta.class.getName()).log(Level.SEVERE, null, ex);

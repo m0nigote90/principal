@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo.entidades;
 
 import java.io.Serializable;
@@ -53,7 +48,7 @@ public class Usuario implements Serializable {
     protected Date fechaNac;
     @Column(name = "eMail", unique = true)
     protected String email;
-    @Column(name = "Password", length = 20)
+    @Column(name = "Password")
     protected String password;
     @Column(name = "Admin")
     protected Boolean admin;

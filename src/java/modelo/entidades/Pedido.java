@@ -121,7 +121,7 @@ public class Pedido implements Serializable {
      * Devuelve el precio total de todos los artículos.
      * @return Precio total
      */
-    public double getTotal(){
+    public Double getTotal(){
         double total = 0;
         for (int i = 0; i < articulosPedido.size(); i++) {
             total += articulosPedido.get(i).getPrecio(); 
@@ -132,7 +132,7 @@ public class Pedido implements Serializable {
      * Devuelve el precio total de todos los artículos pero sin IVA.
      * @return Precio total sin IVA.
      */
-    public double getTotalSinIVA(){
+    public Double getTotalSinIVA(){
         double total = 0;
         for (int i = 0; i < articulosPedido.size(); i++) {
             total += articulosPedido.get(i).getPrecioSinIVA(); 

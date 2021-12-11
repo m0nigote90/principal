@@ -7,10 +7,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import modelo.Cifrado;
 import modelo.Funcionalidad;
 import modelo.entidades.Abono;
 import modelo.entidades.Planta;
@@ -99,7 +104,7 @@ public class Importar extends HttpServlet {
                         tienda.altaAbono(a);
                     } catch (Exception ex) {
 
-                    } 
+                    }
                 }
                 jsonObject.put("abonos", "Si");
             }
@@ -125,14 +130,23 @@ public class Importar extends HttpServlet {
                             System.err.println("Error parse fecha");
                         }
                         u.setEmail(partes[4]);
-                        u.setPassword(partes[5]);
+                        //Encriptamos password antes de set y commit a la BD
+                        Cifrado c = new Cifrado();
+                        String pwCifrada = "";
+                        try {
+                            pwCifrada = c.encriptar(partes[5]);
+                        } catch (GeneralSecurityException | UnsupportedEncodingException ex) {
+                            Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        u.setPassword(pwCifrada);
+
                         u.setAdmin(Boolean.valueOf(partes[6]));
                         try {
                             tienda.altaUsuario(u);
                         } catch (Exception ex) {
 
                         }
-                        
+
                     }
                 }
                 jsonObject.put("usuarios", "Si");

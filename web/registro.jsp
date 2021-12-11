@@ -16,11 +16,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--<link 
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
-            rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
-            crossorigin="anonymous"
-            >-->
         <link 
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
             rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
@@ -37,12 +32,9 @@
             i, h1{
                 color: rgb(101, 175, 11);
             }
-            button{
-                box-shadow: 1px 2px 3px grey, -1px -2px 3px grey;
-
-            }
-            input{
-                box-shadow: 1px 2px 5px grey;
+            .btn-success, .btn-outline-success:hover{
+                background: linear-gradient(180deg, rgba(0,82,53,0.7) 0%, rgba(0,82,53,0.8368813736432073) 35%, rgba(0,82,53,1) 100%);
+                color: white;
             }
         </style>
         <script src="js/jquery-3.5.1.min.js"></script>
@@ -72,7 +64,7 @@
                             </div>
                             <div class="col-10">
                                 <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="text" class="form-control" id="inputNombre" placeholder="Nombre" required>
+                                    <input style="height: 50px;" type="text" class="form-control shadow-sm" id="inputNombre" placeholder="Nombre" required>
                                     <label for="inputNombre" class="text-muted"><fmt:message key="registro.nombre" bundle="${lang}"/></label>
                                     <div class="valid-feedback col-10">
                                         <fmt:message key="registro.nomVal" bundle="${lang}"/>
@@ -89,7 +81,7 @@
                             </div>
                             <div class="col-10">
                                 <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="text" class="form-control" id="inputApellidos" placeholder="Apellidos" required>
+                                    <input style="height: 50px;" type="text" class="form-control shadow-sm" id="inputApellidos" placeholder="Apellidos" required>
                                     <label for="inputApellidos" class="text-muted"><fmt:message key="registro.apellidos" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
                                         <fmt:message key="registro.apeVal" bundle="${lang}"/>
@@ -106,7 +98,7 @@
                             </div>
                             <div class="col-10">
                                 <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="date" class="form-control" id="inputFechaNac" placeholder="Fecha Nacimiento" required>
+                                    <input style="height: 50px;" type="date" class="form-control shadow-sm" id="inputFechaNac" placeholder="Fecha Nacimiento" required>
                                     <label for="inputFechaNac" class="text-muted"><fmt:message key="registro.fecha" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
                                         <fmt:message key="registro.fecVal" bundle="${lang}"/>
@@ -123,7 +115,7 @@
                             </div>
                             <div class="col-10">
                                 <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="text" class="form-control" id="inputDNI" placeholder="DNI/NIF" maxlength="9" required>
+                                    <input style="height: 50px;" type="text" class="form-control shadow-sm" id="inputDNI" placeholder="DNI/NIF" maxlength="9" required>
                                     <label for="inputDNI" class="text-muted"><fmt:message key="registro.DNI" bundle="${lang}"/></label>
                                         <div class="valid-feedback">
                                             <fmt:message key="registro.DNIVal" bundle="${lang}"/>
@@ -140,7 +132,7 @@
                             </div>
                             <div class="col-10">
                                 <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
+                                    <input style="height: 50px;" type="email" class="form-control shadow-sm" id="inputEmail" placeholder="name@example.com" required>
                                     <label for="inputEmail" class="text-muted"><fmt:message key="registro.correo" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
                                         <fmt:message key="registro.corrVal" bundle="${lang}"/>
@@ -156,8 +148,9 @@
                                 <i class="fad fa-lock-alt fa-2x mt-3"></i>
                             </div>
                             <div class="col-10">
-                                <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                                <div class="form-floating mb-3 input-group">
+                                    <input style="height: 50px;" type="password" class="form-control shadow-sm" id="inputPassword" placeholder="Password" required>
+                                    <button style="height: 50px;" id="show_password2" class="btn btn-outline-success rounded-end shadow-sm" type="button"> <span class="fa fa-eye-slash icon"></span> </button>
                                     <label for="inputPassword" class="text-muted"><fmt:message key="registro.contra" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
                                         <fmt:message key="registro.conVal" bundle="${lang}"/>
@@ -174,8 +167,9 @@
                                 <i class="fad fa-lock-alt fa-2x mt-3"></i>
                             </div>
                             <div class="col-10">
-                                <div class="form-floating mb-3">
-                                    <input style="height: 50px;" type="password" class="form-control" id="inputPassword2" placeholder="Password" required>
+                                <div class="form-floating mb-3 input-group">
+                                    <input style="height: 50px;" type="password" class="form-control shadow-sm" id="inputPassword2" placeholder="Password" required>
+                                    <button style="height: 50px;" id="show_password3" class="btn btn-outline-success rounded-end shadow-sm" type="button"> <span class="fa fa-eye-slash icon2"></span> </button>
                                     <label for="inputPassword2" class="text-muted"><fmt:message key="registro.contra2" bundle="${lang}"/></label>
                                     <div class="valid-feedback">
                                         <fmt:message key="registro.con2Val" bundle="${lang}"/>
@@ -189,7 +183,7 @@
                         <div class="row justify-content-center"> 
                             <div class="col-8 offset-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="checkAcepto" required>
+                                    <input class="form-check-input shadow-sm" type="checkbox" id="checkAcepto" required>
                                     <label class="form-check-label" for="checkAceptoTerminos"><fmt:message key="registro.terminos" bundle="${lang}"/></label>
                                 </div>
                             </div>
@@ -200,10 +194,10 @@
                                 <a href="principal.jsp" class="btn btn-outline-dark shadow"><fmt:message key="btn.volver" bundle="${lang}"/></a>
                             </div>
                             <div class="col">
-                                <button type="reset" class="btn btn-outline-success"><fmt:message key="btn.reiniciar" bundle="${lang}"/></button>
+                                <button type="reset" class="btn btn-outline-success shadow"><fmt:message key="btn.reiniciar" bundle="${lang}"/></button>
                             </div>
                             <div class="col">
-                                <button id="btnRegistro" type="submit" class="btn btn-success"><fmt:message key="registro.btn" bundle="${lang}"/></button>
+                                <button id="btnRegistro" type="submit" class="btn btn-success shadow"><fmt:message key="registro.btn" bundle="${lang}"/></button>
                             </div>
                         </div>
                     </form>

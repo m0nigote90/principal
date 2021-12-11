@@ -5,30 +5,18 @@
  */
 package modelo.entidades;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+
 
 /**
  *
  * @author Pedro
  */
 @Entity
-//@Table(
-//        name = "Plantas",
-//        indexes = {@Index(name = "indice_id", columnList = "id", unique = true)}
-//)
+
 public class Planta extends Articulo implements Comparable {
 
-//    private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
     @Column(name = "Nombre")
     protected String nombre;
     @Column(name = "Tipo")
@@ -57,6 +45,7 @@ public class Planta extends Articulo implements Comparable {
         return tipo;
     }
 
+    @Override
     public String getCategoria() {
         return categoria;
     }

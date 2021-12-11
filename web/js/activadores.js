@@ -18,6 +18,17 @@ function inicio() {
         $('#iconoES').attr('src', 'img/iconoES.png');
         $('#iconoES').css('box-shadow', '2px 2px 2px grey');
     }
+    //funciones para manejar el icono del ojo que muestra la pw
+    $('#show_password').click(function () {
+        var cambio = document.getElementById("inputPassword");
+        if (cambio.type === "password") {
+            cambio.type = "text";
+            $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+        } else {
+            cambio.type = "password";
+            $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+        }
+    });
     //Pasamos el locale a gestión
     //$('#localeGestion').attr('data', locale);
     //Manejo de filtrado de PLANTAS con animación
@@ -250,22 +261,23 @@ function inicio() {
             dataType: "json",
             type: "post",
             data: {
-                "numFiltro": "0",
+                "numFiltro": "0"
             },
             success: function (data) {
 
                 var flag1 = data.flag1;
-                if (flag1 == "true") {
-                    //console.log("Todo ha ido bien Servlet CargarPortafolio");
-                    //alert("Ha funcionado la request a filtro");
-                    recargaPagina();
+                if (flag1 === "true") {
+                    //redirigimos a principal siempre que se seleccione botón para acceder desde donde sea
+                    window.location.href = "principal.jsp";
+                    //recargaPagina();
                 } else {
                     //console.log("ERROR Servlet CargarPortafolio");
                     //alert("ERROR request a filtro");
                 }
             }
         });
-        recargaPagina();
+        window.location.href = "principal.jsp";
+        //recargaPagina();
     });
     $("#btnPlantas").click(function () {
         $.ajax({
@@ -273,22 +285,22 @@ function inicio() {
             dataType: "json",
             type: "post",
             data: {
-                "numFiltro": "1",
+                "numFiltro": "1"
             },
             success: function (data) {
 
                 var flag2 = data.flag2;
-                if (flag2 == "true") {
-                    //console.log("Todo ha ido bien Servlet CargarPortafolio");
-                    //alert("Ha funcionado la request a filtro");
-                    recargaPagina();
+                if (flag2 === "true") {
+                    window.location.href = "principal.jsp";
+                    //recargaPagina();
                 } else {
                     //console.log("ERROR Servlet CargarPortafolio");
                     //alert("ERROR request a filtro");
                 }
             }
         });
-        recargaPagina();
+        window.location.href = "principal.jsp";
+        //recargaPagina();
     });
 
     $("#btnAbonos").click(function () {
@@ -297,22 +309,22 @@ function inicio() {
             dataType: "json",
             type: "post",
             data: {
-                "numFiltro": "2",
+                "numFiltro": "2"
             },
             success: function (data) {
 
                 var flag3 = data.flag3;
-                if (flag3 == "true") {
-//                    console.log("Todo ha ido bien Servlet CargarPortafolio");
-//                    alert("Ha funcionado la request a filtro");
-                    recargaPagina();
+                if (flag3 === "true") {
+                    window.location.href = "principal.jsp";
+                    //recargaPagina();
                 } else {
 //                    console.log("ERROR Servlet CargarPortafolio");
 //                    alert("ERROR request a filtro");
                 }
             }
         });
-        recargaPagina();
+        window.location.href = "principal.jsp";
+        //recargaPagina();
     });
     //Botones filtrar ARTICULOS por categoria
 //    $("#btnTodos").click(cargarPortafolio("0"));
@@ -338,7 +350,6 @@ function inicio() {
         $(elemento).empty();
     }
     //ánadir elementos .prop(elemento, propiedad);
-    // Select and loop the container element of the elements you want to equalise
     $(".btnComprar").click(function () {
         var ref = $(this).attr('id');
         //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
@@ -348,20 +359,19 @@ function inicio() {
             dataType: "json",
             type: "post",
             data: {
-                "refArticulo": ref,
+                "refArticulo": ref
             },
             success: function (data) {
 
                 var flag = data.flag;
                 var numArtCesta = data.numArtCesta;
-                if (flag == "true") {
-
+                if (flag === "true") {
                     //alert("Actualizado ya: "+numArtCesta);
                     //añadirContenido("#numArtCesta", numArtCesta);
                     recargaPagina();
                 } else {
-//                    console.log("ERROR Servlet AddArticulo");
-//                    alert("ERROR add articulo");
+                    console.log("ERROR Servlet AddArticulo");
+
                 }
             }
         });
@@ -376,9 +386,9 @@ function inicio() {
         var precioSin = $('#precioSinHiden').attr('data');
         var precioTotal = $('#precioTotalHiden').attr('data');
 
-        console.log("precioSin: " + precioSin);
-        console.log("precioTotal: " + precioTotal);
-        console.log("locale: " + locale);
+//        console.log("precioSin: " + precioSin);
+//        console.log("precioTotal: " + precioTotal);
+//        console.log("locale: " + locale);
 
         //alert("numArtActual: " + numArtTotal);
         //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
@@ -398,7 +408,7 @@ function inicio() {
                 var precioTotalEliminado = data.precioEliminado;
                 //console.log("precioEliminado: " + precioTotalEliminado);
 
-                if (flag == "true") {
+                if (flag === "true") {
                     //vamos modificando el acumulado mientras no se recargue página, es decir, no se cierre la cesta
                     $('#numArtCestaHiden').attr('data', (numArtTotal - numArtRmv));
                     $('#precioSinHiden').attr('data', (precioSin - precioSinEliminado));
@@ -421,6 +431,71 @@ function inicio() {
                     }
 
                     if ((numArtTotal - numArtRmv) == 0) {//desactivamos el boton de compra si hay 0 artículos en cesta
+                        $("#btnComprarCesta").prop("disabled", true);
+                    }
+                    //console.log("numArtRestantes " + numArtRestantes);
+
+                } else {
+                    //console.log("ERROR Servlet REMOVEArticulo");
+                    alert("Algo no salió bien al eliminar articulo de la cesta");
+                }
+            }
+        });
+    });
+    //Eliminar articulo de la cesta y devolver a la tienda btnEliminarArtCesta
+    $(".btnEliArtCesta2").click(function () {
+        //alert("Boton eliminar ARt");
+        modCesta = true;
+        var ref = $(this).attr('data');
+        var numArtTotal = $('#numArtCestaHiden2').attr('data');
+        var precioSin = $('#precioSinHiden2').attr('data');
+        var precioTotal = $('#precioTotalHiden2').attr('data');
+
+//        console.log("precioSin: " + precioSin);
+//        console.log("precioTotal: " + precioTotal);
+//        console.log("locale: " + locale);
+
+        //alert("numArtActual: " + numArtTotal);
+        //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
+        $.ajax({
+            url: "RemoveArticuloCesta",
+            dataType: "json",
+            type: "post",
+            data: {
+                "refArticulo": ref
+            },
+            success: function (data) {
+
+                var flag = data.flag;
+                var numArtRmv = data.numArtRmv;
+                var precioSinEliminado = data.precioSinEliminado;
+                //console.log("precioSinEli: " + precioSinEliminado);
+                var precioTotalEliminado = data.precioEliminado;
+                //console.log("precioEliminado: " + precioTotalEliminado);
+
+                if (flag === "true") {
+                    //vamos modificando el acumulado mientras no se recargue página, es decir, no se cierre la cesta
+                    $('#numArtCestaHiden2').attr('data', (numArtTotal - numArtRmv));
+                    $('#precioSinHiden2').attr('data', (precioSin - precioSinEliminado));
+                    $('#precioTotalHiden2').attr('data', (precioTotal - precioTotalEliminado));
+                    //var numArtRestantes = $('#numArtCestaHiden').attr('data');
+                    //Ocultamos el elemento a eliminar
+                    $("#" + ref).hide(500);
+                    //alert("se borran: " + numArtRmv);
+                    //alert("quedan: " + (numArtTotal - numArtRmv));
+                    //modificamos los valores del precio en la cesta SEGÚN locale
+                    if (regexpEN.test(locale)) {
+                        $("#subtotalCesta2").html("\u00A3" + Math.abs((precioSin - precioSinEliminado)).toFixed(2));
+                        $("#impuestoCesta2").html("\u00A3" + Math.abs(((precioTotal - precioTotalEliminado) - (precioSin - precioSinEliminado))).toFixed(2));
+                        $("#totalCesta2").html("<b>\u00A3" + Math.abs((precioTotal - precioTotalEliminado)).toFixed(2) + "</b>");
+
+                    } else if (regexpES.test(locale)) {
+                        $("#subtotalCesta2").html(Math.abs((precioSin - precioSinEliminado)).toFixed(2) + " \u20AC");
+                        $("#impuestoCesta2").html(Math.abs(((precioTotal - precioTotalEliminado) - (precioSin - precioSinEliminado))).toFixed(2) + " \u20AC");
+                        $("#totalCesta2").html("<b>" + Math.abs((precioTotal - precioTotalEliminado)).toFixed(2) + " \u20AC</b>");
+                    }
+
+                    if ((numArtTotal - numArtRmv) === 0) {//desactivamos el boton de compra si hay 0 artículos en cesta
                         $("#btnComprarCesta").prop("disabled", true);
                     }
                     //console.log("numArtRestantes " + numArtRestantes);
@@ -486,9 +561,7 @@ function inicio() {
     });
 
     $("#btnComprarCesta").click(function () {
-        alert("Boton pedido");
-        //var ref = $(this).attr('data');
-        //var numArticulosCesta = $("#numArtCesta").attr("data-numArt");
+        
         $.ajax({
             url: "CrearPedido",
             dataType: "json",
@@ -501,7 +574,7 @@ function inicio() {
                 var flag = data.flag;
 
                 if (flag == "true") {
-                    alert("Pedido hecho");
+                    alert("Pedido creado.\nPuedes ver los detalles en su apartado 'Mis pedidos'");
 
                     recargaPagina();
                 } else {
@@ -589,8 +662,8 @@ function inicio() {
                     $('#modEditFab').val(fab);
                     $('#modEditDes').val(des);
                     $("#modEditIVA option[value=" + iva + "]").attr("selected", true);
-                    $('#modEditPrecioSinIVA').val(precioSin);
-                    $('#modEditPVP').val(pvp);
+                    $('#modEditPrecioSinIVA').val(precioSin.toFixed(2));
+                    $('#modEditPVP').val(pvp.toFixed(2));
                     $('#modEditVol').val(vol);
                     $('#modEditImg').attr("src", "../img/articulos/" + ref + ".jpg");
                     $('#modalEditarArticulo').modal('show'); // abrir
@@ -774,13 +847,13 @@ function inicio() {
                     var abo = data.abonos;
                     var usu = data.usuarios;
                     //todas los datos del artículo
-                    if (flag == "true") {
+                    if (flag === "true") {
                         if (pla == "Si" || abo == "Si" || usu == "Si") {
                             alert("Archivos importados\nPlantas: " + pla + "\nAbonos: " + abo + "\nUsuarios: " + usu);
                             location.reload();
                         } else {
-                            alert("No se ha importado ning&uacute;n archivo.\nCompruebe que ha seleccionado los archivos correctos.\n\
-                                    Tambien es posible que los usuarios ya estén cargados en la tienda.")
+                            alert("No se ha importado ning\u00fan archivo.\nCompruebe que ha seleccionado los archivos correctos.\n\
+                                    Tambien es posible que los usuarios ya est\u00e9n cargados en la tienda.");
                         }
 
 
@@ -792,7 +865,7 @@ function inicio() {
                 }
             });
         } else {
-            alert("No hay ning&uacute;n archivo seleccionado.")
+            alert("No hay ning\u00fan archivo seleccionado.");
         }//aqui acaba AJAX
 
     });
@@ -815,40 +888,7 @@ function inicio() {
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    //funcion para filtrar Usuarios
-    function filtrar() {
 
-    }
-    $("#filtroNombre").keyup(function () {
-        var filtroNombre = $(this).val();
-        var filtroDNI = $('#filtroDNI').val();
-
-//        console.log("filtroNombre: " + filtroNombre);
-//        console.log("filtroDNI: " + filtroDNI);
-        $.ajax({
-            method: "POST",
-            url: "filtradoUsuarios.jsp",
-            data: {filtroNombre: filtroNombre, filtroDNI: filtroDNI}
-        })
-                .done(function (listado) {
-                    $("#listadoUsuarios").html(listado);
-                });
-    });
-    $("#filtroDNI").keyup(function () {
-        var filtroNombre = $('#filtroNombre').val();
-        var filtroDNI = $(this).val();
-
-//        console.log("filtroNombre: " + filtroNombre);
-//        console.log("filtroDNI: " + filtroDNI);
-        $.ajax({
-            method: "POST",
-            url: "filtradoUsuarios.jsp",
-            data: {filtroNombre: filtroNombre, filtroDNI: filtroDNI}
-        })
-                .done(function (listado) {
-                    $("#listadoUsuarios").html(listado);
-                });
-    });
     //función general para agregar un delay a una determinada función
     function delay(fn, ms) {
         let timer = 0;
@@ -959,7 +999,32 @@ function inicio() {
                 if (flag == "true") {
                     //redirect
                     //mostramos por url ref para dar información al usuario aunque no haga falta
-                    window.location.href = "producto.jsp?ref=" + ref;
+                    window.location.href = "articulo.jsp?ref=" + ref;
+                } else {
+
+                }
+            }
+        });
+    });
+    //igual que el anterior pero proviniendo de las card, no uso selector múltiple porque tiene estructura diferente
+    $(".artCard").click(function () {
+        var ref = $(this).parent('div').attr("id");
+
+        $.ajax({
+            url: "ArticuloDetalle",
+            dataType: "json",
+            type: "post",
+            data: {
+                "ref": ref
+            },
+            success: function (data) {
+                var flag = data.flag;
+
+                //todas los datos del artículo
+                if (flag == "true") {
+                    //redirect
+                    //mostramos por url ref para dar información al usuario aunque no haga falta
+                    window.location.href = "articulo.jsp?ref=" + ref;
                 } else {
 
                 }
@@ -970,7 +1035,7 @@ function inicio() {
     $(".verPed").click(function () {
         var id = $(this).attr('data');
         var localePedidos = $('#localePedidos').attr('value');
-        //alert(id);
+
         $.ajax({
             url: "PedidoDetalle",
             dataType: "json",
@@ -988,7 +1053,6 @@ function inicio() {
                 var articulos = data.articulos;
                 var impuestos = data.impuestos;
 
-                //console.log("Object.key(): " + Object.keys(articulos));
                 //Creamos un JSON partiendo de un string con el método primero .stringify y luego .parse
                 var articulosJOS = JSON.stringify(articulos);
                 var JSONAr = JSON.parse(articulosJOS);
@@ -1025,13 +1089,13 @@ function inicio() {
                         var nomImg = Object.values(value)[1];
                         var cantidad = Object.values(value)[2];
                         var nombre = Object.values(value)[3];
-                        console.log("precio: " + Object.values(value)[0]);
-                        console.log("nomImg: " + Object.values(value)[1]);
-                        console.log("cantidad: " + Object.values(value)[2]);
-                        console.log("nombre: " + Object.values(value)[3]);
-
-                        console.log("locale: " + localePedidos);
-                        console.log("validacion locale: " + regexpES.test(localePedidos));
+//                        console.log("precio: " + Object.values(value)[0]);
+//                        console.log("nomImg: " + Object.values(value)[1]);
+//                        console.log("cantidad: " + Object.values(value)[2]);
+//                        console.log("nombre: " + Object.values(value)[3]);
+//
+//                        console.log("locale: " + localePedidos);
+//                        console.log("validacion locale: " + regexpES.test(localePedidos));
                         if (regexpES.test(localePedidos)) {
                             $('#tbodyArt').append("<tr>\n\
                             <td  class='align-middle'><img style='width: 50px;' src='img/articulos/" + nomImg + "' /></td>\n\
@@ -1056,6 +1120,265 @@ function inicio() {
             }
         });
     });
+
+    //Imprimir pdf de pedido
+    $(".imprimirPed").click(function () {
+        var idPedido = $(this).attr('data');
+        alert("Se generar\u00e1 la factura de su pedido n\u00famero " + idPedido);
+        $.ajax({
+            url: "ReportPedido",
+            dataType: "json",
+            type: "post",
+            data: {
+                "idPedido": idPedido
+            },
+            success: function (data) {
+                var flag = data.flag;
+                var idUsuario = data.idUsuario;
+
+                if (flag === "true") {
+                    //alert("Ha llegado bien");
+                    //alert("ID Usuario: " + idUsuario);
+
+                    //window.open('pdfPedido.jsp?id=' + idUsuario + "&ped=" + idPedido, '_blank');
+
+                    var mapForm = document.createElement("form");
+                    mapForm.target = "_blank";
+                    mapForm.method = "POST";
+                    mapForm.action = "pdfPedido.jsp?idPedido=" + idPedido;
+
+
+                    var mapInput = document.createElement("input");
+                    mapInput.type = "hidden";
+                    mapInput.name = "idUsuario";
+                    mapInput.value = idUsuario;
+
+                    mapForm.appendChild(mapInput);
+
+                    document.body.appendChild(mapForm);
+
+                    mapForm.submit();
+                } else {
+
+                }
+            }
+        });
+    });
+    $(".imprimirPed2").click(function () {
+        var idPedido = $(this).attr('data');
+        alert("print pedido " + idPedido);
+        $.ajax({
+            url: "ReportePedido2",
+            dataType: "json",
+            type: "post",
+            data: {
+                "idPedido": idPedido
+            },
+            success: function (data) {
+                //var flag = data.flag;
+                //var idUsuario = data.idUsuario;
+
+                if (flag === "true") {
+                    alert("Ha llegado bien");
+                    //alert("ID Usuario: " + idUsuario);
+
+
+                } else {
+
+                }
+            }
+        });
+    });
+    //funciones para el desplazamiento del portafolio al abrir el menu de filtros
+    var marginL = parseInt($("#mainArticulos").css('marginLeft'));
+    var topBtn = parseInt($("#btnFiltros").css('top'));
+    var filtro = $('input:radio[name=filtro]:checked').val();
+    $('#btnFiltros').click(function () {
+        $("#offcanvasFiltros").css("top", topBtn + 90);
+    });
+    $('#offcanvasFiltros').on('show.bs.offcanvas', function () {
+        $('#btnFiltros').removeClass('btn-outline-success');
+        $('#btnFiltros').addClass('btn-success');
+        $("#mainArticulos").animate({marginLeft: "300px"}, 300);
+        var filtroActual = $("#filtroLateralActual").val();
+        var filtroAgotadoActual = $("#filtroAgotadoActual").val();
+//        console.log("Filtro Actual: " + filtroActual);
+//        console.log("Filtro Agotado Actual: " + filtroAgotadoActual);
+        if (filtroActual !== "") {
+            $('input:radio[value=' + filtroActual + ']').prop('checked', true);
+        }
+        if (filtroAgotadoActual !== "" && filtroAgotadoActual === "true") {
+            $('#checkAgotado').prop('checked', true);
+//            console.log("AGOTADO DISTINTO DE VACIO Y TRUE");
+        } else {
+            $('#checkAgotado').prop('checked', false);
+//            console.log("AGOTADO VACIO o DISTINTO DE TRUE");
+        }
+    });
+
+    $('#offcanvasFiltros').on('hidden.bs.offcanvas', function () {
+        $('#btnFiltros').removeClass('btn-success');
+        $('#btnFiltros').addClass('btn-outline-success');
+        $("#mainArticulos").animate({marginLeft: marginL}, 300);
+
+    });
+    $("#btnAplicarFiltroLateral").click(function () {
+        filtro = $('input:radio[name=filtro]:checked').val();
+        var filtroAgotado = $('#checkAgotado').is(':checked');
+//        console.log($('input:radio[name=filtro]:checked').val());
+//        console.log("Filtro agotado: " + filtroAgotado);
+        if (filtro === undefined) {
+            filtro = "";
+        }
+        if (filtro !== undefined) {
+//            console.log("se ha elegido el filtro: " + filtro);
+            $.ajax({
+                url: "FiltroPrincipal",
+                dataType: "json",
+                type: "post",
+                data: {
+                    "filtro": filtro,
+                    "filtroAgotado": filtroAgotado
+                },
+                success: function (data) {
+                    var flag = data.flag;
+
+                    if (flag === "true") {
+                        $("#filtroLateralActual").val(filtro);
+                        $("#filtroAgotadoActual").val(filtroAgotado);
+
+
+                        location.reload();
+                    } else {
+
+                    }
+                }
+            });
+        }
+    });
+    //controlamos el textarea al modificar los articulos
+    var max = 400;
+    $('#max').html(max);
+    $('#inputDescripcion').keyup(function () {
+        var chars = $(this).val().length;
+        var diff = max - chars;
+        $('#contador').html(diff);
+    });
+
+
+    $(".botonesTab").click(function () {
+        //var activo = $(this).attr("aria-selected");
+        //alert(activo);
+        $(".botonesTab").each(function () {
+            var activo = $(this).attr("aria-selected");
+            if (activo === "true") {
+                $(this).css("background", "linear-gradient(180deg, rgba(0,82,53,0.7) 0%, rgba(0,82,53,0.8368813736432073) 35%, rgba(0,82,53,1) 100%)");
+                $(this).css("color", "white");
+            } else {
+                $(this).css("background", "linear-gradient(180deg, rgba(0,0,0,0.05340798428746496) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,0.01340798428746496) 100%)");
+                $(this).css("color", "black");
+            }
+        });
+    });
+    $(".btnMenuLateral").click(function () {
+        //var activo = $(this).attr("aria-selected");
+        //alert(activo);
+        $(".btnMenuLateral").each(function () {
+            var activo = $(this).attr("aria-selected");
+            if (activo === "true") {
+                $(this).css("background-color", "white");
+                $(this).css("background", "linear-gradient(180deg, rgba(0,82,53,0.7) 0%, rgba(0,82,53,0.8368813736432073) 35%, rgba(0,82,53,1) 100%)");
+                $(this).css("color", "white");
+            } else {
+                $(this).css("background", "linear-gradient(180deg, rgba(0,0,0,0.05340798428746496) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,0.01340798428746496) 100%)");
+                $(this).css("color", "black");
+            }
+        });
+    });
+    $("#estadisticas-tab").click(function () {
+        $.ajax({
+            url: "GenerarEstadisticas",
+            dataType: "json",
+            type: "post",
+            data: {
+
+            },
+            success: function (data) {
+                var flag = data.flag;
+                var numArt = data.numArt;
+                var numPla = data.numPla;
+                var numAbo = data.numAbo;
+                var numUsu = data.numUsu;
+                var numPed = data.numPed;
+                var totalDineroPedSin = data.totalDineroPedSin;
+                var totalDineroPed = data.totalDineroPed;
+                var totalDineroArtSin = data.totalDineroArtSin;
+                var totalDineroArt = data.totalDineroArt;
+                var totalDineroArtInvertido = data.totalDineroArtInvertido;
+                var beneficio = data.beneficio;
+                var beneficioNeto = data.beneficioNeto;
+                var totalUsu = data.totalUsu;
+                var totalAdmin = data.totalAdmin;
+                var usuPedidos = data.usuPedidos;
+                var edadMediaUsu = data.edadMediaUsu;
+                var maxNumPed = data.maxNumPed;
+                var numMejoresUsu = data.numMejoresUsu;
+                var mejoresUsu = data.mejoresUsu;         
+                var totalArtDif = data.totalArtDif;
+                var totalArtVen = data.totalArtVen;    
+                var totalPlaDif = data.totalPlaDif;
+                var totalPlaVen = data.totalPlaVen;
+                var totalAboDif = data.totalAboDif;
+                var totalAboVen = data.totalAboVen;
+                var bestSeller = data.bestSeller;
+                var gastoMedPed = data.gastoMedPed;
+
+                if (flag === "true") {
+                    $("#totalDineroPedSin").html(totalDineroPedSin.toFixed(2));
+                    $("#totalDineroPed").html(totalDineroPed.toFixed(2));
+                    $("#totalDineroArtSin").html(totalDineroArtSin.toFixed(2));
+                    $("#totalDineroArt").html(totalDineroArt.toFixed(2));
+                    $("#totalDineroArtInvertido").html(totalDineroArtInvertido.toFixed(2));
+                    $("#beneficio").html(beneficio.toFixed(2));
+                    $("#beneficioNeto").html(beneficioNeto.toFixed(2));
+                    if (beneficio < 0) {
+                        $("#beneficio").css("color", "red");
+                    } else {
+                        $("#beneficio").css("color", "green");
+                    }
+                    if (beneficioNeto < 0) {
+                        $("#beneficioNeto").css("color", "red");
+                    } else {
+                        $("#beneficioNeto").css("color", "green");
+                    }
+                    $("#totalUsu").html(totalUsu);
+                    $("#totalAdmin").html(totalAdmin);
+                    $("#usuPedidos").html(usuPedidos);
+                    $("#edadMediaUsu").html(edadMediaUsu);
+                    $("#mejorUsuario").html(mejoresUsu);
+                    $("#numMejoresUsu").html(numMejoresUsu);
+                    $("#maxNumPed").html(maxNumPed);
+                    $("#totalArt").html(numArt);
+                    $("#totalArtDif").html(totalArtDif);
+                    $("#totalArtVen").html(totalArtVen);
+                    $("#totalPla").html(numPla);
+                    $("#totalPlaDif").html(totalPlaDif);
+                    $("#totalPlaVen").html(totalPlaVen);
+                    $("#totalAbo").html(numAbo);
+                    $("#totalAboDif").html(totalAboDif);
+                    $("#totalAboVen").html(totalAboVen);
+                    $("#bestSeller").html(bestSeller);
+                    $("#estTotalPed").html(numPed);
+                    $("#gastoMedPed").html(gastoMedPed.toFixed(2));
+                    
+                } else {
+
+                }
+            }
+        });
+    });
+
+
 }
 
 

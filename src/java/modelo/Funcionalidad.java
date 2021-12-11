@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import modelo.dao.AbonoJpaController;
@@ -46,6 +44,12 @@ public class Funcionalidad implements Serializable {
 
         return query.getResultList();
 //        return ujc.findUsuarioEntities();
+    }
+    public List<Usuario> getAdministradores() {
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM usuarios WHERE baja = false AND Admin = true;", Usuario.class);
+
+        return query.getResultList();
     }
 
     public List<Articulo> getArticulos() {
@@ -132,7 +136,7 @@ public class Funcionalidad implements Serializable {
         List<Usuario> filtrados = new ArrayList();
         if (!nombre.isEmpty() && !dni.isEmpty()) {
             for (Usuario u : usuarios) {
-                if (u.getNombre().contains(nombre) || u.getApellidos().contains(nombre) && u.getDNI().contains(dni)) {
+                if ((u.getNombre().contains(nombre) || u.getApellidos().contains(nombre)) && (u.getDNI().contains(dni))) {
                     filtrados.add(u);
                 }
             }
@@ -278,7 +282,78 @@ public class Funcionalidad implements Serializable {
                 = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia;", Articulo.class).getResultList();
         return resultados;
     }
+    public List<Articulo> agruparArticulosRef_Disponibles(){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
 
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false and vendido = false GROUP BY Referencia;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_PrecioASC() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia ORDER BY precioSinIVA ASC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_NombreASC() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia ORDER BY nombre ASC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_PrecioDES() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia ORDER BY precioSinIVA DESC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_NombreDES() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false GROUP BY Referencia ORDER BY nombre DESC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    
+    public List<Articulo> agruparArticulosRef_PrecioASC_Disponibles() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false and vendido = false GROUP BY Referencia ORDER BY precioSinIVA ASC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_PrecioDES_Disponibles() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false and vendido = false GROUP BY Referencia ORDER BY precioSinIVA DESC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_NombreASC_Disponibles() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false and vendido = false GROUP BY Referencia ORDER BY nombre ASC;", Articulo.class).getResultList();
+        return resultados;
+    }
+    public List<Articulo> agruparArticulosRef_NombreDES_Disponibles() {
+
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+
+        List<Articulo> resultados
+                = em.createNativeQuery("SELECT * FROM articulos WHERE baja = false and vendido = false GROUP BY Referencia ORDER BY nombre DESC;", Articulo.class).getResultList();
+        return resultados;
+    }
     //Pasándole el tipo, nos devuelve todos esos articulos agrupados por referencia, para asi mostrar sin repetidos esos articulos de ese tipo
     //nos sirve para las tablas de articulos
     public List<Articulo> agruparArticulosPorRefTipo(String categoria) {
@@ -384,6 +459,16 @@ public class Funcionalidad implements Serializable {
         List<Articulo> resultados = query.getResultList();
         return resultados.size();
     }
+    public Articulo articuloMasVendido(){
+        EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCIA).createEntityManager();
+        Query query = em.createNativeQuery("SELECT *, COUNT(referencia) AS contador FROM articulos WHERE vendido = true group by referencia ORDER BY contador DESC LIMIT 1;", Articulo.class);
+        List<Articulo> resultados = query.getResultList();
+        Articulo a = null;
+        if(!resultados.isEmpty()){
+            a = resultados.get(0);
+        }
+        return a;
+    }
     public List<Abono> filtrarAbonosTipoPlanta(String filtro) {
         List<Abono> abonos = getAbonos();
         List<Abono> filtrados = new ArrayList();
@@ -428,6 +513,13 @@ public class Funcionalidad implements Serializable {
         List<Articulo> articulos = getArticulos();
         Collections.sort(articulos, (e1, e2)
                 -> (e1.getCategoria()).compareTo(e2.getCategoria()));
+        return articulos;
+    }
+    //
+    public List<Articulo> getArticulosOrdenPrecio() {
+        List<Articulo> articulos = getArticulos();
+        Collections.sort(articulos, (e1, e2)
+                -> (e1.getPrecio()).compareTo(e2.getPrecio()));
         return articulos;
     }
 

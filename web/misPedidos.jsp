@@ -28,6 +28,7 @@
             >
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
         <link rel="icon" type="image/png" href="img/icono.png">
+        <link rel="stylesheet" href="sortable-theme-bootstrap.css" />
         <title>Eleplant</title>
         <style>
             html {
@@ -43,18 +44,21 @@
                 content: " \25BE";
                 color: gainsboro;
                 text-shadow: 0.2px 0.2px 0.2px grey;
-
             }
             th{
                 cursor: pointer;
+            }
+            .btn-success, .btn-outline-success:hover{
+                background: linear-gradient(180deg, rgba(0,82,53,0.7) 0%, rgba(0,82,53,0.8368813736432073) 35%, rgba(0,82,53,1) 100%);
+                color: white;
             }
         </style>
         <script src="js/jquery-3.5.1.min.js"></script>
     </head>
     <body>
-
+        <c:if test="${!empty varLocale}">
             <input id="localePedidos" type="hidden" value="${varLocale}"/>
-        
+        </c:if>
         <header class="pt-2 bg-light sticky-top mb-0 shadow" id="cabecera">
 
             <div class="container-fluid p-3 align-items-end bg-light" id="cabecera">
@@ -68,7 +72,7 @@
                 <div class="row justify-content-between">
                     <div class="col-xs-10 col-lg-5 border-2 rounded-3 mt-2 mx-auto">
                         <p class="display-5"><fmt:message key="misPedidos.lista" bundle="${lang}"/></p>
-                        <table class="table table-sm table-responsive table-bordered table-striped table-hover shadow text-center sortable rounded rounded-3" id="tablePedidosUsu">
+                        <table data-sortable class="table table-sm table-responsive table-bordered table-striped table-hover shadow text-center rounded rounded-3 sortable" id="tablePedidosUsu">
                             <caption><fmt:message key="misPedidos.caption" bundle="${lang}"/> <b>${numPedidos}</b></caption>
                             <thead>
                                 <tr>
@@ -82,7 +86,10 @@
                                 <c:forEach var="ped" items="${usu.getPedidos()}">
                                     <tr>
                                         <td class="align-middle p-2">${ped.getId()}</td>
-                                        <td class="align-middle p-2">${ped.getFecha()}</td>
+                                        <fmt:parseDate  value="${ped.getFecha()}"  type="date" pattern="yyyy-MM-dd" var="fechaParseada" />
+                                        
+                                        <td class="align-middle p-2"><fmt:formatDate type = "date" 
+                            dateStyle = "short" timeStyle = "short" value = "${fechaParseada}" /></td>
                                         <td class="align-middle p-2">${ped.getNumArticulos()}</td>
                                         <td class="align-middle p-2"><fmt:formatNumber value = "${ped.getTotal()}" type = "currency"/></td>
                                         <td class="align-middle p-1">
@@ -94,7 +101,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="col-6 mx-0 ps-0">
-                                                        <button id="" data1="${ped.getId()}" type="button" class="imprimirPed btn btn-success" title="<fmt:message key="misPedidos.tooltip.imprimir" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                        <button id="" data="${ped.getId()}" type="button" class="imprimirPed btn btn-success" title="<fmt:message key="misPedidos.tooltip.imprimir" bundle="${lang}"/>" data-bs-toggle="tooltip" data-bs-placement="right">
                                                             <i class="fad fa-print"></i>
                                                         </button>
                                                     </div>
@@ -107,7 +114,7 @@
                         </table>
 
                     </div>
-                    <div class="col-xs-10 col-lg-5 rounded-3 mt-2 mx-auto">
+                    <div class="col-xs-10 col-lg-5 rounded-3 mt-2 mx-auto mb-5">
                         <p class="display-5"><fmt:message key="misPedidos.detalles" bundle="${lang}"/></p>
                         <div class="row border border-2 rounded-3 shadow">
                             <div class="col m-2">
@@ -160,8 +167,6 @@
 
 
 
-        <script src='js/sortable.js'></script>           
-
         <script 
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
@@ -169,5 +174,6 @@
         ></script>
         <script src="js/font-awesome5.js"></script>
         <script src="js/activadores.js"></script>
+        <script src='js/sortable.js'></script> 
     </body>
 </html>
